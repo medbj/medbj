@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @medbj
-- 👀 I’m interested in software engineer
+- 👀 I’m interested in software engineering
 - 🌱 I’m currently learning python
 - 💞️ I’m looking to collaborate on ...
 - 📫 How to reach me ...
