@@ -1,12 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
+import { site } from '../site.config';
 ---
 
 <Base
   title="Terms"
-  description="Draft terms for using and sharing the educational content on Psychology Blog."
+  description="Draft terms for reading, linking to, and using the educational content on this website."
 >
-  <div class="container narrow section">
+  <div class="container narrow section" data-legal-review="pending">
     <header class="page-head">
       <p class="eyebrow">Using this website</p><h1>
         A few shared expectations.
@@ -14,43 +15,55 @@ import Base from '../layouts/Base.astro';
     </header>
     <div class="prose">
       <p class="callout">
-        These are draft terms. The site owner, legal identity, contact details,
-        rights ownership, and applicable law need confirmation and legal review
-        before public launch.
+        Draft terms — legal review is pending. The owner must confirm its legal
+        identity, contact route, rights ownership, applicable law, and final
+        terms before public launch. These details have not yet been supplied.
       </p>
-      <h2>Educational use</h2><p>
-        You may read and link to the site's articles for general information.
-        Please read the <a href="/disclaimer/">disclaimer</a> to understand the limits
-        of this material. The site does not offer personal care, crisis response,
-        or professional advice.
+      <h2>Educational use</h2>
+      <p>
+        You may read and link to {site.name} for general information. Read the <a
+          href="/disclaimer/">medical disclaimer</a
+        > to understand its limits. The site does not provide personal care, crisis
+        response, or professional advice. There are no reader accounts or comment
+        features.
       </p>
-      <h2>Sharing the content</h2><p>
-        Links to the original pages are welcome. If you want to reproduce an
-        article, publish a translation, or use substantial parts of the content,
-        seek permission from the confirmed rights holder. A permission contact
-        and licensing details have not yet been supplied.
+      <h2>Sharing and permissions</h2>
+      <p>
+        Links to original pages are welcome. Reproducing an article, publishing
+        a translation, or using substantial parts of the content may require
+        permission from the confirmed rights holder. The owner must supply
+        licensing details and a permission contact. This draft does not grant an
+        open-content licence or establish ownership.
       </p>
-      <h2>Respectful use</h2><p>
-        Do not use the site to distribute malicious material, disrupt its
-        availability, misrepresent the source of content, or attempt
-        unauthorized access. There are no reader accounts or comment features in
-        this version.
+      <h2>Respectful use</h2>
+      <p>
+        Do not distribute malicious material, disrupt the site, misrepresent the
+        source of content, or attempt unauthorized access. Do not send health
+        information through a general newsletter field or unverified contact
+        route.
       </p>
-      <h2>Accuracy and changes</h2><p>
-        Articles and pages may be edited, moved, or removed. We aim to correct
-        errors, but the current content is sample material awaiting review. A
-        date on an article is not a guarantee that every linked resource remains
-        current.
+      <h2>Accuracy and changes</h2>
+      <p>
+        Pages can be edited, moved, or removed. The current samples await human
+        review. An article's date is not a guarantee that all information or
+        linked services remain current. The owner must maintain a correction
+        process described in the <a href="/editorial-policy/"
+          >editorial policy</a
+        >.
       </p>
-      <h2>Other services</h2><p>
-        External websites, newsletter providers, and media platforms have their
-        own terms. Review those terms when you choose to use a linked service.
-        The blog does not control those services.
+      <h2>Other services and privacy</h2>
+      <p>
+        Outside websites, newsletter providers, and media platforms have their
+        own terms and privacy notices. Review them when you choose to use a
+        service. Our <a href="/privacy/">privacy notice</a> describes the website's
+        current configuration and the details still awaiting confirmation.
       </p>
-      <h2>Questions</h2><p>
-        See <a href="/contact/">contact availability</a> for the current status of
-        the owner's contact channel. No specific jurisdiction, dispute process, or
-        legal waiver is asserted by this draft.
+      <h2>Contact and legal review</h2>
+      <p>
+        See <a href="/contact/">contact availability</a> for the current status. No
+        jurisdiction, dispute process, or liability waiver is asserted by this draft.
+        A qualified legal reviewer must decide what terms are appropriate for the
+        actual operator and audience.
       </p>
     </div>
   </div>

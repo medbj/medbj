@@ -1,47 +1,118 @@
 ---
 import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
+import resources from '../data/crisis-resources.json';
+import { site } from '../site.config';
+const verifiedResources = resources.filter((resource) => resource.verified);
+const pendingCount = resources.length - verifiedResources.length;
 ---
 
 <Base
   title="Get Help"
-  description="Find a next step for urgent help, local support, or talking with a mental health professional."
+  description="Find global support directories, urgent help guidance, and local contact details that have been checked by the site owner."
 >
   <div class="container narrow section">
     <header class="page-head">
-      <p class="eyebrow">You can reach out</p><h1>Support for right now.</h1><p>
-        You do not need to find the perfect words to ask for help.
-      </p>
+      <p class="eyebrow">You can reach out</p>
+      <h1>Support for right now.</h1>
+      <p>You do not need to find the perfect words to ask for help.</p>
     </header>
     <div class="prose">
-      <div class="callout">
-        <h2>If there is immediate danger</h2><p>
+      <section aria-labelledby="global-support">
+        <h2 id="global-support">Find support where you are</h2>
+        <p>
+          These independent directories can help you look for local phone, text,
+          or chat support:
+        </p>
+        <ul>
+          <li>
+            <a href="https://findahelpline.com/" rel="external noreferrer"
+              >Find A Helpline</a
+            > — browse services by country and topic.
+          </li>
+          <li>
+            <a
+              href="https://www.iasp.info/crisis-centres-helplines/"
+              rel="external noreferrer"
+              >International Association for Suicide Prevention: crisis centres
+              and helplines</a
+            > — find links to support resources around the world.
+          </li>
+        </ul>
+        <p>
+          <a
+            class="button"
+            href="https://findahelpline.com/"
+            rel="external noreferrer"
+            >Find local support <Icon name="external" /></a>
+        </p>
+        <p class="fine-print">
+          We do not run these directories or independently verify their
+          listings. Check each service's current coverage, hours, languages,
+          cost, and privacy information. A listing does not promise availability
+          or a particular outcome.
+        </p>
+      </section>
+      <aside class="callout" aria-labelledby="urgent-help">
+        <h2 id="urgent-help">If there is immediate danger</h2>
+        <p>
           If you or someone else is in immediate danger, contact your local
           emergency services or go to the nearest emergency department. If you
           can do so safely, ask someone you trust to stay with you while you get
           support.
         </p>
-      </div>
-      <h2>Find a helpline near you</h2>
-      <p>
-        <a href="https://findahelpline.com/" rel="external noreferrer"
-          >Find A Helpline</a
-        > is a third-party directory that lets you look for phone, text, and chat
-        services by country and topic.
-      </p>
-      <p>
-        <a
-          class="button"
-          href="https://findahelpline.com/"
-          rel="external noreferrer"
-          >Find local support <Icon name="external" /></a
-        >
-      </p>
-      <p>
-        Check the service's current hours, location coverage, cost, and privacy
-        information before using it. Availability and the support offered vary.
-        We do not operate this directory or independently verify each listing.
-      </p>
+      </aside>
+      <section aria-labelledby="country-resources">
+        <h2 id="country-resources">Country contact details</h2>
+        <p>
+          We publish a country-specific contact here only after the site owner
+          checks its details. A verification date records that check; services
+          can still change.
+        </p>
+        {
+          verifiedResources.length > 0 ? (
+            <ul class="support-resources">
+              {verifiedResources.map((resource) => (
+                <li>
+                  <h3>
+                    {resource.country}: {resource.service}
+                  </h3>
+                  <p>
+                    <a href={`tel:${resource.number.replace(/[^\d+]/g, '')}`}>
+                      {resource.number}
+                    </a>
+                  </p>
+                  <p>
+                    Hours: {resource.hours}. Languages:{' '}
+                    {resource.languages.length
+                      ? resource.languages.join(', ')
+                      : 'Ask the service about language support'}
+                    .
+                  </p>
+                  <p class="fine-print">
+                    Last checked by the site owner:{' '}
+                    {resource.lastVerified || 'Verification date not recorded'}.
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              No country-specific phone contacts have completed our human
+              verification process yet. Use the directories above or your local
+              services for current details.
+            </p>
+          )
+        }
+        {
+          pendingCount > 0 && (
+            <p class="fine-print">
+              {pendingCount} prepared resource records are awaiting
+              verification. Their phone details are not published here.
+            </p>
+          )
+        }
+      </section>
       <h2>If you are looking for ongoing support</h2>
       <p>
         A primary care professional or a local mental health service can explain
@@ -62,14 +133,12 @@ import Base from '../layouts/Base.astro';
       </p>
       <h2>About this page</h2>
       <p>
-        Psychology Blog is an educational website. It has no monitored support
-        inbox, crisis response team, or live chat. Do not send urgent requests
-        or private health details through the site.
+        {site.name} is an educational website. It has no monitored support inbox,
+        crisis response team, or live chat. Do not send urgent requests or private
+        health details through the site.
       </p>
       <p>
-        Country-specific crisis numbers have not been added because they need
-        human verification. Use the external directory or your local services
-        for current contact details.
+        There are no advertisements or affiliate recommendations on this page.
       </p>
     </div>
   </div>
