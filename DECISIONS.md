@@ -10,3 +10,4 @@
 - Do not publish unverified crisis phone numbers; provide general emergency guidance and a link to an external country directory.
 - Treat pale borders as decorative; use teal control outlines and focus rings for the 3:1 non-text contrast requirement.
 - Store enhanced search state in the URL fragment so terms are not sent in HTTP requests; accept and clear legacy query strings.
+- Automatic approval review blocked source export to Sites; keep the completed site local and the new Sites project private/unpublished until explicit upload approval is given.
