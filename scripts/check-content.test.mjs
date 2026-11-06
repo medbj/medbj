@@ -236,3 +236,15 @@ test('post numbers cannot collide with the paginated blog route', () =>
       ),
     );
   }));
+
+test('optional front matter images require a meaningful alternative', () =>
+  fixture(({ root, post }) => {
+    mkdirSync(join(root, 'src/content/posts/images'));
+    writeFileSync(join(root, 'src/content/posts/images/photo.png'), 'fixture');
+    post('image.md', metadata({ image: './images/photo.png' }));
+    assert.ok(
+      validateContent(root).errors.some((error) =>
+        /imageAlt is required/.test(error),
+      ),
+    );
+  }));

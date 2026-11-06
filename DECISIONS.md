@@ -29,3 +29,4 @@
 - Implement the Markdown workflow on markdown-posts after a pre-migration snapshot; retain original MDX files and every stylesheet unchanged, load only .md posts, and preserve current routes plus automatic category/tag archives.
 - The new four-required-field authoring contract supersedes older mandatory review/takeaway/reference fields; keep review status honest and the separate public-launch review gate in place.
 - Use local source images for Astro optimization, derive post slugs from filenames and taxonomy URLs from names, exclude drafts before image processing, and use https://YOUR-DOMAIN.com until the owner supplies the final domain.
+- Deliver this folder migration on markdown-posts with source, Git history, and static dist output for the owner's server; retain the original shared English header/footer direction on Arabic posts and keep the article document RTL.

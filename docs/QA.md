@@ -52,3 +52,7 @@ Axe reported zero violations on the homepage and article at 375 and 1280 pixels.
 ## Prelaunch audit — 6 November 2026
 
 See [PRELAUNCH.md](PRELAUNCH.md) for the later, current engineering audit and [qa/prelaunch.json](qa/prelaunch.json) for its compact evidence. All 40 pages passed at five viewport widths, all titles and descriptions were unique, ten Axe page/viewport checks had zero violations, and source/history/build credential scans found no secrets. Fresh mobile Lighthouse runs on home and an article scored 100 in all four categories, with LCP of 908 ms and 907 ms. Favicon formats, `/sitemap.xml`, and `/robots.txt` were verified. The separate public-launch gate remains blocked on existing human content, review, resource-verification, and provider requirements.
+
+## Markdown authoring migration
+
+The subsequent `markdown-posts` branch adds the one-file publishing workflow while preserving the original design and source files. Current branch verification is in [MARKDOWN-MIGRATION.md](MARKDOWN-MIGRATION.md) and [qa/markdown-posts.json](qa/markdown-posts.json): 58 static pages, 290 responsive checks, 11 passing guard cases, zero violations in 14 Axe checks, and eight unchanged viewport screenshots. Separate fixtures verified minimal front matter, French, Arabic/RTL, image optimization, draft exclusion, and retained media support. Earlier QA sections describe their own historical builds.

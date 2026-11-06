@@ -32,6 +32,7 @@ const {
   imageHeight,
 } = Astro.props;
 const path = Astro.url.pathname;
+const interfaceDir = /^(ar|fa|he|ur)(-|$)/i.test(site.lang) ? 'rtl' : 'ltr';
 const showMedia = await mediaAvailable();
 ---
 
@@ -69,8 +70,15 @@ const showMedia = await mediaAvailable();
     <slot name="head" />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header" data-pagefind-ignore>
+    <a class="skip-link" href="#main" lang={site.lang} dir={interfaceDir}
+      >Skip to content</a
+    >
+    <header
+      class="site-header"
+      lang={site.lang}
+      dir={interfaceDir}
+      data-pagefind-ignore
+    >
       <div class="container header-inner">
         <a class="brand" href="/"><Wordmark /></a>
         <nav class="desktop-nav" aria-label="Main navigation">
@@ -126,7 +134,12 @@ const showMedia = await mediaAvailable();
       </div>
     </header>
     <main id="main" tabindex="-1"><slot /></main>
-    <footer class="site-footer" data-pagefind-ignore>
+    <footer
+      class="site-footer"
+      lang={site.lang}
+      dir={interfaceDir}
+      data-pagefind-ignore
+    >
       <div class="container footer-top">
         <div>
           <a class="footer-brand" href="/"><Wordmark /></a>

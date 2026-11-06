@@ -4,7 +4,7 @@
 
 - `npm ci`: install locked dependencies (Node 22 recommended).
 - `npm run dev`: local Astro server.
-- `npm run build`: token contrast gate, static Astro output, then Pagefind index.
+- `npm run build`: content/contrast gates, static Astro output, Pagefind index, then built-site validation.
 - `npm run check`: strict Astro and TypeScript validation.
 - `npm run lint`: ESLint.
 - `npm run format` / `npm run format:check`: Prettier with Astro support.

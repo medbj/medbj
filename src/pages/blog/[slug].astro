@@ -308,3 +308,10 @@ const printLinks = [
   </div>
   <RelatedPosts articles={related} topic={topic} />
 </Base>
+
+<style>
+  /* Markdown body images retain their aspect ratio when constrained on phones. */
+  .prose :global(img) {
+    block-size: auto;
+  }
+</style>
