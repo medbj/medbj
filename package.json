@@ -1,0 +1,35 @@
+{
+  "name": "psychology-blog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
+    "build": "npm run check:contrast && ASTRO_TELEMETRY_DISABLED=1 astro build && pagefind --site dist",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check:site": "node scripts/check-site.mjs"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.0",
+    "@astrojs/rss": "^4.0.0",
+    "@astrojs/sitemap": "^3.6.0",
+    "@hugeicons/core-free-icons": "^3.1.0",
+    "astro": "^5.15.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.5",
+    "@eslint/js": "^9.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-astro": "^1.3.0",
+    "pagefind": "^1.4.0",
+    "prettier": "^3.6.0",
+    "prettier-plugin-astro": "^0.14.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

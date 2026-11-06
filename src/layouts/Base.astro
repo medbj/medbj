@@ -1,0 +1,51 @@
+---
+import '../styles/tokens.css';
+import '../styles/global.css';
+import { site } from '../site.config';
+interface Props { title: string; description?: string; noindex?: boolean; lang?: string; }
+const { title, description = site.description, noindex = false, lang = site.lang } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = new URL(path, site.url).href;
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+const plausibleScript = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_URL;
+const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiScript = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title === site.name ? site.name : `${title} | ${site.name}`}</title>
+    <meta name="description" content={description} /><link rel="canonical" href={canonical} />
+    <meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" /><meta name="referrer" content="strict-origin-when-cross-origin" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${site.name} RSS feed`} href="/rss.xml" />
+    {plausibleDomain && plausibleScript && <script is:inline defer data-domain={plausibleDomain} src={plausibleScript}></script>}
+    {!plausibleDomain && umamiId && umamiScript && <script is:inline defer data-website-id={umamiId} src={umamiScript}></script>}
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-pagefind-ignore>
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label={`${site.name} home`}><span class="brand-mark" aria-hidden="true">p<span>.</span></span><span>{site.name}<span class="brand-subtitle">A little understanding goes a long way.</span></span></a>
+        <nav aria-label="Main navigation">
+          <a href="/blog/" aria-current={path.startsWith('/blog') ? 'page' : undefined}>Articles</a>
+          <a href="/topics/" aria-current={path.startsWith('/topics') ? 'page' : undefined}>Topics</a>
+          {site.features.media && <a href="/listen-and-watch/" aria-current={path.startsWith('/listen-and-watch') ? 'page' : undefined}>Listen &amp; Watch</a>}
+          <a href="/about/" aria-current={path === '/about/' ? 'page' : undefined}>About</a>
+          <a class="help-link" href="/get-help/" aria-current={path === '/get-help/' ? 'page' : undefined}>Get Help <span aria-hidden="true">↗</span></a>
+          <a class="search-link" href="/search/" aria-label="Search articles"><span class="search-symbol" aria-hidden="true"></span></a>
+        </nav>
+      </div>
+    </header>
+    <main id="main" tabindex="-1"><slot /></main>
+    <footer class="site-footer" data-pagefind-ignore>
+      <div class="container footer-top"><div><a class="footer-brand" href="/">{site.name}<span aria-hidden="true">.</span></a><p>Clear words. A calmer perspective.</p><p class="fine-print">Educational reading for everyday life.<br />A starting point, at your own pace.</p></div><div class="footer-links"><div><p class="eyebrow">Explore</p><a href="/blog/">All articles</a><a href="/topics/">Browse topics</a><a href="/start-here/">Start here</a><a href="/newsletter/">Newsletter</a>{site.features.media && <a href="/listen-and-watch/">Listen &amp; Watch</a>}</div><div><p class="eyebrow">Our approach</p><a href="/about/">About this blog</a><a href="/editorial-policy/">Editorial policy</a><a href="/get-help/">Get help</a><a href="/contact/">Contact</a></div></div></div>
+      <div class="container footer-bottom"><p>© {new Date().getUTCFullYear()} {site.name}</p><div><a href="/privacy/">Privacy</a><a href="/disclaimer/">Disclaimer</a><a href="/terms/">Terms</a><a href="/accessibility/">Accessibility</a><a href="/rss.xml">RSS</a></div></div>
+      <p class="container fine-print footer-note">For education and general information. This site does not provide diagnosis, treatment, or crisis support.</p>
+    </footer>
+  </body>
+</html>
