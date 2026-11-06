@@ -9,4 +9,9 @@
   --link: #0b5c63;
   --link-hover: #084349;
   --border: #cfc2a6;
+  /* Colors from the original uploaded homepage artwork. */
+  --garden-forest: #1f3d2b;
+  --garden-muted: #4a5a4e;
+  --garden-clay: #9a3f1f;
+  --garden-amber: #e9a23b;
 }

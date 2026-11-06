@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import Newsletter from '../components/Newsletter.astro';
+import ReadingGarden from '../components/ReadingGarden.astro';
 import Icon from '../components/Icon.astro';
 import { articles } from '../lib/content';
 import { topics } from '../lib/topics';
@@ -47,22 +48,7 @@ const showMedia = await mediaAvailable();
           ><p class="fine-print">No right place to begin.</p>
         </div>
       </div>
-      <div
-        class="hero-room"
-        role="img"
-        aria-label="A quiet reading corner with an arched window, a plant, and a small stack of books."
-      >
-        <div class="room-window">
-          <div class="room-sun"></div><div class="room-hill"></div>
-        </div><div class="room-table"></div><div class="room-books"></div><div
-          class="room-plant"
-        >
-          <div class="room-leaf"></div><div class="room-leaf"></div><div
-            class="room-leaf"
-          >
-          </div>
-        </div><p class="hero-room-caption">A quiet corner of the internet</p>
-      </div>
+      <ReadingGarden />
     </div>
   </section>
   <div class="container promise-bar">
