@@ -72,6 +72,8 @@ export function serializeJsonLd(value: unknown): string {
 const routeLabels: Record<string, string> = {
   blog: 'Articles',
   topics: 'Topics',
+  categories: 'Categories',
+  tags: 'Tags',
   'start-here': 'Start here',
   'listen-and-watch': 'Listen & Watch',
   search: 'Search',
@@ -174,7 +176,7 @@ export function articleJsonLd(
       };
   return {
     '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
+    '@type': ['Article', 'BlogPosting'],
     '@id': `${url}#article`,
     headline: data.title,
     description: data.description,

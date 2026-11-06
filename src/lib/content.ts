@@ -1,14 +1,22 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
-export type Article = CollectionEntry<'posts'>;
+type Post = CollectionEntry<'posts'>;
+export type Article = Omit<Post, 'data'> & {
+  data: Omit<Post['data'], 'slug'> & { slug: string };
+};
 
 /** Every public reader flow must use this accessor so drafts stay out of the build. */
 export async function articles(): Promise<Article[]> {
-  return (await getCollection('posts', ({ data }) => !data.draft)).sort(
-    (a, b) =>
-      b.data.date.valueOf() - a.data.date.valueOf() ||
-      Number(b.data.featured) - Number(a.data.featured) ||
-      a.data.title.localeCompare(b.data.title),
-  );
+  return (await getCollection('posts', ({ data }) => !data.draft))
+    .map((post) => ({
+      ...post,
+      data: { ...post.data, slug: post.data.slug || post.id },
+    }))
+    .sort(
+      (a, b) =>
+        b.data.date.valueOf() - a.data.date.valueOf() ||
+        Number(b.data.featured) - Number(a.data.featured) ||
+        a.data.title.localeCompare(b.data.title),
+    );
 }
 export const allPublicPosts = articles;
 export const articleUrl = (article: Article) => `/blog/${article.data.slug}/`;

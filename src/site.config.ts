@@ -3,9 +3,7 @@ export const site = {
   tagline: 'A little understanding. A little more ease.',
   description:
     'Clear, thoughtful reads on psychology and everyday wellbeing. Find a starting point, explore a feeling, and take things at your own pace.',
-  url:
-    import.meta.env?.SITE_URL ||
-    'https://psychology-reading-room.bejjajimohammed1.chatgpt.site',
+  url: import.meta.env?.SITE_URL || 'https://YOUR-DOMAIN.com',
   lang: 'en',
   features: { media: false, affiliates: false },
   adsEnabled: false,

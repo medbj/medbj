@@ -12,7 +12,7 @@ const metadata = (overrides = {}) => ({
   date: '2026-01-05',
   updated: '2026-01-07',
   slug: 'a-reviewed-article',
-  topic: 'sleep',
+  category: 'sleep',
   tags: ['rest'],
   author: 'Editorial team',
   reviewedOn: '2026-01-07',
@@ -52,7 +52,7 @@ function fixture(run) {
 
 test('validator accepts complete raw metadata without changing its slug or dates', () =>
   fixture(({ root, post }) => {
-    post('different-source-filename.mdx');
+    post('different-source-filename.md');
     const result = validateContent(root);
     assert.deepEqual(result.errors, []);
     assert.equal(result.posts[0].data.slug, 'a-reviewed-article');
@@ -61,12 +61,12 @@ test('validator accepts complete raw metadata without changing its slug or dates
 
 test('duplicate explicit slugs fail even across nested files and drafts', () =>
   fixture(({ root, post }) => {
-    post('first.mdx');
+    post('first.md');
     mkdirSync(join(root, 'src/content/posts/nested'));
-    post('nested/second.mdx', metadata({ draft: true }));
+    post('nested/second.md', metadata({ draft: true }));
     assert.ok(
       validateContent(root).errors.some((error) =>
-        /duplicate slug "a-reviewed-article".*first\.mdx/.test(error),
+        /duplicate slug "a-reviewed-article".*first\.md/.test(error),
       ),
     );
   }));
@@ -74,7 +74,7 @@ test('duplicate explicit slugs fail even across nested files and drafts', () =>
 test('calendar-invalid dates are rejected instead of silently normalized', () =>
   fixture(({ root, post }) => {
     post(
-      'bad-date.mdx',
+      'bad-date.md',
       metadata({ date: '2026-02-30', updated: '2026-13-01' }),
     );
     const errors = validateContent(root).errors;
@@ -85,7 +85,7 @@ test('calendar-invalid dates are rejected instead of silently normalized', () =>
 test('empty cover and inline image alternatives are rejected', () =>
   fixture(({ root, post }) => {
     post(
-      'missing-alt.mdx',
+      'missing-alt.md',
       metadata({
         cover: { src: '/rest.webp', alt: '', width: 1200, height: 800 },
       }),
@@ -100,9 +100,9 @@ test('empty cover and inline image alternatives are rejected', () =>
 test('launch rejects samples in drafts and disabled media even when confirmations are supplied', () =>
   fixture(({ root, post }) => {
     for (let index = 1; index <= 8; index++)
-      post(`reviewed-${index}.mdx`, metadata({ slug: `reviewed-${index}` }));
+      post(`reviewed-${index}.md`, metadata({ slug: `reviewed-${index}` }));
     post(
-      'sample-draft.mdx',
+      'sample-draft.md',
       metadata({
         slug: 'sample-draft',
         sample: true,
@@ -146,7 +146,7 @@ test('launch rejects samples in drafts and disabled media even when confirmation
     assert.equal(result.realReviewedArticles, 8);
     assert.ok(
       result.errors.some((error) =>
-        /sample-draft\.mdx: sample content/.test(error),
+        /sample-draft\.md: sample content/.test(error),
       ),
     );
     assert.ok(
@@ -156,7 +156,7 @@ test('launch rejects samples in drafts and disabled media even when confirmation
 
 test('launch diagnoses missing environment and unverified crisis data without exposing values', () =>
   fixture(({ root, post }) => {
-    post('one.mdx');
+    post('one.md');
     writeFileSync(
       join(root, 'src/data/crisis-resources.json'),
       JSON.stringify([
@@ -180,4 +180,71 @@ test('launch diagnoses missing environment and unverified crisis data without ex
     assert.ok(result.errors.some((error) => /lastVerified/.test(error)));
     assert.ok(result.errors.some((error) => /At least 8/.test(error)));
     assert.ok(!result.errors.join('\n').includes('secret-fixture-value'));
+  }));
+
+test('a new Markdown file needs only four fields and gets stable publication defaults', () =>
+  fixture(({ root, post }) => {
+    post('a-simple-start.md', {
+      title: 'A simple start',
+      description: 'A short introduction.',
+      date: '2026-01-05',
+      category: 'Everyday life',
+    });
+    const { errors, posts } = validateContent(root);
+    assert.deepEqual(errors, []);
+    assert.equal(posts[0].data.slug, 'a-simple-start');
+    assert.equal(posts[0].data.topic, 'everyday-life');
+    assert.equal(posts[0].data.updated, '2026-01-05');
+    assert.equal(posts[0].data.draft, false);
+    assert.equal(posts[0].data.lang, 'en');
+    assert.equal(posts[0].data.reviewedOn, null);
+    assert.deepEqual(posts[0].data.tags, []);
+  }));
+
+test('Arabic direction follows language and preserved MDX originals are inactive', () =>
+  fixture(({ root, post }) => {
+    post('reading.md', metadata({ lang: 'ar', dir: 'ltr' }));
+    post('reading.mdx');
+    const { errors, posts } = validateContent(root);
+    assert.deepEqual(errors, []);
+    assert.equal(posts.length, 1);
+    assert.equal(posts[0].data.dir, 'rtl');
+  }));
+
+test('descriptions over 160 characters and string draft flags fail authoring validation', () =>
+  fixture(({ root, post }) => {
+    post(
+      'invalid.md',
+      metadata({ description: 'x'.repeat(161), draft: 'false' }),
+    );
+    const { errors } = validateContent(root);
+    assert.ok(errors.some((error) => /160 characters/.test(error)));
+    assert.ok(errors.some((error) => /draft must be a boolean/.test(error)));
+  }));
+
+test('post numbers cannot collide with the paginated blog route', () =>
+  fixture(({ root, post }) => {
+    post('2.md', {
+      title: 'A simple start',
+      description: 'A short introduction.',
+      date: '2026-01-05',
+      category: 'Rest',
+    });
+    assert.ok(
+      validateContent(root).errors.some((error) =>
+        /reserved for blog pagination/.test(error),
+      ),
+    );
+  }));
+
+test('optional front matter images require a meaningful alternative', () =>
+  fixture(({ root, post }) => {
+    mkdirSync(join(root, 'src/content/posts/images'));
+    writeFileSync(join(root, 'src/content/posts/images/photo.png'), 'fixture');
+    post('image.md', metadata({ image: './images/photo.png' }));
+    assert.ok(
+      validateContent(root).errors.some((error) =>
+        /imageAlt is required/.test(error),
+      ),
+    );
   }));

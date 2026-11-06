@@ -1,5 +1,7 @@
 # Decisions
 
+- Use the requested #1F2A44 navy for the MENA Psychology wordmarks and share-image title.
+
 - The uploaded brief ends mid-sentence and has no implementation-plan section; use three phases: foundation, complete reading experience, verification and delivery.
 - Use the attached /workspace/medbj repository and retain its existing Git history.
 - Keep Psychology Blog as the working brand, Arial as the only font, and the exact requested eight color tokens.
@@ -21,3 +23,10 @@
 - Store the four supplied crisis numbers as unverified seed data, hide unverified numbers from actionable reader resources, and fail the public-launch gate until human verification is recorded.
 - The full-brief build passed local browser, optional-integration, and Lighthouse targets; preserve private access while human editorial, crisis-resource, legal, and provider launch requirements remain incomplete.
 - Keep the existing Sites URL for this private review and use a review branch in the selected GitHub repository rather than changing its default branch.
+- Restore the homepage ReadingGarden artwork from the user-uploaded original MENA Psychology ZIP, preserving its SVG paths and colors, and remove the replacement illustration and caption.
+- Adapt the provided reference into a cream-and-sage editorial blog layout with rounded sections and a stacked navy MENA / Psychology wordmark; retain the original garden artwork and educational reading flows.
+- Expose Astro's generated sitemap at /sitemap.xml as well as its original index, use a navy M favicon with desktop and Apple formats, and keep the existing private audience while completing the requested prelaunch engineering audit.
+- Implement the Markdown workflow on markdown-posts after a pre-migration snapshot; retain original MDX files and every stylesheet unchanged, load only .md posts, and preserve current routes plus automatic category/tag archives.
+- The new four-required-field authoring contract supersedes older mandatory review/takeaway/reference fields; keep review status honest and the separate public-launch review gate in place.
+- Use local source images for Astro optimization, derive post slugs from filenames and taxonomy URLs from names, exclude drafts before image processing, and use https://YOUR-DOMAIN.com until the owner supplies the final domain.
+- Deliver this folder migration on markdown-posts with source, Git history, and static dist output for the owner's server; retain the original shared English header/footer direction on Arabic posts and keep the article document RTL.

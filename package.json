@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
-    "build": "npm run check:content && npm run check:contrast && ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/generate-headers.mjs && pagefind --site dist",
+    "build": "npm run check:content && npm run check:contrast && ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/finalize-seo.mjs && node scripts/generate-headers.mjs && pagefind --site dist && node scripts/check-site.mjs",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "lint": "eslint .",

@@ -39,6 +39,7 @@ export const GET: APIRoute = async () => {
   const white = color('white');
   const sand = color('sand');
   const ink = color('ink');
+  const brand = color('brand');
   const muted = color('muted');
   const border = color('border');
   const titleLines = wrap(site.name, 28);
@@ -66,7 +67,7 @@ export const GET: APIRoute = async () => {
     <rect width="1200" height="630" fill="${white}" />
     <rect y="500" width="1200" height="130" fill="${sand}" />
     <path d="M80 90H1120" stroke="${border}" stroke-width="2" />
-    <g fill="${ink}" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif" font-size="${titleSize}" font-weight="700" letter-spacing="-2">${title}</g>
+    <g fill="${brand}" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif" font-size="${titleSize}" font-weight="700" letter-spacing="-2">${title}</g>
     <g fill="${muted}" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif" font-size="32">${tagline}</g>
     <text x="84" y="555" fill="${ink}" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif" font-size="22">Psychology and everyday wellbeing</text>
     <text x="84" y="591" fill="${muted}" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif" font-size="18">${escapeXml(new URL(site.url).host)}</text>

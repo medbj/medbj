@@ -1,6 +1,7 @@
 ---
 import '../styles/tokens.css';
 import '../styles/global.css';
+import '../styles/refined.css';
 import { site } from '../site.config';
 import { mediaAvailable } from '../lib/media';
 import Icon from '../components/Icon.astro';
@@ -13,6 +14,10 @@ interface Props {
   lang?: string;
   dir?: 'ltr' | 'rtl' | 'auto';
   type?: 'website' | 'article';
+  image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 const {
   title,
@@ -21,13 +26,13 @@ const {
   type = 'website',
   lang = site.lang,
   dir = /^(ar|fa|he|ur)(-|$)/.test(lang) ? 'rtl' : 'ltr',
+  image,
+  imageAlt,
+  imageWidth,
+  imageHeight,
 } = Astro.props;
 const path = Astro.url.pathname;
-const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
-const plausibleScript = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_URL;
-const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
-const umamiScript = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL;
-const plausibleEnabled = Boolean(plausibleDomain && plausibleScript);
+const interfaceDir = /^(ar|fa|he|ur)(-|$)/i.test(site.lang) ? 'rtl' : 'ltr';
 const showMedia = await mediaAvailable();
 ---
 
@@ -44,35 +49,36 @@ const showMedia = await mediaAvailable();
       noindex={noindex}
       lang={lang}
       type={type}
+      image={image}
+      imageAlt={imageAlt}
+      imageWidth={imageWidth}
+      imageHeight={imageHeight}
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link
       rel="alternate"
       type="application/rss+xml"
       title={`${site.name} RSS feed`}
       href="/rss.xml"
     />
-    {
-      plausibleDomain && plausibleScript && (
-        <script
-          is:inline
-          defer
-          data-domain={plausibleDomain}
-          src={plausibleScript}
-        />
-      )
-    }
-    {
-      !plausibleEnabled && umamiId && umamiScript && (
-        <script is:inline defer data-website-id={umamiId} src={umamiScript} />
-      )
-    }
+    <!-- OPTIONAL OWNER SCRIPTS: paste any future analytics script and ad script here.
+         No analytics, advertising, or tracking script is enabled in this build. -->
     <slot name="head" />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header" data-pagefind-ignore>
+    <a class="skip-link" href="#main" lang={site.lang} dir={interfaceDir}
+      >Skip to content</a
+    >
+    <header
+      class="site-header"
+      lang={site.lang}
+      dir={interfaceDir}
+      data-pagefind-ignore
+    >
       <div class="container header-inner">
         <a class="brand" href="/"><Wordmark /></a>
         <nav class="desktop-nav" aria-label="Main navigation">
@@ -128,12 +134,16 @@ const showMedia = await mediaAvailable();
       </div>
     </header>
     <main id="main" tabindex="-1"><slot /></main>
-    <footer class="site-footer" data-pagefind-ignore>
+    <footer
+      class="site-footer"
+      lang={site.lang}
+      dir={interfaceDir}
+      data-pagefind-ignore
+    >
       <div class="container footer-top">
         <div>
-          <a class="footer-brand" href="/"
-            >{site.name}<span aria-hidden="true">.</span></a
-          ><p>Clear words. A calmer perspective.</p><p class="fine-print">
+          <a class="footer-brand" href="/"><Wordmark /></a>
+          <p>Clear words. A calmer perspective.</p><p class="fine-print">
             Educational reading for everyday life.<br />A starting point, at
             your own pace.
           </p>

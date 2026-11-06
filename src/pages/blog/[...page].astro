@@ -7,7 +7,7 @@ import { articles } from '../../lib/content';
 import { topics } from '../../lib/topics';
 
 export const getStaticPaths = (async ({ paginate }) => {
-  return paginate(await articles(), { pageSize: 6 });
+  return paginate(await articles(), { pageSize: 10 });
 }) satisfies GetStaticPaths;
 
 interface Props {
@@ -58,7 +58,7 @@ const title =
         page.lastPage > 1 && (
           <nav class="pagination" aria-label="Article pages">
             {page.url.prev && (
-              <a href={page.url.prev} rel="prev">
+              <a href={`${page.url.prev.replace(/\/$/, '')}/`} rel="prev">
                 Previous
               </a>
             )}
@@ -76,7 +76,7 @@ const title =
               ),
             )}
             {page.url.next && (
-              <a href={page.url.next} rel="next">
+              <a href={`${page.url.next.replace(/\/$/, '')}/`} rel="next">
                 Next
               </a>
             )}

@@ -16,12 +16,38 @@ function luminance(hex) {
 }
 let failures = 0;
 const pairs = [];
-for (const foreground of ['ink', 'muted', 'link', 'link-hover']) {
-  for (const background of ['white', 'sand', 'sand-soft'])
+for (const foreground of [
+  'ink',
+  'brand',
+  'muted',
+  'link',
+  'link-hover',
+  'olive',
+  'garden-forest',
+]) {
+  for (const background of [
+    'white',
+    'sand',
+    'sand-soft',
+    'canvas',
+    'sage',
+    'sage-soft',
+  ])
     pairs.push([foreground, background, 4.5]);
 }
-pairs.push(['white', 'link', 4.5], ['white', 'link-hover', 4.5]);
-for (const background of ['white', 'sand', 'sand-soft'])
+pairs.push(
+  ['white', 'link', 4.5],
+  ['white', 'link-hover', 4.5],
+  ['white', 'olive', 4.5],
+);
+for (const background of [
+  'white',
+  'sand',
+  'sand-soft',
+  'canvas',
+  'sage',
+  'sage-soft',
+])
   pairs.push(['link', background, 3]);
 for (const [fg, bg, min] of pairs) {
   if (!tokens[fg] || !tokens[bg]) throw new Error(`Missing token ${fg}/${bg}`);

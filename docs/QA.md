@@ -40,3 +40,19 @@ Reproduce the engineering checks with `npm run check`, `npm run lint`, `npm run 
 Human screen-reader and real-device checks, actual provider double opt-in/unsubscribe, verified support-resource information, legal approval, and deployment-domain checks remain in HUMAN_TODO.md and docs/LAUNCH.md.
 
 Icons use the official Hugeicons Stroke Rounded package at build time: Search, Arrow Right, Arrow Up Right, Leaf, Book Open, Moon, Heart, Headphones, and Play. The SVG Arial wordmark contains no icon. No font files or icon runtime framework load in the browser.
+
+## Reference-inspired layout refresh — 6 November 2026
+
+The homepage now uses a cream canvas, rounded sage and olive sections, guided-reading cards, editorial article rows, topic panels, and a circular reading invitation. The shared navy wordmark places Psychology below MENA. The restored ReadingGarden source is unchanged.
+
+Astro validation, ESLint, the production build, token contrast checks, and built-site validation passed. Browser checks covered the homepage, an article, and a topic page at 320, 375, 640, 768, 1280, and 1440 pixels. They verified no horizontal overflow, artwork and caption spacing, stacked navy branding, reading-path destinations, Pagefind search, keyboard focus, and navigation without JavaScript. Article executable JavaScript remained 0 B; no browser errors or external requests were observed.
+
+Axe reported zero violations on the homepage and article at 375 and 1280 pixels. Its incomplete contrast nodes still require human review; the expanded token contrast gate passed for the new surfaces. Local screenshots and machine-readable results are in ignored `work/layout-refresh/`. The Lighthouse scores above belong to the earlier full-brief build and were not remeasured for this layout update.
+
+## Prelaunch audit — 6 November 2026
+
+See [PRELAUNCH.md](PRELAUNCH.md) for the later, current engineering audit and [qa/prelaunch.json](qa/prelaunch.json) for its compact evidence. All 40 pages passed at five viewport widths, all titles and descriptions were unique, ten Axe page/viewport checks had zero violations, and source/history/build credential scans found no secrets. Fresh mobile Lighthouse runs on home and an article scored 100 in all four categories, with LCP of 908 ms and 907 ms. Favicon formats, `/sitemap.xml`, and `/robots.txt` were verified. The separate public-launch gate remains blocked on existing human content, review, resource-verification, and provider requirements.
+
+## Markdown authoring migration
+
+The subsequent `markdown-posts` branch adds the one-file publishing workflow while preserving the original design and source files. Current branch verification is in [MARKDOWN-MIGRATION.md](MARKDOWN-MIGRATION.md) and [qa/markdown-posts.json](qa/markdown-posts.json): 58 static pages, 290 responsive checks, 11 passing guard cases, zero violations in 14 Axe checks, and eight unchanged viewport screenshots. Separate fixtures verified minimal front matter, French, Arabic/RTL, image optimization, draft exclusion, and retained media support. Earlier QA sections describe their own historical builds.

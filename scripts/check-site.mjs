@@ -118,6 +118,8 @@ export function checkSite(root = projectRoot) {
     '/',
     '/blog/',
     '/topics/',
+    '/categories/',
+    '/tags/',
     '/start-here/',
     '/search/',
     '/about/',
@@ -135,7 +137,17 @@ export function checkSite(root = projectRoot) {
   ];
   for (const route of required)
     if (!routeFile(route)) fail(`Missing route ${route}`);
-  for (const file of ['rss.xml', 'sitemap-index.xml', 'robots.txt', 'og.png'])
+  for (const file of [
+    'rss.xml',
+    'sitemap.xml',
+    'sitemap-index.xml',
+    'robots.txt',
+    'og.png',
+    'favicon.svg',
+    'favicon.ico',
+    'favicon-32x32.png',
+    'apple-touch-icon.png',
+  ])
     if (!existsSync(join(dist, file))) fail(`Missing ${file}`);
   if (!htmlFiles.length) fail('No generated HTML pages found');
   const home = routeFile('/');
@@ -396,8 +408,10 @@ export function checkSite(root = projectRoot) {
     if (!/\bdata-pagefind-body\b/.test(html))
       fail(`${label(target)}: article is not marked for Pagefind`);
     for (const [name, pattern] of [
-      ['key takeaways', /key takeaways/i],
-      ['references', /references/i],
+      ...(data.keyTakeaways.length
+        ? [['key takeaways', /key takeaways/i]]
+        : []),
+      ...(data.references.length ? [['references', /references/i]] : []),
       [
         'educational disclaimer',
         /(?:education(?:al)?|general information)[\s\S]{0,300}(?:diagnos|treatment|professional)|(?:diagnos|treatment|professional)[\s\S]{0,300}(?:education(?:al)?|general information)/i,
@@ -600,7 +614,7 @@ export function checkSite(root = projectRoot) {
       }
     }
   }
-  const sitemapFile = join(dist, 'sitemap-index.xml');
+  const sitemapFile = join(dist, 'sitemap.xml');
   if (existsSync(sitemapFile)) {
     const sitemap = read(sitemapFile);
     const locations = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)];
@@ -633,11 +647,12 @@ export function checkSite(root = projectRoot) {
             );
           else if (noindex(getHtml(pageFile)))
             fail(`Sitemap includes a noindex page ${page.pathname}`);
-          if (sitemapRoutes.has(page.pathname))
+          const pagePath = decodeURIComponent(page.pathname);
+          if (sitemapRoutes.has(pagePath))
             fail(`Sitemap duplicates ${page.pathname}`);
-          sitemapRoutes.add(page.pathname);
+          sitemapRoutes.add(pagePath);
           const post = published.find(
-            ({ data }) => `/blog/${data.slug}/` === page.pathname,
+            ({ data }) => `/blog/${data.slug}/` === pagePath,
           );
           if (
             post &&
@@ -661,8 +676,8 @@ export function checkSite(root = projectRoot) {
     const sitemap = read(robotsFile).match(
       /^Sitemap:\s*(https?:\/\/\S+)\s*$/im,
     )?.[1];
-    if (!sitemap || sitemap !== `${origin}/sitemap-index.xml`)
-      fail('robots.txt: sitemap index URL must match canonical origin');
+    if (!sitemap || sitemap !== `${origin}/sitemap.xml`)
+      fail('robots.txt: sitemap URL must match canonical origin');
   }
   return {
     errors: [...failures],

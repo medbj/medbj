@@ -4,8 +4,18 @@
   --sand: #e8dcc4;
   --sand-soft: #f5efe2;
   --ink: #1f1b16;
+  --brand: #1f2a44;
   --muted: #5a5148;
   --link: #0b5c63;
   --link-hover: #084349;
   --border: #cfc2a6;
+  --canvas: #faf6ec;
+  --sage: #dfe5cc;
+  --sage-soft: #edf0df;
+  --olive: #4c5b32;
+  /* Colors from the original uploaded homepage artwork. */
+  --garden-forest: #1f3d2b;
+  --garden-muted: #4a5a4e;
+  --garden-clay: #9a3f1f;
+  --garden-amber: #e9a23b;
 }
