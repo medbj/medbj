@@ -11,6 +11,7 @@ import { articles, dateLabel, articleUrl, readTime } from '../../lib/content';
 import { topicBySlug } from '../../lib/topics';
 import { site } from '../../site.config';
 import '../../styles/articles.css';
+import { articleJsonLd, serializeJsonLd } from '../../lib/seo';
 
 export async function getStaticPaths() {
   return (await articles()).map((article) => ({
@@ -32,24 +33,7 @@ const related = all
   )
   .slice(0, 3);
 const articleCanonical = new URL(articleUrl(article), site.url).href;
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: article.data.title,
-  description: article.data.description,
-  datePublished: article.data.date.toISOString(),
-  dateModified: article.data.updated.toISOString(),
-  inLanguage: article.data.lang,
-  author: {
-    '@type': authorName === 'Editorial team' ? 'Organization' : 'Person',
-    name: authorName,
-  },
-  publisher: { '@type': 'Organization', name: site.name },
-  mainEntityOfPage: articleCanonical,
-  ...(article.data.cover
-    ? { image: new URL(article.data.cover.src, site.url).href }
-    : {}),
-};
+const jsonLd = articleJsonLd(article);
 const printLinks = [
   ...article.data.references,
   { title: 'Editorial policy', url: '/editorial-policy/' },
@@ -65,6 +49,7 @@ const printLinks = [
 ---
 
 <Base
+  type="article"
   title={article.data.sensitive
     ? 'Psychology and wellbeing'
     : article.data.title}
@@ -75,7 +60,7 @@ const printLinks = [
   <script
     slot="head"
     type="application/ld+json"
-    set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')}
+    set:html={serializeJsonLd(jsonLd)}
   />
   <div class="container article-main">
     <div class="page-head">

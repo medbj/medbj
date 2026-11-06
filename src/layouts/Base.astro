@@ -4,22 +4,24 @@ import '../styles/global.css';
 import { site } from '../site.config';
 import Icon from '../components/Icon.astro';
 import Wordmark from '../components/Wordmark.astro';
+import Meta from '../components/Meta.astro';
 interface Props {
   title: string;
   description?: string;
   noindex?: boolean;
   lang?: string;
   dir?: "ltr" | "rtl" | "auto";
+  type?: "website" | "article";
 }
 const {
   title,
-  description = site.description,
+  description,
   noindex = false,
+  type = "website",
   lang = site.lang,
   dir = /^(ar|fa|he|ur)(-|$)/.test(lang) ? "rtl" : "ltr",
 } = Astro.props;
 const path = Astro.url.pathname;
-const canonical = new URL(path, site.url).href;
 const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
 const plausibleScript = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_URL;
 const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
@@ -34,23 +36,8 @@ const plausibleEnabled = Boolean(plausibleDomain && plausibleScript);
       name="viewport"
       content="width=device-width, initial-scale=1"
     />
-    <title>{title === site.name ? site.name : `${title} | ${site.name}`}</title>
-    <meta name="description" content={description} /><link
-      rel="canonical"
-      href={canonical}
-    />
-    <meta property="og:title" content={title} /><meta
-      property="og:description"
-      content={description}
-    /><meta property="og:type" content="website" /><meta
-      property="og:url"
-      content={canonical}
-    />
-    <meta name="twitter:card" content="summary" /><meta
-      name="referrer"
-      content="strict-origin-when-cross-origin"
-    />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    <Meta title={title} description={description} noindex={noindex} lang={lang} type={type} />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link
       rel="alternate"
