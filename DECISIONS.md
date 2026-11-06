@@ -5,6 +5,7 @@
 - Ship original educational sample articles clearly labeled for editorial review; no claimed clinician credentials or clinical review.
 - Keep media disabled at launch until real platform links and transcripts are supplied; retain two marked sample items and a fully gated route.
 - Leave newsletter submission unavailable until a real provider endpoint is configured; never report a simulated subscription.
-- Use https://example.com for local canonical URLs until SITE_URL is configured; human confirmation of the public domain remains required.
+- Use the private Sites preview origin as the default canonical URL in site.config.ts; SITE_URL overrides it for Cloudflare Pages or a confirmed custom domain.
 - Do not publish unverified crisis phone numbers; provide general emergency guidance and a link to an external country directory.
 - Treat pale borders as decorative; use teal control outlines and focus rings for the 3:1 non-text contrast requirement.
+- Store enhanced search state in the URL fragment so terms are not sent in HTTP requests; accept and clear legacy query strings.

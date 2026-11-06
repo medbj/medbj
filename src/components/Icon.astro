@@ -1,0 +1,9 @@
+---
+import { Search01Icon, ArrowRight01Icon, ArrowUpRight01Icon, Leaf01Icon, BookOpen01Icon, MoonIcon, HeartIcon, HeadphonesIcon } from '@hugeicons/core-free-icons';
+const icons = { search: Search01Icon, arrow: ArrowRight01Icon, external: ArrowUpRight01Icon, leaf: Leaf01Icon, book: BookOpen01Icon, moon: MoonIcon, heart: HeartIcon, headphones: HeadphonesIcon };
+interface Props { name: keyof typeof icons; class?: string; }
+const { name, class: className } = Astro.props;
+---
+<svg class:list={['icon', className]} viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+  {icons[name].map(([tag, attributes]) => { const Tag = tag; const attrs = Object.fromEntries(Object.entries(attributes).filter(([key]) => key !== 'key').map(([key, value]) => [key.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`), value])); return <Tag {...attrs} />; })}
+</svg>

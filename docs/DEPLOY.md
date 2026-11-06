@@ -41,6 +41,8 @@ Replace `YOUR_PAGES_PROJECT` with the existing Pages project. This command publi
 
 Cloudflare Pages can serve `404.html` as the custom not-found page. Confirm that an unknown path returns HTTP 404 rather than a successful page. Do not add a single-page-app fallback that rewrites every request to `/index.html`. Deploy the entire `dist/` tree, including `/pagefind/`.
 
+The build includes a Cloudflare Pages `_headers` file. Keep it with the deployed output so the configured content security and privacy headers are applied. If you enable an external analytics script, check that its actual script and collection origins are allowed by the generated policy, then verify the browser console and network requests. Do not weaken the policy to allow every origin.
+
 ## Self-host on an Ubuntu VPS with Nginx
 
 These steps assume an existing VPS, DNS you control, a non-root SSH user, and a dedicated web root. Replace the example domain, SSH host, username, and paths; the example values are placeholders. Firewall changes and server administration remain the operator's responsibility.
@@ -64,6 +66,8 @@ sudo systemctl reload nginx
 ```
 
 The supplied configuration serves normal static paths, uses the custom 404 page, and caches only asset locations. It does not assume a JavaScript application router. Consider access-log retention and whether full request paths could reveal sensitive reading interests; disclose and minimize logs according to your operating requirements.
+
+Nginx does not interpret Cloudflare's `_headers` file. The example Nginx configuration sets basic response headers directly. To apply the site's Content-Security-Policy too, copy the generated policy from `dist/_headers` into an `add_header Content-Security-Policy "..." always;` directive in the Nginx server block, preserving the exact origins needed by the configured build. Recheck it when newsletter, analytics, or media settings change, and run `nginx -t` before reloading.
 
 ### Build and copy from your computer
 

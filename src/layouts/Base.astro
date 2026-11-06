@@ -2,6 +2,7 @@
 import '../styles/tokens.css';
 import '../styles/global.css';
 import { site } from '../site.config';
+import Icon from '../components/Icon.astro';
 interface Props { title: string; description?: string; noindex?: boolean; lang?: string; }
 const { title, description = site.description, noindex = false, lang = site.lang } = Astro.props;
 const path = Astro.url.pathname;
@@ -37,7 +38,7 @@ const umamiScript = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL;
           {site.features.media && <a href="/listen-and-watch/" aria-current={path.startsWith('/listen-and-watch') ? 'page' : undefined}>Listen &amp; Watch</a>}
           <a href="/about/" aria-current={path === '/about/' ? 'page' : undefined}>About</a>
           <a class="help-link" href="/get-help/" aria-current={path === '/get-help/' ? 'page' : undefined}>Get Help <span aria-hidden="true">↗</span></a>
-          <a class="search-link" href="/search/" aria-label="Search articles"><span class="search-symbol" aria-hidden="true"></span></a>
+          <a class="search-link" href="/search/" aria-label="Search articles"><Icon name="search" /></a>
         </nav>
       </div>
     </header>
