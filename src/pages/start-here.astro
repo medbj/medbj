@@ -1,64 +1,28 @@
 ---
+import { getCollection } from 'astro:content';
 import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 import { articles, articleUrl, readTime } from '../lib/content';
-const allArticles = await articles();
-const paths = [
-  {
-    id: 'anxiety',
-    title: 'I feel anxious',
-    description:
-      'Begin with busy thoughts, then make a little space around worry.',
-    articles: ['when-your-mind-wont-slow-down', 'making-room-for-worry'],
-  },
-  {
-    id: 'sleep',
-    title: 'I can’t sleep',
-    description:
-      'Explore a gentler evening and a kinder response to a difficult night.',
-    articles: ['a-gentler-way-to-end-your-day', 'when-sleep-doesnt-come'],
-  },
-  {
-    id: 'low-mood',
-    title: 'I feel low',
-    description:
-      'Keep the next step small, and leave room for the support you need.',
-    articles: [
-      'small-steps-on-low-days',
-      'speaking-to-yourself-with-more-care',
-      'rest-is-part-of-the-work',
-    ],
-  },
-  {
-    id: 'stress',
-    title: 'I’m feeling overwhelmed',
-    description:
-      'Notice the demands on you and consider what a pause or a limit could look like.',
-    articles: [
-      'noticing-your-stress-signals',
-      'rest-is-part-of-the-work',
-      'boundaries-that-leave-room-for-kindness',
-    ],
-  },
-  {
-    id: 'self-kindness',
-    title: 'I want to be kinder to myself',
-    description: 'Try words and expectations that leave room for being human.',
-    articles: [
-      'speaking-to-yourself-with-more-care',
-      'a-habit-small-enough-to-keep',
-      'starting-again-is-part-of-change',
-    ],
-  },
-].map((path) => ({
-  ...path,
-  articles: path.articles.map((id) => {
-    const article = allArticles.find((item) => item.id === id);
-    if (!article)
-      throw new Error(`Reading path references missing article: ${id}`);
-    return article;
-  }),
-}));
+import { readingPaths } from '../data/reading-paths';
+const publicArticles = await articles();
+const sourceArticles = await getCollection('posts');
+const sourceSlugs = new Set(sourceArticles.map((article) => article.data.slug));
+const publicBySlug = new Map(
+  publicArticles.map((article) => [article.data.slug, article]),
+);
+const paths = readingPaths
+  .map((path) => ({
+    ...path,
+    articles: path.articles.flatMap((slug) => {
+      if (!sourceSlugs.has(slug))
+        throw new Error(
+          `Reading path "${path.id}" references missing article slug: ${slug}`,
+        );
+      const article = publicBySlug.get(slug);
+      return article ? [article] : [];
+    }),
+  }))
+  .filter((path) => path.articles.length > 0);
 ---
 
 <Base
@@ -74,43 +38,58 @@ const paths = [
         day. One article is enough.
       </p>
     </header>
-    <nav class="filters" aria-label="Jump to a reading path">
-      {paths.map((path) => <a href={`#${path.id}`}>{path.title}</a>)}
-    </nav>
     {
-      paths.map((path) => (
-        <section
-          class="reading-path"
-          id={path.id}
-          aria-labelledby={`${path.id}-heading`}
-        >
-          <h2 id={`${path.id}-heading`}>{path.title}</h2>
-          <p>{path.description}</p>
-          <ol>
-            {path.articles.map((article) => (
-              <li>
-                <a href={articleUrl(article)}>{article.data.title}</a>
-                <p>
-                  {article.data.description}{' '}
-                  <span>· {readTime(article)} min read</span>
-                </p>
-              </li>
+      paths.length > 0 ? (
+        <>
+          <nav class="filters" aria-label="Jump to a reading path">
+            {paths.map((path) => (
+              <a href={`#${path.id}`}>{path.title}</a>
             ))}
-          </ol>
+          </nav>
+          {paths.map((path) => (
+            <section
+              class="reading-path"
+              id={path.id}
+              aria-labelledby={`${path.id}-heading`}
+            >
+              <h2 id={`${path.id}-heading`}>{path.title}</h2>
+              <p>{path.description}</p>
+              <ol>
+                {path.articles.map((article) => (
+                  <li>
+                    <a href={articleUrl(article)}>{article.data.title}</a>
+                    <p>
+                      {article.data.description}{' '}
+                      <span>· {readTime(article)} min read</span>
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))}
+        </>
+      ) : (
+        <section class="callout" aria-labelledby="paths-empty-heading">
+          <>
+            <h2 id="paths-empty-heading">Reading paths are being prepared.</h2>
+            <p>
+              In the meantime, you can <a href="/topics/">explore our topics</a>{' '}
+              or <a href="/blog/">browse available articles</a>.
+            </p>
+          </>
         </section>
-      ))
+      )
     }
     <div class="callout">
       <h2>A path is an invitation.</h2><p>
-        These are sample educational reads, not an assessment or a treatment
-        plan. You can skip a step, change direction, or stop. If you need
-        personal support, visit <a href="/get-help/">Get Help</a>.
+        These are educational reads, not an assessment or a treatment plan. You
+        can skip a step, change direction, or stop. If you need personal
+        support, visit <a href="/get-help/">Get Help</a>.
       </p>
     </div>
     <div class="section">
       <a class="text-link" href="/topics/"
-        >Explore all topics <Icon name="external" /></a
-      >
+        >Explore all topics <Icon name="external" /></a>
     </div>
   </div>
 </Base>

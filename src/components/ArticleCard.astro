@@ -16,8 +16,24 @@ const { article, compact = false } = Astro.props;
     class="article-art-link"
     href={articleUrl(article)}
     tabindex="-1"
-    aria-hidden="true"><Art kind={article.data.visual} /></a
+    aria-hidden="true"
   >
+    {
+      article.data.cover ? (
+        <img
+          class="article-card-cover"
+          src={article.data.cover.src}
+          alt={article.data.cover.alt}
+          width={article.data.cover.width}
+          height={article.data.cover.height}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <Art kind={article.data.visual} />
+      )
+    }
+  </a>
   <div class="article-card-body">
     <div class="eyebrow">
       <a href={`/topics/${article.data.topic}/`}
@@ -34,3 +50,13 @@ const { article, compact = false } = Astro.props;
     >
   </div>
 </article>
+
+<style>
+  .article-card-cover {
+    display: block;
+    inline-size: 100%;
+    block-size: auto;
+    aspect-ratio: 1.65;
+    object-fit: cover;
+  }
+</style>
