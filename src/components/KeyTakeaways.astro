@@ -1,0 +1,12 @@
+---
+interface Props {
+  items: string[];
+  id?: string;
+}
+const { items, id = 'key-takeaways' } = Astro.props;
+---
+
+<section class="takeaways" aria-labelledby={`${id}-heading`}>
+  <h2 id={`${id}-heading`}>Key takeaways</h2>
+  <ul>{items.map((item) => <li>{item}</li>)}</ul>
+</section>

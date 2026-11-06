@@ -1503,3 +1503,27 @@ input::placeholder {
     display: block;
   }
 }
+/* A compact, native-navigation header stays available without JavaScript. */
+html { scroll-padding-block-start: 6rem; }
+.site-header { position: sticky; inset-block-start: 0; z-index: 20; }
+.header-inner { position: relative; flex-wrap: nowrap; padding-block: .65rem; }
+.brand { min-inline-size: 0; max-inline-size: 280px; }
+.wordmark { display: block; inline-size: 100%; block-size: auto; }
+.site-header .desktop-nav { display: none; }
+.mobile-toolbar { display: flex; align-items: center; flex-shrink: 0; gap: .5rem; }
+.mobile-help, .mobile-menu summary { display: inline-flex; align-items: center; justify-content: center; min-block-size: 44px; padding-inline: .75rem; font-size: 13px; font-weight: 700; border: 1px solid var(--link); border-radius: 8px; color: var(--link); text-decoration: none; cursor: pointer; }
+.mobile-menu summary { display: list-item; align-content: center; }
+.mobile-menu nav { position: absolute; inset-inline: 0; inset-block-start: calc(100% - 1px); display: flex; flex-direction: column; align-items: stretch; gap: .25rem; padding: 1rem; background: var(--sand); border: 1px solid var(--link); border-radius: 0 0 8px 8px; }
+.mobile-menu nav a { min-block-size: 44px; padding-inline: .5rem; }
+.brand { inline-size: min(280px, calc(100vw - 190px)); }
+.print-only { display: none; }
+@media (min-width: 900px) { .site-header .desktop-nav { display: flex; } .mobile-toolbar { display: none; } .brand { inline-size: 250px; } }
+@media print {
+  .print-only { display: block; }
+  .print-only ol { padding-inline-start: 1.5rem; }
+  .print-only li { overflow-wrap: anywhere; font-size: 10pt; }
+  .mobile-toc, .toc { display: none; }
+  .prose a { color: var(--ink); }
+  .prose h2, .prose h3 { break-after: avoid; }
+  .takeaways, .callout { break-inside: avoid; }
+}

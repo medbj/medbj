@@ -1,0 +1,43 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+  mode?: 'desktop' | 'mobile';
+}
+const { headings, mode = 'desktop' } = Astro.props;
+const sections = headings.filter((heading) => heading.depth === 2);
+const links = sections.some((heading) => heading.slug === 'references')
+  ? sections
+  : [...sections, { depth: 2, slug: 'references', text: 'References' }];
+---
+
+{
+  sections.length >= 4 &&
+    (mode === 'mobile' ? (
+      <details class="mobile-toc" data-pagefind-ignore>
+        <summary>On this page</summary>
+        <nav aria-label="On this page">
+          <ol>
+            {links.map((heading) => (
+              <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
+            ))}
+          </ol>
+        </nav>
+      </details>
+    ) : (
+      <nav class="toc desktop-toc" aria-label="On this page" data-pagefind-ignore>
+        <p>On this page</p>
+        <ol>
+          {links.map((heading) => (
+            <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
+          ))}
+        </ol>
+      </nav>
+    ))
+}
+
+<style>
+  .desktop-toc { display: none; }
+  @media (min-width: 900px) {
+    .desktop-toc { display: block; }
+  }
+</style>
