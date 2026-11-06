@@ -1,0 +1,38 @@
+[
+  {
+    "country": "United States",
+    "service": "988",
+    "number": "988",
+    "hours": "Not yet verified",
+    "languages": [],
+    "verified": false,
+    "lastVerified": null
+  },
+  {
+    "country": "United Kingdom & Ireland",
+    "service": "Samaritans",
+    "number": "116 123",
+    "hours": "Not yet verified",
+    "languages": [],
+    "verified": false,
+    "lastVerified": null
+  },
+  {
+    "country": "France",
+    "service": "3114",
+    "number": "3114",
+    "hours": "Not yet verified",
+    "languages": [],
+    "verified": false,
+    "lastVerified": null
+  },
+  {
+    "country": "European Union",
+    "service": "Emergency services",
+    "number": "112",
+    "hours": "Not yet verified",
+    "languages": [],
+    "verified": false,
+    "lastVerified": null
+  }
+]

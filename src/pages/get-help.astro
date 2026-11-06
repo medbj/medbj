@@ -1,0 +1,146 @@
+---
+import Icon from '../components/Icon.astro';
+import Base from '../layouts/Base.astro';
+import resources from '../data/crisis-resources.json';
+import { site } from '../site.config';
+const verifiedResources = resources.filter((resource) => resource.verified);
+const pendingCount = resources.length - verifiedResources.length;
+---
+
+<Base
+  title="Get Help"
+  description="Find global support directories, urgent help guidance, and local contact details that have been checked by the site owner."
+>
+  <div class="container narrow section">
+    <header class="page-head">
+      <p class="eyebrow">You can reach out</p>
+      <h1>Support for right now.</h1>
+      <p>You do not need to find the perfect words to ask for help.</p>
+    </header>
+    <div class="prose">
+      <section aria-labelledby="global-support">
+        <h2 id="global-support">Find support where you are</h2>
+        <p>
+          These independent directories can help you look for local phone, text,
+          or chat support:
+        </p>
+        <ul>
+          <li>
+            <a href="https://findahelpline.com/" rel="external noreferrer"
+              >Find A Helpline</a
+            > — browse services by country and topic.
+          </li>
+          <li>
+            <a
+              href="https://www.iasp.info/crisis-centres-helplines/"
+              rel="external noreferrer"
+              >International Association for Suicide Prevention: crisis centres
+              and helplines</a
+            > — find links to support resources around the world.
+          </li>
+        </ul>
+        <p>
+          <a
+            class="button"
+            href="https://findahelpline.com/"
+            rel="external noreferrer"
+            >Find local support <Icon name="external" /></a
+          >
+        </p>
+        <p class="fine-print">
+          We do not run these directories or independently verify their
+          listings. Check each service's current coverage, hours, languages,
+          cost, and privacy information. A listing does not promise availability
+          or a particular outcome.
+        </p>
+      </section>
+      <aside class="callout" aria-labelledby="urgent-help">
+        <h2 id="urgent-help">If there is immediate danger</h2>
+        <p>
+          If you or someone else is in immediate danger, contact your local
+          emergency services or go to the nearest emergency department. If you
+          can do so safely, ask someone you trust to stay with you while you get
+          support.
+        </p>
+      </aside>
+      <section aria-labelledby="country-resources">
+        <h2 id="country-resources">Country contact details</h2>
+        <p>
+          We publish a country-specific contact here only after the site owner
+          checks its details. A verification date records that check; services
+          can still change.
+        </p>
+        {
+          verifiedResources.length > 0 ? (
+            <ul class="support-resources">
+              {verifiedResources.map((resource) => (
+                <li>
+                  <h3>
+                    {resource.country}: {resource.service}
+                  </h3>
+                  <p>
+                    <a href={`tel:${resource.number.replace(/[^\d+]/g, '')}`}>
+                      {resource.number}
+                    </a>
+                  </p>
+                  <p>
+                    Hours: {resource.hours}. Languages:{' '}
+                    {resource.languages.length
+                      ? resource.languages.join(', ')
+                      : 'Ask the service about language support'}
+                    .
+                  </p>
+                  <p class="fine-print">
+                    Last checked by the site owner:{' '}
+                    {resource.lastVerified || 'Verification date not recorded'}.
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>
+              No country-specific phone contacts have completed our human
+              verification process yet. Use the directories above or your local
+              services for current details.
+            </p>
+          )
+        }
+        {
+          pendingCount > 0 && (
+            <p class="fine-print">
+              {pendingCount} prepared resource records are awaiting
+              verification. Their phone details are not published here.
+            </p>
+          )
+        }
+      </section>
+      <h2>If you are looking for ongoing support</h2>
+      <p>
+        A primary care professional or a local mental health service can explain
+        options in your area. You can ask about the cost, waiting time, language
+        support, and what happens at a first appointment.
+      </p>
+      <p>
+        If reaching out feels difficult, you could write a short note first: “I
+        have been finding things hard, and I would like to talk about support.”
+        A trusted person may be able to help you make the call or attend an
+        appointment.
+      </p>
+      <h2>If you are supporting someone else</h2>
+      <p>
+        You can listen, ask what would help, and offer to look for local support
+        together. If there is immediate danger, contact local emergency
+        services. You do not have to manage an urgent situation alone.
+      </p>
+      <h2>About this page</h2>
+      <p>
+        {site.name} is an educational website. It has no monitored support inbox,
+        crisis response team, or live chat. Do not send urgent requests or private
+        health details through the site.
+      </p>
+      <p>
+        There are no advertisements or affiliate recommendations on this page.
+      </p>
+    </div>
+  </div>
+</Base>

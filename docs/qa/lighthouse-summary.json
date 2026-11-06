@@ -1,0 +1,84 @@
+[
+  {
+    "page": "/",
+    "finalUrl": "http://127.0.0.1:4321/",
+    "lighthouseVersion": "13.6.0",
+    "viewport": "375 × 812, device scale 1",
+    "throttling": "Lighthouse simulated mobile throttling",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 909.2168999999999,
+    "fcpMs": 909.2168999999999,
+    "cls": 0,
+    "totalBlockingTimeMs": 0,
+    "scriptBytes": 243,
+    "scripts": [
+      {
+        "url": "http://127.0.0.1:4321/_astro/index.astro_astro_type_script_index_0_lang.CB3h4piw.js",
+        "resourceSize": 243,
+        "transferSize": 564
+      }
+    ],
+    "scoreTargetMet": true,
+    "lcpTargetMet": true,
+    "articleJsTargetMet": true,
+    "incompleteAudits": [],
+    "failingAudits": [
+      {
+        "id": "network-dependency-tree-insight",
+        "title": "Network dependency tree",
+        "score": 0
+      },
+      {
+        "id": "render-blocking-insight",
+        "title": "Render-blocking requests",
+        "displayValue": "Est savings of 240 ms",
+        "score": 0
+      }
+    ],
+    "runWarnings": [],
+    "limitation": "A single local laboratory run with simulated mobile throttling; not field performance or a guarantee on all devices/connections."
+  },
+  {
+    "page": "/blog/when-your-mind-wont-slow-down/",
+    "finalUrl": "http://127.0.0.1:4321/blog/when-your-mind-wont-slow-down/",
+    "lighthouseVersion": "13.6.0",
+    "viewport": "375 × 812, device scale 1",
+    "throttling": "Lighthouse simulated mobile throttling",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lcpMs": 907.5411999999999,
+    "fcpMs": 907.5411999999999,
+    "cls": 0,
+    "totalBlockingTimeMs": 0,
+    "scriptBytes": 0,
+    "scripts": [],
+    "scoreTargetMet": true,
+    "lcpTargetMet": true,
+    "articleJsTargetMet": true,
+    "incompleteAudits": [],
+    "failingAudits": [
+      {
+        "id": "network-dependency-tree-insight",
+        "title": "Network dependency tree",
+        "score": 0
+      },
+      {
+        "id": "render-blocking-insight",
+        "title": "Render-blocking requests",
+        "displayValue": "Est savings of 290 ms",
+        "score": 0
+      }
+    ],
+    "runWarnings": [],
+    "limitation": "A single local laboratory run with simulated mobile throttling; not field performance or a guarantee on all devices/connections."
+  }
+]

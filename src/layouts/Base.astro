@@ -1,0 +1,171 @@
+---
+import '../styles/tokens.css';
+import '../styles/global.css';
+import { site } from '../site.config';
+import { mediaAvailable } from '../lib/media';
+import Icon from '../components/Icon.astro';
+import Wordmark from '../components/Wordmark.astro';
+import Meta from '../components/Meta.astro';
+interface Props {
+  title: string;
+  description?: string;
+  noindex?: boolean;
+  lang?: string;
+  dir?: 'ltr' | 'rtl' | 'auto';
+  type?: 'website' | 'article';
+}
+const {
+  title,
+  description,
+  noindex = false,
+  type = 'website',
+  lang = site.lang,
+  dir = /^(ar|fa|he|ur)(-|$)/.test(lang) ? 'rtl' : 'ltr',
+} = Astro.props;
+const path = Astro.url.pathname;
+const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
+const plausibleScript = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_URL;
+const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
+const umamiScript = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL;
+const plausibleEnabled = Boolean(plausibleDomain && plausibleScript);
+const showMedia = await mediaAvailable();
+---
+
+<!doctype html>
+<html lang={lang} dir={dir}>
+  <head>
+    <meta charset="utf-8" /><meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <Meta
+      title={title}
+      description={description}
+      noindex={noindex}
+      lang={lang}
+      type={type}
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`${site.name} RSS feed`}
+      href="/rss.xml"
+    />
+    {
+      plausibleDomain && plausibleScript && (
+        <script
+          is:inline
+          defer
+          data-domain={plausibleDomain}
+          src={plausibleScript}
+        />
+      )
+    }
+    {
+      !plausibleEnabled && umamiId && umamiScript && (
+        <script is:inline defer data-website-id={umamiId} src={umamiScript} />
+      )
+    }
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-pagefind-ignore>
+      <div class="container header-inner">
+        <a class="brand" href="/"><Wordmark /></a>
+        <nav class="desktop-nav" aria-label="Main navigation">
+          <a
+            href="/blog/"
+            aria-current={path.startsWith('/blog') ? 'page' : undefined}
+            >Articles</a
+          >
+          <a
+            href="/topics/"
+            aria-current={path.startsWith('/topics') ? 'page' : undefined}
+            >Topics</a
+          >
+          {
+            showMedia && (
+              <a
+                href="/listen-and-watch/"
+                aria-current={
+                  path.startsWith('/listen-and-watch') ? 'page' : undefined
+                }
+              >
+                Listen &amp; Watch
+              </a>
+            )
+          }
+          <a
+            href="/about/"
+            aria-current={path === '/about/' ? 'page' : undefined}>About</a
+          >
+          <a
+            class="help-link"
+            href="/get-help/"
+            aria-current={path === '/get-help/' ? 'page' : undefined}
+            >Get Help <Icon name="external" /></a
+          >
+          <a class="search-link" href="/search/" aria-label="Search articles"
+            ><Icon name="search" /></a
+          >
+        </nav>
+        <div class="mobile-toolbar">
+          <a class="mobile-help" href="/get-help/">Get Help</a>
+          <details class="mobile-menu">
+            <summary>Menu</summary>
+            <nav aria-label="Mobile navigation">
+              <a href="/blog/">Articles</a><a href="/topics/">Topics</a>
+              {showMedia && <a href="/listen-and-watch/">Listen &amp; Watch</a>}
+              <a href="/about/">About</a><a href="/search/"
+                ><Icon name="search" /> Search</a
+              >
+            </nav>
+          </details>
+        </div>
+      </div>
+    </header>
+    <main id="main" tabindex="-1"><slot /></main>
+    <footer class="site-footer" data-pagefind-ignore>
+      <div class="container footer-top">
+        <div>
+          <a class="footer-brand" href="/"
+            >{site.name}<span aria-hidden="true">.</span></a
+          ><p>Clear words. A calmer perspective.</p><p class="fine-print">
+            Educational reading for everyday life.<br />A starting point, at
+            your own pace.
+          </p>
+        </div><div class="footer-links">
+          <div>
+            <p class="eyebrow">Explore</p><a href="/blog/">All articles</a><a
+              href="/topics/">Browse topics</a
+            ><a href="/start-here/">Start here</a><a href="/newsletter/"
+              >Newsletter</a
+            >{showMedia && <a href="/listen-and-watch/">Listen &amp; Watch</a>}
+          </div><div>
+            <p class="eyebrow">Our approach</p><a href="/about/"
+              >About this blog</a
+            ><a href="/editorial-policy/">Editorial policy</a><a
+              href="/get-help/">Get help</a
+            ><a href="/contact/">Contact</a><a href="/content-guidelines/"
+              >Content guidelines</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <p>© {new Date().getUTCFullYear()} {site.name}</p><div>
+          <a href="/privacy/">Privacy</a><a href="/disclaimer/">Disclaimer</a><a
+            href="/terms/">Terms</a
+          ><a href="/accessibility/">Accessibility</a><a href="/rss.xml">RSS</a>
+        </div>
+      </div>
+      <p class="container fine-print footer-note">
+        For education and general information. This site does not provide
+        diagnosis, treatment, or crisis support.
+      </p>
+    </footer>
+  </body>
+</html>

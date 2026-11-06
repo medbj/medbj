@@ -1,0 +1,74 @@
+[
+  {
+    "route": "/",
+    "width": 375,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 10
+      }
+    ]
+  },
+  {
+    "route": "/blog/when-your-mind-wont-slow-down/",
+    "width": 375,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 5
+      }
+    ]
+  },
+  {
+    "route": "/search/#q=sleep",
+    "width": 375,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 12
+      }
+    ]
+  },
+  {
+    "route": "/get-help/",
+    "width": 375,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 1
+      }
+    ]
+  },
+  {
+    "route": "/",
+    "width": 1280,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 12
+      }
+    ]
+  },
+  {
+    "route": "/blog/when-your-mind-wont-slow-down/",
+    "width": 1280,
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "nodes": 6
+      }
+    ]
+  }
+]

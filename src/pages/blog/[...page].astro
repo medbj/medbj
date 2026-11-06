@@ -1,0 +1,95 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import type { Article } from '../../lib/content';
+import Base from '../../layouts/Base.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { articles } from '../../lib/content';
+import { topics } from '../../lib/topics';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  return paginate(await articles(), { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<Article>;
+}
+const { page } = Astro.props;
+const title =
+  page.currentPage === 1 ? 'Articles' : `Articles — page ${page.currentPage}`;
+---
+
+<Base
+  title={title}
+  description={page.currentPage === 1
+    ? 'Thoughtful, plain-language reads about psychology and everyday wellbeing. Browse the latest articles or find a topic that fits your day.'
+    : `More plain-language reads about psychology and everyday wellbeing. Article page ${page.currentPage} of ${page.lastPage}, with links to every topic.`}
+>
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">At your own pace</p><h1>Something to sit with.</h1><p>
+        Thoughtful reads for the feelings, questions, and small moments that
+        make us human.
+      </p>
+    </header>
+    <nav class="filters" aria-label="Filter articles by topic">
+      <a href="/blog/" aria-current="page">All articles</a>
+      {
+        topics.map((topic) => (
+          <a href={`/topics/${topic.slug}/`}>{topic.name}</a>
+        ))
+      }
+    </nav>
+    <section aria-labelledby="article-list-heading">
+      <h2 id="article-list-heading">
+        {page.currentPage === 1 ? 'The latest reads' : 'More to explore'}
+      </h2>
+      {
+        page.data.some((article) => article.data.sample) && (
+          <p class="fine-print">
+            Educational sample articles, awaiting human editorial review.
+          </p>
+        )
+      }
+
+      <div class="article-grid">
+        {page.data.map((article) => <ArticleCard article={article} />)}
+      </div>
+      {
+        page.lastPage > 1 && (
+          <nav class="pagination" aria-label="Article pages">
+            {page.url.prev && (
+              <a href={page.url.prev} rel="prev">
+                Previous
+              </a>
+            )}
+            {Array.from({ length: page.lastPage }, (_, index) => index + 1).map(
+              (number) => (
+                <a
+                  href={number === 1 ? '/blog/' : `/blog/${number}/`}
+                  aria-current={
+                    number === page.currentPage ? 'page' : undefined
+                  }
+                  aria-label={`Page ${number}`}
+                >
+                  {number}
+                </a>
+              ),
+            )}
+            {page.url.next && (
+              <a href={page.url.next} rel="next">
+                Next
+              </a>
+            )}
+          </nav>
+        )
+      }
+    </section>
+    <div class="section">
+      <p>
+        Not sure where to begin? <a href="/start-here/"
+          >Find a gentle starting point</a
+        >.
+      </p>
+    </div>
+  </div>
+</Base>

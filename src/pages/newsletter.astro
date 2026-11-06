@@ -1,0 +1,36 @@
+---
+import { site } from '../site.config';
+import Base from '../layouts/Base.astro';
+import Newsletter from '../components/Newsletter.astro';
+---
+
+<Base
+  title="Newsletter"
+  description={`New reads and gentle reminders from ${site.name}. Check newsletter availability or follow our RSS feed.`}
+>
+  <div class="container narrow section">
+    <header class="page-head">
+      <p class="eyebrow">Stay a little longer</p><h1>
+        A note worth pausing for.
+      </h1><p>
+        Thoughtful reading about everyday wellbeing, with space to take it at
+        your own pace.
+      </p>
+    </header>
+    <Newsletter full />
+    <div class="prose">
+      <h2>What to expect</h2><p>
+        When the newsletter opens, it will share new articles and occasional
+        reading suggestions. There is no need to share a personal story or
+        health information to subscribe.
+      </p><p>
+        Signup uses an external email provider. Confirming your email is
+        required before subscription, and you can unsubscribe from any issue.
+        Read our <a href="/privacy/">privacy notice</a> for the current setup.
+      </p><h2>Prefer a feed?</h2><p>
+        <a href="/rss.xml">Follow the RSS feed</a> in your preferred reader. It is
+        an easy way to see new articles without sharing an email address.
+      </p>
+    </div>
+  </div>
+</Base>

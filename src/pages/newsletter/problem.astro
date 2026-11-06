@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../site.config';
+---
+
+<Base
+  title="Newsletter signup help"
+  description="Help with newsletter signup, connection problems, and confirmation emails, plus an RSS alternative."
+  noindex
+>
+  <div class="container narrow section">
+    <header class="page-head">
+      <p class="eyebrow">Newsletter signup help</p><h1>
+        Take a moment, then try again.
+      </h1><p>
+        A connection or provider problem can get in the way. This page does not
+        establish whether a signup request succeeded.
+      </p>
+    </header>
+    <div class="prose">
+      <h2>Check your connection and email address</h2><p>
+        If you are offline, reconnect before trying again. Use a complete email
+        address, such as name@example.com, and check it for typing mistakes.
+      </p>
+      <h2>Follow the email provider's instructions</h2><p>
+        The signup form sends your request directly to the email provider. If
+        its page shows an error or extra steps, follow those instructions. If
+        the provider is unavailable, wait and try again later.
+      </p>
+      <p>
+        We cannot check a subscription from this page. Do not send private
+        health information through a signup field.
+      </p>
+      <h2>Look for a confirmation email</h2><p>
+        Check your inbox and spam or junk folder. A request is not an active
+        subscription until you complete the provider's confirmation process. <a
+          href="/newsletter/confirm/">Read the confirmation guidance</a
+        >.
+      </p>
+      {
+        site.newsletter.action ? (
+          <p>
+            <a class="button" href="/newsletter/#newsletter-signup">
+              Try signup again
+            </a>
+          </p>
+        ) : (
+          <div class="callout">
+            <>
+              <h2>The newsletter is coming soon.</h2>
+              <p>
+                Signup is not connected in this version of the site. You can
+                check the <a href="/newsletter/">newsletter page</a> for
+                availability.
+              </p>
+            </>
+          </div>
+        )
+      }
+      <h2>Another way to follow along</h2><p>
+        The <a href="/rss.xml">RSS feed</a> works with your preferred feed reader
+        and does not ask for an email address. Or <a href="/blog/"
+          >explore the articles</a
+        > whenever you like.
+      </p>
+    </div>
+  </div>
+</Base>
