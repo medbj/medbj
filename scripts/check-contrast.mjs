@@ -16,7 +16,7 @@ function luminance(hex) {
 }
 let failures = 0;
 const pairs = [];
-for (const foreground of ['ink', 'muted', 'link', 'link-hover']) {
+for (const foreground of ['ink', 'brand', 'muted', 'link', 'link-hover']) {
   for (const background of ['white', 'sand', 'sand-soft'])
     pairs.push([foreground, background, 4.5]);
 }
