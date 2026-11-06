@@ -8,6 +8,8 @@
 - `npm run check`: strict Astro and TypeScript validation.
 - `npm run lint`: ESLint.
 - `npm run format` / `npm run format:check`: Prettier with Astro support.
+- `npm run check:launch`: public-release gate; expected to fail on samples, unverified resources, legal drafts, or missing human/provider settings.
+- `npm run test:guards`: six isolated content/launch safeguard cases.
 - `npm run check:site`: verify built routes, links, metadata, search, media gating, and content contracts.
 - `npm run preview`: serve the complete built site, including Pagefind.
 

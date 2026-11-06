@@ -19,3 +19,5 @@
 - The explicit Arial, exact palette, no animation on load, minimal JavaScript, and no invented endorsements requirements override conflicting MotionDesign defaults for fonts, GSAP, and partner marquees.
 - Retain the twelve existing clearly marked sample articles as a superset of the requested four so established guided reading paths remain complete.
 - Store the four supplied crisis numbers as unverified seed data, hide unverified numbers from actionable reader resources, and fail the public-launch gate until human verification is recorded.
+- The full-brief build passed local browser, optional-integration, and Lighthouse targets; preserve private access while human editorial, crisis-resource, legal, and provider launch requirements remain incomplete.
+- Keep the existing Sites URL for this private review and use a review branch in the selected GitHub repository rather than changing its default branch.

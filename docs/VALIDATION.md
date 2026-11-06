@@ -1,3 +1,5 @@
+> Historical record for the earlier English prototype. Current complete-brief MENA Psychology results are in [QA.md](QA.md).
+
 # Validation record
 
 Checked on 6 November 2026. This is an engineering verification record, not clinical review, legal review, or accessibility certification.
