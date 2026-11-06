@@ -128,7 +128,7 @@ Follow `docs/LAUNCH.md` as well as these deployment checks. Keep private review 
 - Confirm the header's Get Help link remains available on a phone.
 - Search for a real article phrase and test a query with no results. Pagefind needs HTTP(S), so do not test by double-clicking HTML files.
 - Test pagination and topic filtering, keyboard focus, and the newsletter's real provider flow.
-- Confirm `/rss.xml`, `/sitemap-index.xml`, and `/robots.txt` use the intended origin.
+- Confirm `/rss.xml`, `/sitemap.xml`, `/sitemap-index.xml`, and `/robots.txt` use the intended origin, and that the favicon and Apple touch icon load.
 - With media disabled, confirm `/listen-and-watch` returns 404 and no navigation or teaser links to it remain.
 - With media enabled and genuine content added, confirm no YouTube request occurs before clicking the video facade.
 - If analytics are off, confirm no analytics scripts are requested. If enabled, inspect the network requests and privacy notice.

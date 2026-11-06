@@ -1,0 +1,620 @@
+{
+  "auditedOn": "2026-11-06",
+  "browser": {
+    "pages": 40,
+    "layoutCases": 200,
+    "widths": [320, 375, 390, 768, 1280],
+    "failures": [],
+    "errors": [],
+    "outsideRequests": [],
+    "flows": [
+      {
+        "name": "keyboard-menu-help",
+        "passed": true
+      },
+      {
+        "name": "search-results-and-empty-state",
+        "passed": true,
+        "results": [
+          "When sleep doesn’t come easily",
+          "Key takeaways",
+          "Take blame out of the picture",
+          "Make a note for a conversation",
+          "A gentler way to end your day",
+          "Key takeaways",
+          "Leave room for support",
+          "References and further reading",
+          "Making room for worry without giving it the whole day",
+          "Leave room for help",
+          "When your mind won’t slow down",
+          "Know when to ask for support"
+        ]
+      },
+      {
+        "name": "pagination-reading-paths-article",
+        "passed": true,
+        "anchors": [
+          {
+            "href": "#anxiety",
+            "exists": true
+          },
+          {
+            "href": "#sleep",
+            "exists": true
+          },
+          {
+            "href": "#low-mood",
+            "exists": true
+          },
+          {
+            "href": "#stress",
+            "exists": true
+          },
+          {
+            "href": "#self-kindness",
+            "exists": true
+          }
+        ]
+      },
+      {
+        "name": "icons-sitemaps-robots-404s",
+        "passed": true,
+        "resources": [
+          {
+            "route": "/favicon.svg",
+            "status": 200,
+            "type": "image/svg+xml",
+            "bytes": 243
+          },
+          {
+            "route": "/favicon.ico",
+            "status": 200,
+            "type": "image/x-icon",
+            "bytes": 1805
+          },
+          {
+            "route": "/favicon-32x32.png",
+            "status": 200,
+            "type": "image/png",
+            "bytes": 557
+          },
+          {
+            "route": "/apple-touch-icon.png",
+            "status": 200,
+            "type": "image/png",
+            "bytes": 3073
+          },
+          {
+            "route": "/sitemap.xml",
+            "status": 200,
+            "type": "text/xml",
+            "bytes": 267
+          },
+          {
+            "route": "/sitemap-index.xml",
+            "status": 200,
+            "type": "text/xml",
+            "bytes": 267
+          },
+          {
+            "route": "/sitemap-0.xml",
+            "status": 200,
+            "type": "text/xml",
+            "bytes": 5046
+          },
+          {
+            "route": "/robots.txt",
+            "status": 200,
+            "type": "text/plain",
+            "bytes": 125
+          },
+          {
+            "route": "/rss.xml",
+            "status": 200,
+            "type": "text/xml",
+            "bytes": 6640
+          }
+        ]
+      },
+      {
+        "name": "no-javascript-navigation-search-newsletter",
+        "passed": true
+      },
+      {
+        "name": "200-percent-zoom-equivalent-reflow",
+        "passed": true,
+        "cssWidth": 640,
+        "physicalWidth": 1280
+      }
+    ]
+  },
+  "metadata": [
+    {
+      "route": "/404.html",
+      "title": "Page not found | MENA Psychology",
+      "description": "This page could not be found. Find your way back to articles and topics on MENA Psychology."
+    },
+    {
+      "route": "/about/",
+      "title": "About | MENA Psychology",
+      "description": "Why MENA Psychology exists, how we approach everyday wellbeing, and what to expect from our articles."
+    },
+    {
+      "route": "/accessibility/",
+      "title": "Accessibility | MENA Psychology",
+      "description": "Accessibility features, known limits, and feedback availability for MENA Psychology."
+    },
+    {
+      "route": "/blog/2/",
+      "title": "Articles — page 2 | MENA Psychology",
+      "description": "More plain-language reads about psychology and everyday wellbeing. Article page 2 of 2, with links to every topic."
+    },
+    {
+      "route": "/blog/a-gentler-way-to-end-your-day/",
+      "title": "A gentler way to end your day | MENA Psychology",
+      "description": "Make an evening routine that leaves room for the life you actually have."
+    },
+    {
+      "route": "/blog/a-habit-small-enough-to-keep/",
+      "title": "A habit small enough to keep | MENA Psychology",
+      "description": "Begin with an action that fits your day rather than an ideal version of it."
+    },
+    {
+      "route": "/blog/boundaries-that-leave-room-for-kindness/",
+      "title": "Boundaries that leave room for kindness | MENA Psychology",
+      "description": "Simple words for saying what you can offer and what you need."
+    },
+    {
+      "route": "/blog/",
+      "title": "Articles | MENA Psychology",
+      "description": "Thoughtful, plain-language reads about psychology and everyday wellbeing. Browse the latest articles or find a topic that fits your day."
+    },
+    {
+      "route": "/blog/making-room-for-worry/",
+      "title": "Making room for worry without giving it the whole day | MENA Psychology",
+      "description": "A simple way to think about concerns that keep asking for your attention."
+    },
+    {
+      "route": "/blog/noticing-your-stress-signals/",
+      "title": "Noticing your stress signals | MENA Psychology",
+      "description": "Make space to notice what a demanding week is asking of you."
+    },
+    {
+      "route": "/blog/rest-is-part-of-the-work/",
+      "title": "Rest is part of the work | MENA Psychology",
+      "description": "A kinder look at breaks, limits, and the pressure to keep going."
+    },
+    {
+      "route": "/blog/small-steps-on-low-days/",
+      "title": "Small steps on low days | MENA Psychology",
+      "description": "How to make the next task more manageable when everything feels like a lot."
+    },
+    {
+      "route": "/blog/speaking-to-yourself-with-more-care/",
+      "title": "Speaking to yourself with more care | MENA Psychology",
+      "description": "Find words that are honest without making a hard moment harsher."
+    },
+    {
+      "route": "/blog/starting-again-is-part-of-change/",
+      "title": "Starting again is part of change | MENA Psychology",
+      "description": "A kinder way to return to something you care about after a pause."
+    },
+    {
+      "route": "/blog/there-is-no-right-way-to-grieve/",
+      "title": "There is no single right way to grieve | MENA Psychology",
+      "description": "A gentle introduction to loss, changing needs, and finding support."
+    },
+    {
+      "route": "/blog/when-sleep-doesnt-come/",
+      "title": "When sleep doesn’t come easily | MENA Psychology",
+      "description": "A compassionate response to nights that do not go to plan."
+    },
+    {
+      "route": "/blog/when-your-mind-wont-slow-down/",
+      "title": "When your mind won’t slow down | MENA Psychology",
+      "description": "A gentle starting point for busy thoughts, everyday worry, and knowing when to reach out."
+    },
+    {
+      "route": "/contact/",
+      "title": "Contact | MENA Psychology",
+      "description": "Contact availability, corrections, and ways to follow MENA Psychology."
+    },
+    {
+      "route": "/content-guidelines/",
+      "title": "Content guidelines | MENA Psychology",
+      "description": "Our safe-messaging and respectful-language standards for educational mental health writing."
+    },
+    {
+      "route": "/disclaimer/",
+      "title": "Medical disclaimer | MENA Psychology",
+      "description": "The limits of this website's educational mental health information and where to find support."
+    },
+    {
+      "route": "/editorial-policy/",
+      "title": "Editorial policy | MENA Psychology",
+      "description": "How educational articles are prepared, sourced, labelled, and reviewed, including the process still awaiting owner confirmation."
+    },
+    {
+      "route": "/get-help/",
+      "title": "Get Help | MENA Psychology",
+      "description": "Find global support directories and guidance for urgent or ongoing support, with local resources shown only after verification."
+    },
+    {
+      "route": "/",
+      "title": "Psychology for everyday life | MENA Psychology",
+      "description": "Clear, thoughtful reads on psychology and everyday wellbeing. Find a starting point, explore a feeling, and take things at your own pace."
+    },
+    {
+      "route": "/newsletter/confirm/",
+      "title": "Newsletter next steps | MENA Psychology",
+      "description": "How to confirm an email subscription and what to try if a confirmation email does not arrive."
+    },
+    {
+      "route": "/newsletter/",
+      "title": "Newsletter | MENA Psychology",
+      "description": "New reads and gentle reminders from MENA Psychology. Check newsletter availability or follow our RSS feed."
+    },
+    {
+      "route": "/newsletter/problem/",
+      "title": "Newsletter signup help | MENA Psychology",
+      "description": "Help with newsletter signup, connection problems, and confirmation emails, plus an RSS alternative."
+    },
+    {
+      "route": "/privacy/",
+      "title": "Privacy | MENA Psychology",
+      "description": "How reading, search, newsletter subscriptions, optional analytics, and external media handle information on this website."
+    },
+    {
+      "route": "/search/",
+      "title": "Search | MENA Psychology",
+      "description": "Search MENA Psychology articles by topic, feeling, or keyword. Your search stays in your browser and is not sent to a remote search provider."
+    },
+    {
+      "route": "/start-here/",
+      "title": "Start here | MENA Psychology",
+      "description": "Five gentle reading paths for anxious thoughts, difficult nights, low days, feeling overwhelmed, and being kinder to yourself."
+    },
+    {
+      "route": "/styleguide/",
+      "title": "Styleguide | MENA Psychology",
+      "description": "The internal design reference for MENA Psychology: color tokens, readable typography, controls, and article components."
+    },
+    {
+      "route": "/terms/",
+      "title": "Terms | MENA Psychology",
+      "description": "Draft terms for reading, linking to, and using the educational content on this website."
+    },
+    {
+      "route": "/topics/anxiety/",
+      "title": "Anxiety | MENA Psychology",
+      "description": "Make a little room around worry, uncertainty, and a busy mind."
+    },
+    {
+      "route": "/topics/grief-loss/",
+      "title": "Grief & loss | MENA Psychology",
+      "description": "Space for loss, change, and your own way through."
+    },
+    {
+      "route": "/topics/habits-growth/",
+      "title": "Habits & growth | MENA Psychology",
+      "description": "Small, thoughtful changes that fit your everyday life."
+    },
+    {
+      "route": "/topics/",
+      "title": "Topics | MENA Psychology",
+      "description": "Explore articles about anxiety, low mood, stress, relationships, sleep, self-esteem, grief, and everyday growth."
+    },
+    {
+      "route": "/topics/low-mood/",
+      "title": "Low mood | MENA Psychology",
+      "description": "Gentle ways to understand difficult days and find support."
+    },
+    {
+      "route": "/topics/relationships/",
+      "title": "Relationships | MENA Psychology",
+      "description": "Connection, communication, and the boundaries we need."
+    },
+    {
+      "route": "/topics/self-esteem/",
+      "title": "Self-esteem | MENA Psychology",
+      "description": "Meet yourself with less judgment and more understanding."
+    },
+    {
+      "route": "/topics/sleep/",
+      "title": "Sleep | MENA Psychology",
+      "description": "A calmer relationship with rest, one evening at a time."
+    },
+    {
+      "route": "/topics/stress-burnout/",
+      "title": "Stress & burnout | MENA Psychology",
+      "description": "Notice your limits and explore a more sustainable pace."
+    }
+  ],
+  "accessibility": [
+    {
+      "page": "/",
+      "width": 375,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 4,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/blog/when-your-mind-wont-slow-down/",
+      "width": 375,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 8,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node",
+            "Element's background color could not be determined because it is overlapped by another element",
+            "Element content is too short to determine if it is actual text content"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/topics/",
+      "width": 375,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 8,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node",
+            "Element's background color could not be determined because it is overlapped by another element"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/get-help/",
+      "width": 375,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 4,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/search/",
+      "width": 375,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 4,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/",
+      "width": 1280,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 4,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/blog/when-your-mind-wont-slow-down/",
+      "width": 1280,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 8,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node",
+            "Element's background color could not be determined because it is overlapped by another element",
+            "Element content is too short to determine if it is actual text content"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/topics/",
+      "width": 1280,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 9,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node",
+            "Element's background color could not be determined because it is overlapped by another element"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/get-help/",
+      "width": 1280,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 4,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node"
+          ]
+        }
+      ],
+      "errors": []
+    },
+    {
+      "page": "/search/",
+      "width": 1280,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodeCount": 4,
+          "reasons": [
+            "Element's background color could not be determined because element contains an image node"
+          ]
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "lighthouse": [
+    {
+      "page": "/",
+      "finalUrl": "http://127.0.0.1:4321/",
+      "lighthouseVersion": "13.6.0",
+      "viewport": "375 × 812, device scale 1",
+      "throttling": "Lighthouse simulated mobile throttling",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcpMs": 908.1835000000001,
+      "fcpMs": 908.1835000000001,
+      "cls": 0,
+      "totalBlockingTimeMs": 0,
+      "scriptBytes": 243,
+      "scripts": [
+        {
+          "url": "http://127.0.0.1:4321/_astro/HomeHero.astro_astro_type_script_index_0_lang.CB3h4piw.js",
+          "resourceSize": 243,
+          "transferSize": 564
+        }
+      ],
+      "scoreTargetMet": true,
+      "lcpTargetMet": true,
+      "articleJsTargetMet": true,
+      "incompleteAudits": [],
+      "failingAudits": [
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "score": 0
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "displayValue": "Est savings of 210 ms",
+          "score": 0
+        }
+      ],
+      "runWarnings": [],
+      "limitation": "A single local laboratory run with simulated mobile throttling; not field performance or a guarantee on all devices/connections."
+    },
+    {
+      "page": "/blog/when-your-mind-wont-slow-down/",
+      "finalUrl": "http://127.0.0.1:4321/blog/when-your-mind-wont-slow-down/",
+      "lighthouseVersion": "13.6.0",
+      "viewport": "375 × 812, device scale 1",
+      "throttling": "Lighthouse simulated mobile throttling",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 100
+      },
+      "lcpMs": 906.8720000000001,
+      "fcpMs": 906.8720000000001,
+      "cls": 0,
+      "totalBlockingTimeMs": 0,
+      "scriptBytes": 0,
+      "scripts": [],
+      "scoreTargetMet": true,
+      "lcpTargetMet": true,
+      "articleJsTargetMet": true,
+      "incompleteAudits": [],
+      "failingAudits": [
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "score": 0
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "displayValue": "Est savings of 290 ms",
+          "score": 0
+        }
+      ],
+      "runWarnings": [],
+      "limitation": "A single local laboratory run with simulated mobile throttling; not field performance or a guarantee on all devices/connections."
+    }
+  ],
+  "secrets": {
+    "scanner": "Gitleaks 8.24.3",
+    "scopes": [
+      "all available Git history",
+      "current source snapshot",
+      "deployment output"
+    ],
+    "extraRules": [
+      "literal password/API key/client secret",
+      "password in service URL"
+    ],
+    "findings": {
+      "history": 0,
+      "source": 0,
+      "build": 0
+    },
+    "trackedSensitiveFiles": [".env.example (blank optional provider settings)"]
+  },
+  "engineeringChecks": {
+    "types": "passed: zero errors/warnings/hints",
+    "build": "passed",
+    "builtSite": "passed: 40 pages, 12 published articles, 2159 local links/assets",
+    "guardCases": "6 passed"
+  },
+  "publicLaunch": {
+    "status": "blocked",
+    "failures": 36,
+    "reason": "Existing sample content, article review, unverified support resources, legal/editorial review, final-domain configuration, and real newsletter setup."
+  },
+  "limitations": [
+    "Chromium emulation rather than physical-device testing",
+    "Zoom-equivalent viewport reflow rather than native browser zoom control",
+    "Single local Lighthouse runs rather than field data",
+    "Human review of incomplete Axe contrast nodes remains"
+  ]
+}

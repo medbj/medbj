@@ -13,7 +13,7 @@ const latest = (await articles()).slice(0, 3);
 const showMedia = await mediaAvailable();
 ---
 
-<Base title={site.name}>
+<Base title="Psychology for everyday life" description={site.description}>
   <div class="container home-layout">
     <HomeHero />
     <div class="home-principles">
