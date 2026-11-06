@@ -8,7 +8,7 @@ export async function GET() {
     site: site.url,
     items: (await articles()).map((article) => ({
       title: article.data.title,
-      pubDate: article.data.published,
+      pubDate: article.data.date,
       description: `${article.data.sample ? 'Sample article. Awaiting human editorial review. ' : ''}${article.data.description}`,
       link: articleUrl(article),
       categories: [article.data.topic],

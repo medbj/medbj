@@ -29,7 +29,7 @@ const jsonLd = {
   '@type': 'Article',
   headline: article.data.title,
   description: article.data.description,
-  datePublished: article.data.published.toISOString(),
+  datePublished: article.data.date.toISOString(),
   dateModified: article.data.updated.toISOString(),
   inLanguage: article.data.lang,
   author: { '@type': 'Organization', name: article.data.author },
@@ -71,8 +71,8 @@ const jsonLd = {
             {article.data.description}
           </p><div class="article-meta">
             <span>By <a href="/about/">{article.data.author}</a></span><span
-              >Published <time datetime={article.data.published.toISOString()}
-                >{dateLabel(article.data.published)}</time
+              >Published <time datetime={article.data.date.toISOString()}
+                >{dateLabel(article.data.date)}</time
               ></span
             ><span
               >Updated <time datetime={article.data.updated.toISOString()}
@@ -90,7 +90,7 @@ const jsonLd = {
         </header>
         <section class="takeaways" aria-labelledby="takeaways-heading">
           <h2 id="takeaways-heading">Key takeaways</h2><ul>
-            {article.data.takeaways.map((takeaway) => <li>{takeaway}</li>)}
+            {article.data.keyTakeaways.map((takeaway) => <li>{takeaway}</li>)}
           </ul>
         </section>
         {

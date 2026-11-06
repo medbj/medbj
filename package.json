@@ -5,14 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
-    "build": "npm run check:contrast && ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/generate-headers.mjs && pagefind --site dist",
+    "build": "npm run check:content && npm run check:contrast && ASTRO_TELEMETRY_DISABLED=1 astro build && node scripts/generate-headers.mjs && pagefind --site dist",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "check:contrast": "node scripts/check-contrast.mjs",
-    "check:site": "node scripts/check-site.mjs"
+    "check:site": "node scripts/check-site.mjs",
+    "check:content": "node scripts/check-content.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
@@ -30,6 +31,7 @@
     "prettier": "^3.6.0",
     "prettier-plugin-astro": "^0.14.0",
     "typescript": "^5.9.0",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "yaml": "^2.9.1"
   }
 }
