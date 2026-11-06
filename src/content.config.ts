@@ -14,7 +14,10 @@ const topic = z.enum([
 ]);
 const slug = z
   .string()
-  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Use a short lowercase slug with single hyphens');
+  .regex(
+    /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+    'Use a short lowercase slug with single hyphens',
+  );
 const isoDate = z
   .preprocess(
     (value) =>
@@ -39,7 +42,9 @@ const externalUrl = z
   .refine((value) => /^https?:\/\//.test(value), 'Use an HTTP or HTTPS URL');
 const transcriptUrl = z.union([
   externalUrl,
-  z.string().regex(/^\/(?!\/)[^\s]*$/, 'Use a site-relative path or an HTTPS URL'),
+  z
+    .string()
+    .regex(/^\/(?!\/)[^\s]*$/, 'Use a site-relative path or an HTTPS URL'),
 ]);
 const cover = z
   .object({
@@ -94,12 +99,16 @@ const posts = defineCollection({
         context.addIssue({
           code: z.ZodIssueCode.custom,
           path: ['reviewedOn'],
-          message: 'A published non-sample post needs a genuine human review date; samples and drafts may use null',
+          message:
+            'A published non-sample post needs a genuine human review date; samples and drafts may use null',
         });
     }),
 });
 const media = defineCollection({
-  loader: glob({ pattern: '**/*.{yaml,yml,json}', base: './src/content/media' }),
+  loader: glob({
+    pattern: '**/*.{yaml,yml,json}',
+    base: './src/content/media',
+  }),
   schema: z
     .object({
       type: z.enum(['podcast', 'video']),
@@ -109,7 +118,10 @@ const media = defineCollection({
       topic,
       lang: nonempty.default('en'),
       dir: z.enum(['ltr', 'rtl', 'auto']).default('ltr'),
-      youtubeId: z.string().regex(/^[\w-]{11}$/).optional(),
+      youtubeId: z
+        .string()
+        .regex(/^[\w-]{11}$/)
+        .optional(),
       links: z
         .object({
           spotify: externalUrl.optional(),
@@ -128,9 +140,32 @@ const media = defineCollection({
     .strict()
     .superRefine((data, context) => {
       const hasPlatform = Object.values(data.links).some(Boolean);
-      if (!data.sample && data.type === 'podcast' && !hasPlatform) context.addIssue({ code: z.ZodIssueCode.custom, path: ['links'], message: 'A released podcast requires a genuine platform or website link' });
-      if (!data.sample && data.type === 'video' && !hasPlatform && !data.youtubeId) context.addIssue({ code: z.ZodIssueCode.custom, path: ['links'], message: 'A released video requires a genuine platform link or YouTube ID' });
-      if (data.thumbnail && !/^\/(?!\/)/.test(data.thumbnail.src)) context.addIssue({ code: z.ZodIssueCode.custom, path: ['thumbnail','src'], message: 'Use a local thumbnail to avoid third-party requests before consent' });
+      if (!data.sample && data.type === 'podcast' && !hasPlatform)
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['links'],
+          message:
+            'A released podcast requires a genuine platform or website link',
+        });
+      if (
+        !data.sample &&
+        data.type === 'video' &&
+        !hasPlatform &&
+        !data.youtubeId
+      )
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['links'],
+          message:
+            'A released video requires a genuine platform link or YouTube ID',
+        });
+      if (data.thumbnail && !/^\/(?!\/)/.test(data.thumbnail.src))
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['thumbnail', 'src'],
+          message:
+            'Use a local thumbnail to avoid third-party requests before consent',
+        });
     }),
 });
 export const collections = { posts, media };

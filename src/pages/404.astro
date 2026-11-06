@@ -1,11 +1,12 @@
 ---
+import { site } from '../site.config';
 import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 ---
 
 <Base
   title="Page not found"
-  description="This page could not be found. Find your way back to articles and topics on Psychology Blog."
+  description={`This page could not be found. Find your way back to articles and topics on ${site.name}.`}
   noindex
 >
   <div class="container narrow section">

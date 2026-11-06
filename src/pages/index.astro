@@ -83,11 +83,14 @@ const showMedia = await mediaAvailable();
     <div class="article-grid">
       {latest.map((article) => <ArticleCard article={article} />)}
     </div>
-    <p class="home-sample-note">
-      These are sample articles, awaiting human editorial review. <a
-        href="/editorial-policy/">How we approach our content</a
-      >
-    </p>
+    {
+      latest.some((article) => article.data.sample) && (
+        <p class="home-sample-note">
+          These are sample articles, awaiting human editorial review.{' '}
+          <a href="/editorial-policy/">How we approach our content</a>
+        </p>
+      )
+    }
   </section>
   <section class="container" aria-labelledby="start-heading">
     <div class="start-band">

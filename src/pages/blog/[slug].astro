@@ -68,7 +68,8 @@ const printLinks = [
     <div class="page-head">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <a href="/blog/">Articles</a><span aria-hidden="true">/</span><a
-          href={`/topics/${topic.slug}/`}>{topic.name}</a>
+          href={`/topics/${topic.slug}/`}>{topic.name}</a
+        >
       </nav>
     </div>
     <div class="article-layout">
@@ -168,10 +169,21 @@ const printLinks = [
             >
               {authorName}
             </p>
-            {site.author.bio && authorName === site.author.name ? <p>{site.author.bio}</p> : <p>No professional qualifications or clinical review are claimed by this attribution. An author biography will be added when it has been confirmed.</p>}
+            {
+              site.author.bio && authorName === site.author.name ? (
+                <p>{site.author.bio}</p>
+              ) : (
+                <p>
+                  No professional qualifications or clinical review are claimed
+                  by this attribution. An author biography will be added when it
+                  has been confirmed.
+                </p>
+              )
+            }
             <p>
               <a href="/about/">About this blog</a> · <a
-                href="/editorial-policy/">How our articles are prepared</a>
+                href="/editorial-policy/">How our articles are prepared</a
+              >
             </p>
           </aside>
           <AffiliateNote sensitive={article.data.sensitive} />
@@ -179,7 +191,8 @@ const printLinks = [
           <DisclaimerBox />
           <p>
             <a href={`/topics/${topic.slug}/`}
-              >More on {topic.name.toLowerCase()} <Icon name="arrow" /></a>
+              >More on {topic.name.toLowerCase()} <Icon name="arrow" /></a
+            >
           </p>
           <section
             class="print-footnotes"
@@ -188,8 +201,8 @@ const printLinks = [
           >
             <h2 id="print-links-heading">Links for this printout</h2>
             <p>
-              Article: <span class="print-footnote-url"
-                >{articleCanonical}</span>
+              Article: <span class="print-footnote-url">{articleCanonical}</span
+              >
             </p>
             <ol>
               {
@@ -212,7 +225,8 @@ const printLinks = [
           >
             Whatever you are feeling, you can explore what support is available.
           </p><a class="text-link" href="/get-help/"
-            >Find support <Icon name="external" /></a>
+            >Find support <Icon name="external" /></a
+          >
         </div>
       </aside>
     </div>

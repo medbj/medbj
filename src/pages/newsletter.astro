@@ -1,11 +1,12 @@
 ---
+import { site } from '../site.config';
 import Base from '../layouts/Base.astro';
 import Newsletter from '../components/Newsletter.astro';
 ---
 
 <Base
   title="Newsletter"
-  description="New reads and gentle reminders from Psychology Blog. Check newsletter availability or follow our RSS feed."
+  description={`New reads and gentle reminders from ${site.name}. Check newsletter availability or follow our RSS feed.`}
 >
   <div class="container narrow section">
     <header class="page-head">

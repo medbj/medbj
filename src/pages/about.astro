@@ -1,11 +1,12 @@
 ---
+import { site } from '../site.config';
 import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 ---
 
 <Base
   title="About"
-  description="Why Psychology Blog exists, how we approach everyday wellbeing, and what to expect from our articles."
+  description={`Why ${site.name} exists, how we approach everyday wellbeing, and what to expect from our articles.`}
 >
   <div class="container narrow section">
     <header class="page-head">
@@ -19,9 +20,9 @@ import Base from '../layouts/Base.astro';
     <div class="prose">
       <h2>Our purpose</h2>
       <p>
-        Psychology Blog shares educational reading about emotions,
-        relationships, rest, and everyday life. We aim to explain ideas in plain
-        English, without judgment or pressure to feel better on a schedule.
+        {site.name} shares educational reading about emotions, relationships, rest,
+        and everyday life. We aim to explain ideas in plain English, without judgment
+        or pressure to feel better on a schedule.
       </p>
       <p>
         You can explore a topic, follow a short reading path, or read one
@@ -31,9 +32,9 @@ import Base from '../layouts/Base.astro';
       <h2>Who writes this blog?</h2>
       <p>
         This is an early version of an independent educational project. Articles
-        are currently sample drafts attributed to the project, Psychology Blog.
-        An individual author biography has not yet been supplied. We do not
-        claim that these drafts have been reviewed by a clinician.
+        are currently sample drafts attributed to “Editorial team”. An
+        individual author biography has not yet been supplied. We do not claim
+        that these drafts have been reviewed by a clinician.
       </p>
       <p>
         Before a public launch, the site owner needs to confirm authorship, add

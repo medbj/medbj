@@ -4,18 +4,37 @@ import MediaCard from '../components/MediaCard.astro';
 import { mediaItems } from '../lib/media';
 import { mediaJsonLd, serializeJsonLd } from '../lib/seo';
 const media = await mediaItems();
-const structuredMedia = media.map((item) => mediaJsonLd(item.data)).filter(Boolean);
+const structuredMedia = media
+  .map((item) => mediaJsonLd(item.data))
+  .filter(Boolean);
 // The config integration omits this route when disabled or the collection is empty.
 ---
 
-<Base title="Listen & Watch" description="Conversations and short videos about everyday wellbeing, with written descriptions, reading alternatives, and transcripts when available.">
-  {structuredMedia.length > 0 && <script slot="head" type="application/ld+json" set:html={serializeJsonLd(structuredMedia)} />}
+<Base
+  title="Listen & Watch"
+  description="Conversations and short videos about everyday wellbeing, with written descriptions, reading alternatives, and transcripts when available."
+>
+  {
+    structuredMedia.length > 0 && (
+      <script
+        slot="head"
+        type="application/ld+json"
+        set:html={serializeJsonLd(structuredMedia)}
+      />
+    )
+  }
   <section class="container page-head">
     <p class="eyebrow">Another way to take it in</p>
     <h1>Listen &amp; Watch</h1>
-    <p>Thoughtful conversations and short videos about everyday wellbeing. Choose a platform, or follow a transcript when one is available.</p>
+    <p>
+      Thoughtful conversations and short videos about everyday wellbeing. Choose
+      a platform, or follow a transcript when one is available.
+    </p>
   </section>
-  <section class="container section media-grid" aria-label="Episodes and videos">
+  <section
+    class="container section media-grid"
+    aria-label="Episodes and videos"
+  >
     {media.map((item) => <MediaCard item={item} />)}
   </section>
 </Base>

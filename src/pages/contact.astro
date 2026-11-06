@@ -1,11 +1,12 @@
 ---
+import { site } from '../site.config';
 import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 ---
 
 <Base
   title="Contact"
-  description="Contact availability, corrections, and ways to follow Psychology Blog."
+  description={`Contact availability, corrections, and ways to follow ${site.name}.`}
 >
   <div class="container narrow section">
     <header class="page-head">

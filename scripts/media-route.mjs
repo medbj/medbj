@@ -2,7 +2,9 @@ import { existsSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 /** Raw-file counterpart of mediaAvailable(), available before Astro loads collections. */
-export function hasMediaFiles(directory = join(process.cwd(), 'src/content/media')) {
+export function hasMediaFiles(
+  directory = join(process.cwd(), 'src/content/media'),
+) {
   if (!existsSync(directory)) return false;
   return readdirSync(directory, { withFileTypes: true }).some((entry) =>
     entry.isDirectory()

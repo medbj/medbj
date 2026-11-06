@@ -1,5 +1,5 @@
 {
-  "name": "psychology-blog",
+  "name": "mena-psychology",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -13,7 +13,10 @@
     "format:check": "prettier --check .",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:site": "node scripts/check-site.mjs",
-    "check:content": "node scripts/check-content.mjs"
+    "check:content": "node scripts/check-content.mjs",
+    "check:launch": "node scripts/check-launch.mjs",
+    "test:guards": "node scripts/check-content.test.mjs",
+    "test:checks": "npm run test:guards"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",

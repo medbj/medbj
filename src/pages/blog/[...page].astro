@@ -20,7 +20,9 @@ const title =
 
 <Base
   title={title}
-  description="Thoughtful, plain-language reads about psychology and everyday wellbeing. Browse the latest articles or find a topic that fits your day."
+  description={page.currentPage === 1
+    ? 'Thoughtful, plain-language reads about psychology and everyday wellbeing. Browse the latest articles or find a topic that fits your day.'
+    : `More plain-language reads about psychology and everyday wellbeing. Article page ${page.currentPage} of ${page.lastPage}, with links to every topic.`}
 >
   <div class="container">
     <header class="page-head">
@@ -41,9 +43,14 @@ const title =
       <h2 id="article-list-heading">
         {page.currentPage === 1 ? 'The latest reads' : 'More to explore'}
       </h2>
-      <p class="fine-print">
-        Educational sample articles, awaiting human editorial review.
-      </p>
+      {
+        page.data.some((article) => article.data.sample) && (
+          <p class="fine-print">
+            Educational sample articles, awaiting human editorial review.
+          </p>
+        )
+      }
+
       <div class="article-grid">
         {page.data.map((article) => <ArticleCard article={article} />)}
       </div>

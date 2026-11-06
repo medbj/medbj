@@ -49,7 +49,10 @@ const filteredArticles = (await articles()).filter(
       </h2>
       <p class="fine-print">
         {filteredArticles.length}
-        {filteredArticles.length === 1 ? 'article' : 'articles'} · Educational samples
+        {filteredArticles.length === 1 ? 'article' : 'articles'}{
+          filteredArticles.some((article) => article.data.sample) &&
+            ' · Educational samples'
+        }
         awaiting human editorial review.
       </p>
       <div class="article-grid">

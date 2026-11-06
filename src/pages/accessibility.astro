@@ -1,10 +1,11 @@
 ---
+import { site } from '../site.config';
 import Base from '../layouts/Base.astro';
 ---
 
 <Base
   title="Accessibility"
-  description="Accessibility features, known limits, and feedback availability for Psychology Blog."
+  description={`Accessibility features, known limits, and feedback availability for ${site.name}.`}
 >
   <div class="container narrow section">
     <header class="page-head">

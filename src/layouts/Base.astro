@@ -11,16 +11,16 @@ interface Props {
   description?: string;
   noindex?: boolean;
   lang?: string;
-  dir?: "ltr" | "rtl" | "auto";
-  type?: "website" | "article";
+  dir?: 'ltr' | 'rtl' | 'auto';
+  type?: 'website' | 'article';
 }
 const {
   title,
   description,
   noindex = false,
-  type = "website",
+  type = 'website',
   lang = site.lang,
-  dir = /^(ar|fa|he|ur)(-|$)/.test(lang) ? "rtl" : "ltr",
+  dir = /^(ar|fa|he|ur)(-|$)/.test(lang) ? 'rtl' : 'ltr',
 } = Astro.props;
 const path = Astro.url.pathname;
 const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
@@ -38,7 +38,13 @@ const showMedia = await mediaAvailable();
       name="viewport"
       content="width=device-width, initial-scale=1"
     />
-    <Meta title={title} description={description} noindex={noindex} lang={lang} type={type} />
+    <Meta
+      title={title}
+      description={description}
+      noindex={noindex}
+      lang={lang}
+      type={type}
+    />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link
@@ -113,7 +119,9 @@ const showMedia = await mediaAvailable();
             <nav aria-label="Mobile navigation">
               <a href="/blog/">Articles</a><a href="/topics/">Topics</a>
               {showMedia && <a href="/listen-and-watch/">Listen &amp; Watch</a>}
-              <a href="/about/">About</a><a href="/search/"><Icon name="search" /> Search</a>
+              <a href="/about/">About</a><a href="/search/"
+                ><Icon name="search" /> Search</a
+              >
             </nav>
           </details>
         </div>
@@ -135,17 +143,15 @@ const showMedia = await mediaAvailable();
               href="/topics/">Browse topics</a
             ><a href="/start-here/">Start here</a><a href="/newsletter/"
               >Newsletter</a
-            >{
-              showMedia && (
-                <a href="/listen-and-watch/">Listen &amp; Watch</a>
-              )
-            }
+            >{showMedia && <a href="/listen-and-watch/">Listen &amp; Watch</a>}
           </div><div>
             <p class="eyebrow">Our approach</p><a href="/about/"
               >About this blog</a
             ><a href="/editorial-policy/">Editorial policy</a><a
               href="/get-help/">Get help</a
-            ><a href="/contact/">Contact</a><a href="/content-guidelines/">Content guidelines</a>
+            ><a href="/contact/">Contact</a><a href="/content-guidelines/"
+              >Content guidelines</a
+            >
           </div>
         </div>
       </div>

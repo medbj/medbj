@@ -1,6 +1,11 @@
 ---
 import { site } from '../site.config';
-import { absoluteUrl, canonicalUrl, serializeJsonLd, siteJsonLd } from '../lib/seo';
+import {
+  absoluteUrl,
+  canonicalUrl,
+  serializeJsonLd,
+  siteJsonLd,
+} from '../lib/seo';
 
 interface Props {
   title: string;
@@ -26,11 +31,17 @@ const {
   imageHeight = 630,
 } = Astro.props;
 const pageTitle = title.trim() || site.name;
-const documentTitle = pageTitle === site.name ? site.name : `${pageTitle} | ${site.name}`;
-const pageDescription = description?.trim() || (pageTitle === site.name ? site.description : `${pageTitle}. ${site.description}`);
+const documentTitle =
+  pageTitle === site.name ? site.name : `${pageTitle} | ${site.name}`;
+const pageDescription =
+  description?.trim() ||
+  (pageTitle === site.name
+    ? site.description
+    : `${pageTitle}. ${site.description}`);
 const canonical = canonicalUrl(Astro.url.pathname);
 const imageUrl = absoluteUrl(image);
 ---
+
 <title>{documentTitle}</title>
 <meta name="description" content={pageDescription} />
 <link rel="canonical" href={canonical} />
@@ -49,4 +60,7 @@ const imageUrl = absoluteUrl(image);
 <meta name="twitter:description" content={pageDescription} />
 <meta name="twitter:image" content={imageUrl} />
 <meta name="twitter:image:alt" content={imageAlt} />
-<script type="application/ld+json" set:html={serializeJsonLd(siteJsonLd(Astro.url.pathname, pageTitle, lang))} />
+<script
+  type="application/ld+json"
+  set:html={serializeJsonLd(siteJsonLd(Astro.url.pathname, pageTitle, lang))}
+/>

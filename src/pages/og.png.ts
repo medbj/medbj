@@ -47,12 +47,20 @@ export const GET: APIRoute = async () => {
   const titleEnd = titleStart + (titleLines.length - 1) * (titleSize + 8);
   const sentences = site.tagline.trim().split(/(?<=[.!?])\s+/);
   const taglineLines =
-    sentences.length > 1 ? sentences.flatMap((line) => wrap(line, 58)) : wrap(site.tagline, 52);
+    sentences.length > 1
+      ? sentences.flatMap((line) => wrap(line, 58))
+      : wrap(site.tagline, 52);
   const title = titleLines
-    .map((line, index) => `<text x="80" y="${titleStart + index * (titleSize + 8)}">${escapeXml(line)}</text>`)
+    .map(
+      (line, index) =>
+        `<text x="80" y="${titleStart + index * (titleSize + 8)}">${escapeXml(line)}</text>`,
+    )
     .join('');
   const tagline = taglineLines
-    .map((line, index) => `<text x="84" y="${titleEnd + 70 + index * 44}">${escapeXml(line)}</text>`)
+    .map(
+      (line, index) =>
+        `<text x="84" y="${titleEnd + 70 + index * 44}">${escapeXml(line)}</text>`,
+    )
     .join('');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
     <rect width="1200" height="630" fill="${white}" />
@@ -63,8 +71,13 @@ export const GET: APIRoute = async () => {
     <text x="84" y="555" fill="${ink}" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif" font-size="22">Psychology and everyday wellbeing</text>
     <text x="84" y="591" fill="${muted}" font-family="Arial, 'Liberation Sans', Helvetica, sans-serif" font-size="18">${escapeXml(new URL(site.url).host)}</text>
   </svg>`;
-  const image = await sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer();
+  const image = await sharp(Buffer.from(svg))
+    .png({ compressionLevel: 9 })
+    .toBuffer();
   return new Response(Uint8Array.from(image), {
-    headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=86400' },
+    headers: {
+      'Content-Type': 'image/png',
+      'Cache-Control': 'public, max-age=86400',
+    },
   });
 };

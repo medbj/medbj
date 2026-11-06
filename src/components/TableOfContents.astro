@@ -18,17 +18,25 @@ const links = sections.some((heading) => heading.slug === 'references')
         <nav aria-label="On this page">
           <ol>
             {links.map((heading) => (
-              <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
+              <li>
+                <a href={`#${heading.slug}`}>{heading.text}</a>
+              </li>
             ))}
           </ol>
         </nav>
       </details>
     ) : (
-      <nav class="toc desktop-toc" aria-label="On this page" data-pagefind-ignore>
+      <nav
+        class="toc desktop-toc"
+        aria-label="On this page"
+        data-pagefind-ignore
+      >
         <p>On this page</p>
         <ol>
           {links.map((heading) => (
-            <li><a href={`#${heading.slug}`}>{heading.text}</a></li>
+            <li>
+              <a href={`#${heading.slug}`}>{heading.text}</a>
+            </li>
           ))}
         </ol>
       </nav>
@@ -36,8 +44,12 @@ const links = sections.some((heading) => heading.slug === 'references')
 }
 
 <style>
-  .desktop-toc { display: none; }
+  .desktop-toc {
+    display: none;
+  }
   @media (min-width: 900px) {
-    .desktop-toc { display: block; }
+    .desktop-toc {
+      display: block;
+    }
   }
 </style>
