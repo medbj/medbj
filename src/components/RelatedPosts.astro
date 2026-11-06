@@ -2,6 +2,7 @@
 import type { Article } from '../lib/content';
 import ArticleCard from './ArticleCard.astro';
 import Icon from './Icon.astro';
+import { topicBySlug } from '../lib/topics';
 interface Props {
   articles: Article[];
   topic: { slug: string; name: string };
@@ -20,7 +21,10 @@ const { articles, topic, id = 'related-heading' } = Astro.props;
       <div class="section-head">
         <>
           <h2 id={id}>Related reads</h2>
-          <a class="text-link" href={`/topics/${topic.slug}/`}>
+          <a
+            class="text-link"
+            href={`/${topicBySlug(topic.slug) ? 'topics' : 'categories'}/${topic.slug}/`}
+          >
             Explore {topic.name.toLowerCase()} <Icon name="arrow" />
           </a>
         </>

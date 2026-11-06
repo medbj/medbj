@@ -7,10 +7,10 @@ import DisclaimerBox from '../../components/DisclaimerBox.astro';
 import CrisisBanner from '../../components/CrisisBanner.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
-import AdSlot from '../../components/AdSlot.astro';
-import AffiliateNote from '../../components/AffiliateNote.astro';
+import { Image, getImage } from 'astro:assets';
 import { articles, dateLabel, articleUrl, readTime } from '../../lib/content';
-import { topicBySlug } from '../../lib/topics';
+import { categoryFor, categoryHub } from '../../lib/taxonomy';
+import { taxonomySlug } from '../../lib/post-metadata.mjs';
 import { site } from '../../site.config';
 import '../../styles/articles.css';
 import { articleJsonLd, serializeJsonLd } from '../../lib/seo';
@@ -23,9 +23,13 @@ export async function getStaticPaths() {
 }
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
-const topic = topicBySlug(article.data.topic);
+const topic = categoryFor(article);
+const hub = categoryHub(article);
 const authorName = article.data.author.trim() || 'Editorial team';
 const all = await articles();
+const position = all.findIndex((item) => item.data.slug === article.data.slug);
+const previous = all[position + 1];
+const next = all[position - 1];
 const related = all
   .filter((item) => item.data.slug !== article.data.slug)
   .sort(
@@ -35,12 +39,27 @@ const related = all
   )
   .slice(0, 3);
 const articleCanonical = new URL(articleUrl(article), site.url).href;
-const jsonLd = articleJsonLd(article);
+const socialImage = article.data.image
+  ? await getImage({
+      src: article.data.image,
+      width: Math.min(1200, article.data.image.width),
+      format: 'jpg',
+    })
+  : undefined;
+const socialCover = socialImage
+  ? {
+      src: socialImage.src,
+      alt: article.data.imageAlt || article.data.title,
+      width: Number(socialImage.attributes.width),
+      height: Number(socialImage.attributes.height),
+    }
+  : article.data.cover;
+const jsonLd = articleJsonLd({ ...article.data, cover: socialCover });
 const printLinks = [
   ...article.data.references,
   { title: 'Editorial policy', url: '/editorial-policy/' },
   { title: 'Support resources', url: '/get-help/' },
-  { title: `${topic.name} topic hub`, url: `/topics/${topic.slug}/` },
+  { title: `${topic.name} reading hub`, url: hub },
   { title: 'Medical disclaimer', url: '/disclaimer/' },
 ]
   .map((item) => ({ title: item.title, url: new URL(item.url, site.url).href }))
@@ -53,11 +72,15 @@ const printLinks = [
 <Base
   type="article"
   title={article.data.sensitive
-    ? 'Psychology and wellbeing'
+    ? `Psychology and wellbeing — reading ${position + 1}`
     : article.data.title}
   description={article.data.description}
   lang={article.data.lang}
   dir={article.data.dir}
+  image={socialCover?.src}
+  imageAlt={socialCover?.alt}
+  imageWidth={socialCover?.width}
+  imageHeight={socialCover?.height}
 >
   <script
     slot="head"
@@ -68,7 +91,7 @@ const printLinks = [
     <div class="page-head">
       <nav class="breadcrumbs" aria-label="Breadcrumb">
         <a href="/blog/">Articles</a><span aria-hidden="true">/</span><a
-          href={`/topics/${topic.slug}/`}>{topic.name}</a
+          href={hub}>{topic.name}</a
         >
       </nav>
     </div>
@@ -79,7 +102,7 @@ const printLinks = [
         dir={article.data.dir}
       >
         <div class="eyebrow">
-          <a href={`/topics/${topic.slug}/`} data-pagefind-filter="topic"
+          <a href={`/categories/${topic.slug}/`} data-pagefind-filter="topic"
             >{topic.name}</a
           ><span>·</span><span>{readTime(article)} min read</span>
         </div>
@@ -122,42 +145,63 @@ const printLinks = [
           }
         </header>
         {
-          article.data.cover && (
+          article.data.image ? (
             <figure class="article-cover">
-              <img
-                src={article.data.cover.src}
-                alt={article.data.cover.alt}
-                width={article.data.cover.width}
-                height={article.data.cover.height}
-                loading="eager"
+              <Image
+                src={article.data.image}
+                alt={article.data.imageAlt || ''}
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 1000px) 760px, 100vw"
+                format="webp"
+                loading="lazy"
                 decoding="async"
               />
             </figure>
+          ) : (
+            article.data.cover && (
+              <figure class="article-cover">
+                <img
+                  src={article.data.cover.src}
+                  alt={article.data.cover.alt}
+                  width={article.data.cover.width}
+                  height={article.data.cover.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            )
           )
         }
         {article.data.sensitive && <CrisisBanner />}
-        <KeyTakeaways items={article.data.keyTakeaways} />
+        {
+          article.data.keyTakeaways.length > 0 && (
+            <KeyTakeaways items={article.data.keyTakeaways} />
+          )
+        }
         <TableOfContents headings={headings} mode="mobile" />
         <div class="prose">
           <Content />
-          <section aria-labelledby="references">
-            <h2 id="references">References and further reading</h2>
-            <p class="fine-print">
-              These sources offer background and further reading. Their
-              inclusion does not mean they reviewed or endorsed this article.
-            </p>
-            <ul class="article-reference-list">
-              {
-                article.data.references.map((reference) => (
-                  <li>
-                    <a href={reference.url} rel="external noreferrer">
-                      {reference.title}
-                    </a>
-                  </li>
-                ))
-              }
-            </ul>
-          </section>
+          {
+            article.data.references.length > 0 && (
+              <section aria-labelledby="references">
+                <h2 id="references">References and further reading</h2>
+                <p class="fine-print">
+                  These sources offer background and further reading. Their
+                  inclusion does not mean they reviewed or endorsed this
+                  article.
+                </p>
+                <ul class="article-reference-list">
+                  {article.data.references.map((reference) => (
+                    <li>
+                      <a href={reference.url} rel="external noreferrer">
+                        {reference.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
           <aside
             class="article-author"
             id="article-author"
@@ -186,14 +230,25 @@ const printLinks = [
               >
             </p>
           </aside>
-          <AffiliateNote sensitive={article.data.sensitive} />
-          <AdSlot sensitive={article.data.sensitive} />
           <DisclaimerBox />
           <p>
-            <a href={`/topics/${topic.slug}/`}
+            <a href={hub}
               >More on {topic.name.toLowerCase()} <Icon name="arrow" /></a
             >
           </p>
+          {
+            article.data.tags.length > 0 && (
+              <nav
+                class="filters"
+                aria-label="Article tags"
+                data-pagefind-ignore
+              >
+                {article.data.tags.map((tag) => (
+                  <a href={`/tags/${taxonomySlug(tag)}/`}>{tag}</a>
+                ))}
+              </nav>
+            )
+          }
           <section
             class="print-footnotes"
             aria-labelledby="print-links-heading"
@@ -230,6 +285,26 @@ const printLinks = [
         </div>
       </aside>
     </div>
+    <nav
+      class="pagination"
+      aria-label="Previous and next articles"
+      data-pagefind-ignore
+    >
+      {
+        previous && (
+          <a href={articleUrl(previous)} rel="prev">
+            Previous article: {previous.data.title}
+          </a>
+        )
+      }
+      {
+        next && (
+          <a href={articleUrl(next)} rel="next">
+            Next article: {next.data.title}
+          </a>
+        )
+      }
+    </nav>
   </div>
   <RelatedPosts articles={related} topic={topic} />
 </Base>

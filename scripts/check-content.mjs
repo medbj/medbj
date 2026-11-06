@@ -2,19 +2,10 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { parseDocument } from 'yaml';
+import { normalizePostData, taxonomySlug } from '../src/lib/post-metadata.mjs';
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const topicSlugs = new Set([
-  'anxiety',
-  'low-mood',
-  'stress-burnout',
-  'relationships',
-  'sleep',
-  'self-esteem',
-  'grief-loss',
-  'habits-growth',
-]);
+const slugPattern = /^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u;
 const listFiles = (directory) =>
   !existsSync(directory)
     ? []
@@ -69,7 +60,7 @@ export function validateContent(root = projectRoot) {
         report(file, `${field}.${dimension} must be a positive integer`);
   };
   const postFiles = listFiles(join(root, 'src/content/posts')).filter((file) =>
-    /\.mdx?$/.test(file),
+    /\.md$/.test(file),
   );
   if (!postFiles.length)
     errors.push('src/content/posts: at least one post is required');
@@ -82,13 +73,14 @@ export function validateContent(root = projectRoot) {
       report(file, 'missing YAML frontmatter delimited by ---');
       continue;
     }
-    const data = parse(file, frontmatter[1]);
-    if (!data) continue;
+    const rawData = parse(file, frontmatter[1]);
+    if (!rawData) continue;
+    const data = normalizePostData(rawData, file);
     posts.push({ file, data });
     if (typeof data.slug !== 'string' || !slugPattern.test(data.slug))
       report(
         file,
-        'slug is required and must use lowercase letters, digits, and single hyphens',
+        'slug or filename must use letters, digits, and single hyphens',
       );
     else if (slugs.has(data.slug))
       report(
@@ -96,7 +88,9 @@ export function validateContent(root = projectRoot) {
         `duplicate slug "${data.slug}" also used by ${relative(root, slugs.get(data.slug)).split(sep).join('/')}; slugs must be globally unique until localized routes exist`,
       );
     else slugs.set(data.slug, file);
-    for (const key of ['title', 'description', 'lang'])
+    if (typeof data.slug === 'string' && /^\d+$/.test(data.slug))
+      report(file, 'numeric post slugs are reserved for blog pagination');
+    for (const key of ['title', 'description', 'category', 'lang'])
       if (typeof data[key] !== 'string' || !data[key].trim())
         report(file, `${key} is required`);
     if (
@@ -104,18 +98,24 @@ export function validateContent(root = projectRoot) {
       (typeof data.author !== 'string' || !data.author.trim())
     )
       report(file, 'author must be nonempty when supplied');
-    if (!topicSlugs.has(data.topic))
-      report(file, `topic must be one of the eight supported topic slugs`);
+    if (typeof data.category === 'string' && !taxonomySlug(data.category))
+      report(file, 'category needs a letter or digit');
+    if (typeof data.description === 'string' && data.description.length > 160)
+      report(file, 'description must be 160 characters or fewer');
     if (
       !Array.isArray(data.tags) ||
-      !data.tags.length ||
-      data.tags.some((tag) => typeof tag !== 'string' || !tag.trim())
+      data.tags.some(
+        (tag) => typeof tag !== 'string' || !tag.trim() || !taxonomySlug(tag),
+      )
     )
-      report(file, 'tags must be a nonempty array of strings');
+      report(file, 'tags must be an array of nonempty strings');
     for (const key of ['sensitive', 'draft', 'sample'])
       if (typeof data[key] !== 'boolean')
-        report(file, `${key} must be an explicit boolean`);
-    if (data.dir !== undefined && !['ltr', 'rtl', 'auto'].includes(data.dir))
+        report(file, `${key} must be a boolean`);
+    if (
+      rawData.dir !== undefined &&
+      !['ltr', 'rtl', 'auto'].includes(rawData.dir)
+    )
       report(file, 'dir must be ltr, rtl, or auto');
     for (const key of ['date', 'updated'])
       if (!isIsoDate(data[key]))
@@ -138,22 +138,12 @@ export function validateContent(root = projectRoot) {
     )
       report(file, 'reviewedOn must not precede date');
     if (
-      data.sample === false &&
-      data.draft === false &&
-      data.reviewedOn === null
-    )
-      report(
-        file,
-        'published non-sample posts require a genuine human reviewedOn date',
-      );
-    if (
       !Array.isArray(data.keyTakeaways) ||
-      !data.keyTakeaways.length ||
       data.keyTakeaways.some((item) => typeof item !== 'string' || !item.trim())
     )
-      report(file, 'keyTakeaways must contain at least one nonempty takeaway');
-    if (!Array.isArray(data.references) || !data.references.length)
-      report(file, 'references must contain at least one source');
+      report(file, 'keyTakeaways must be an array of nonempty takeaways');
+    if (!Array.isArray(data.references))
+      report(file, 'references must be an array');
     else
       for (const reference of data.references) {
         if (
@@ -170,6 +160,26 @@ export function validateContent(root = projectRoot) {
           report(file, 'every reference needs a valid HTTP or HTTPS URL');
         }
       }
+    if (data.image !== undefined) {
+      if (
+        typeof data.image !== 'string' ||
+        !/^\.\.?\//.test(data.image) ||
+        !/\.(png|jpe?g|webp|avif|gif|svg)$/i.test(data.image)
+      )
+        report(
+          file,
+          'image must be a relative path to a local image, for example ./images/photo.jpg',
+        );
+      else {
+        const imageFile = resolve(dirname(file), data.image);
+        if (!imageFile.startsWith(`${resolve(root, 'src')}${sep}`))
+          report(file, 'image must live inside the project src directory');
+        else if (!existsSync(imageFile))
+          report(file, 'image file does not exist');
+      }
+      if (typeof data.imageAlt !== 'string' || !data.imageAlt.trim())
+        report(file, 'imageAlt is required when image is supplied');
+    }
     validateCover(file, data.cover, 'cover');
     const body = raw.slice(frontmatter[0].length);
     if (

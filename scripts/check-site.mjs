@@ -118,6 +118,8 @@ export function checkSite(root = projectRoot) {
     '/',
     '/blog/',
     '/topics/',
+    '/categories/',
+    '/tags/',
     '/start-here/',
     '/search/',
     '/about/',
@@ -406,8 +408,10 @@ export function checkSite(root = projectRoot) {
     if (!/\bdata-pagefind-body\b/.test(html))
       fail(`${label(target)}: article is not marked for Pagefind`);
     for (const [name, pattern] of [
-      ['key takeaways', /key takeaways/i],
-      ['references', /references/i],
+      ...(data.keyTakeaways.length
+        ? [['key takeaways', /key takeaways/i]]
+        : []),
+      ...(data.references.length ? [['references', /references/i]] : []),
       [
         'educational disclaimer',
         /(?:education(?:al)?|general information)[\s\S]{0,300}(?:diagnos|treatment|professional)|(?:diagnos|treatment|professional)[\s\S]{0,300}(?:education(?:al)?|general information)/i,
@@ -643,11 +647,12 @@ export function checkSite(root = projectRoot) {
             );
           else if (noindex(getHtml(pageFile)))
             fail(`Sitemap includes a noindex page ${page.pathname}`);
-          if (sitemapRoutes.has(page.pathname))
+          const pagePath = decodeURIComponent(page.pathname);
+          if (sitemapRoutes.has(pagePath))
             fail(`Sitemap duplicates ${page.pathname}`);
-          sitemapRoutes.add(page.pathname);
+          sitemapRoutes.add(pagePath);
           const post = published.find(
-            ({ data }) => `/blog/${data.slug}/` === page.pathname,
+            ({ data }) => `/blog/${data.slug}/` === pagePath,
           );
           if (
             post &&

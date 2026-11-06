@@ -1,0 +1,56 @@
+---
+import Base from '../layouts/Base.astro';
+interface Props {
+  kind: 'category' | 'tag';
+  groups: { slug: string; name: string; articles: unknown[] }[];
+}
+const { kind, groups } = Astro.props;
+const label = kind === 'category' ? 'Categories' : 'Tags';
+const index = kind === 'category' ? '/categories/' : '/tags/';
+---
+
+<Base
+  title={label}
+  description={`Browse every article ${kind} on MENA Psychology. Find plain-language reads about feelings, daily life, and wellbeing.`}
+>
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">Follow your curiosity</p><h1>{label}</h1><p>
+        Find a place to begin, one subject at a time.
+      </p>
+    </header>
+    <nav class="filters" aria-label="Browse article collections">
+      <a href="/blog/">All articles</a><a href="/categories/">Categories</a><a
+        href="/tags/">Tags</a>
+    </nav>
+    <div class="topic-grid">
+      {
+        groups.map((group, number) => (
+          <a class="topic-tile" href={`${index}${group.slug}/`}>
+            <>
+              <span>
+                <span class="topic-number">
+                  {String(number + 1).padStart(2, '0')}
+                </span>
+                {group.name}
+              </span>
+              <span class="fine-print">
+                {group.articles.length}{' '}
+                {group.articles.length === 1 ? 'article' : 'articles'}
+              </span>
+            </>
+          </a>
+        ))
+      }
+    </div>
+    {
+      groups.length === 0 && (
+        <p>
+          No {label.toLowerCase()} have been published yet.{' '}
+          <a href="/blog/">Browse all articles.</a>
+        </p>
+      )
+    }
+    <div class="section"><a href="/blog/">Explore all articles</a></div>
+  </div>
+</Base>

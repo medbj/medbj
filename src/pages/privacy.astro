@@ -1,16 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../site.config';
-const plausible = Boolean(
-  import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN &&
-  import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_URL,
-);
-const umami =
-  !plausible &&
-  Boolean(
-    import.meta.env.PUBLIC_UMAMI_WEBSITE_ID &&
-    import.meta.env.PUBLIC_UMAMI_SCRIPT_URL,
-  );
+// Analytics can only be added deliberately at the commented slot in Base.astro.
+const plausible = false;
+const umami = false;
 ---
 
 <Base

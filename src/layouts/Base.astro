@@ -14,6 +14,10 @@ interface Props {
   lang?: string;
   dir?: 'ltr' | 'rtl' | 'auto';
   type?: 'website' | 'article';
+  image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 }
 const {
   title,
@@ -22,13 +26,12 @@ const {
   type = 'website',
   lang = site.lang,
   dir = /^(ar|fa|he|ur)(-|$)/.test(lang) ? 'rtl' : 'ltr',
+  image,
+  imageAlt,
+  imageWidth,
+  imageHeight,
 } = Astro.props;
 const path = Astro.url.pathname;
-const plausibleDomain = import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN;
-const plausibleScript = import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_URL;
-const umamiId = import.meta.env.PUBLIC_UMAMI_WEBSITE_ID;
-const umamiScript = import.meta.env.PUBLIC_UMAMI_SCRIPT_URL;
-const plausibleEnabled = Boolean(plausibleDomain && plausibleScript);
 const showMedia = await mediaAvailable();
 ---
 
@@ -45,6 +48,10 @@ const showMedia = await mediaAvailable();
       noindex={noindex}
       lang={lang}
       type={type}
+      image={image}
+      imageAlt={imageAlt}
+      imageWidth={imageWidth}
+      imageHeight={imageHeight}
     />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
@@ -57,21 +64,8 @@ const showMedia = await mediaAvailable();
       title={`${site.name} RSS feed`}
       href="/rss.xml"
     />
-    {
-      plausibleDomain && plausibleScript && (
-        <script
-          is:inline
-          defer
-          data-domain={plausibleDomain}
-          src={plausibleScript}
-        />
-      )
-    }
-    {
-      !plausibleEnabled && umamiId && umamiScript && (
-        <script is:inline defer data-website-id={umamiId} src={umamiScript} />
-      )
-    }
+    <!-- OPTIONAL OWNER SCRIPTS: paste any future analytics script and ad script here.
+         No analytics, advertising, or tracking script is enabled in this build. -->
     <slot name="head" />
   </head>
   <body>

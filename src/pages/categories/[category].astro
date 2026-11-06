@@ -1,0 +1,13 @@
+---
+import TaxonomyArchive from '../../components/TaxonomyArchive.astro';
+import { categories } from '../../lib/taxonomy';
+export async function getStaticPaths() {
+  return (await categories()).map((group) => ({
+    params: { category: group.slug },
+    props: { group },
+  }));
+}
+const { group } = Astro.props;
+---
+
+<TaxonomyArchive kind="category" name={group.name} articles={group.articles} />

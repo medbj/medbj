@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import ArticleCard from './ArticleCard.astro';
+import type { Article } from '../lib/content';
+interface Props {
+  kind: 'category' | 'tag';
+  name: string;
+  articles: Article[];
+}
+const { kind, name, articles } = Astro.props;
+const label = kind === 'category' ? 'Categories' : 'Tags';
+const index = kind === 'category' ? '/categories/' : '/tags/';
+---
+
+<Base
+  title={`${name} — ${kind}`}
+  description={`Explore articles filed under ${name}. Plain-language psychology and wellbeing reading, grouped by ${kind}.`}
+>
+  <div class="container">
+    <header class="page-head">
+      <p class="eyebrow">
+        <a href={index}>{label}</a><span aria-hidden="true">/</span><span
+          >{name}</span>
+      </p>
+      <h1>{name}</h1>
+      <p>Thoughtful reads about {name.toLowerCase()}, at your own pace.</p>
+    </header>
+    <nav class="filters" aria-label="Browse article collections">
+      <a href="/blog/">All articles</a><a href="/categories/">Categories</a><a
+        href="/tags/">Tags</a
+      >
+    </nav>
+    <section aria-labelledby="archive-heading">
+      <h2 id="archive-heading">Reading about {name.toLowerCase()}</h2>
+      <p class="fine-print">
+        {articles.length}
+        {articles.length === 1 ? 'article' : 'articles'}{
+          articles.some((article) => article.data.sample) &&
+            ' · Includes educational samples awaiting human editorial review.'
+        }
+      </p>
+      <div class="article-grid">
+        {articles.map((article) => <ArticleCard article={article} />)}
+      </div>
+    </section>
+    <div class="section">
+      <a href={index}>Browse all {label.toLowerCase()}</a>
+    </div>
+  </div>
+</Base>

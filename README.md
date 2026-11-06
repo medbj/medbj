@@ -1,71 +1,29 @@
 # MENA Psychology
 
-A calm educational mental health reading site built with Astro, strict TypeScript, MDX content collections, plain CSS, and Pagefind. It produces a static `dist/` directory with no application backend, database, accounts, or comments. Arial is the only font family used.
+An Astro blog that builds to plain static files. The existing design, pages, navigation, original MDX source, and optional podcast/YouTube support are retained. Publishing needs one Markdown file; there is no database, server runtime, login, or admin panel.
 
-The complete attached brief defines an English launch for a worldwide audience. MENA Psychology is the current working brand. The referenced earlier multilingual archive is not available in this workspace; no recovered French or Arabic source is claimed. Content language fields, direction support, and logical CSS properties prepare for later localization.
+1. **Run locally.** Use Node.js 24 LTS and the committed lockfile:
 
-## Run locally
+   ```sh
+   npm ci
+   npm run dev
+   ```
 
-Use Node 22 LTS or a supported Node LTS release consistent with the installed Astro version and deployment host.
+2. **Add an article.** Copy `docs/post-template.md` to `src/content/posts/my-new-article.md`. Fill `title`, `description` (maximum 160 characters), `date` (`YYYY-MM-DD`), and `category`, then write normal Markdown below the front matter. The filename creates `/blog/my-new-article/`. Categories, tags, links, reading time, and metadata are automatic. See [docs/WRITING.md](docs/WRITING.md) for optional fields, images, French, and Arabic.
 
-```sh
-npm install
-cp .env.example .env
-npm run dev
-```
+3. **Control publication.** Use `draft: true` to exclude a post from every public surface. Set `draft: false` or omit the field to publish. The blank template starts as a draft. Restart the dev server after changing draft status; every production build reads the current files. Edit `.md` posts; the original `.mdx` files are retained but inactive.
 
-For a repeatable checkout using the committed lockfile, use `npm ci` instead of `npm install`. Set the final canonical HTTPS origin with `SITE_URL`. Keep newsletter and analytics values empty until the real services are configured. These are build-time settings; `PUBLIC_` values appear in the generated site and must never hold API keys.
+4. **Build and preview.** Replace `https://YOUR-DOMAIN.com` in `src/site.config.ts` with your final HTTPS domain; confirm `site.author` there too. Then run:
 
-```sh
-npm run check          # Astro and strict TypeScript diagnostics
-npm run lint           # ESLint
-npm run check:content  # Validate content contracts and duplicate slugs
-npm run check:contrast # Declared token-pair contrast checks
-npm run build          # Content and contrast gates, Astro, headers, Pagefind
-npm run check:site     # Generated routes, local links, metadata, content contracts
-npm run check:launch   # Public launch gate; intentionally fails while human work remains
-npm run test:guards    # Fixtures for content and launch safeguards
-npm run preview       # Serve the completed build, including search
-npm run format        # Prettier
-npm run format:check  # Formatting without editing
-```
+   ```sh
+   npm run build
+   npm run preview
+   ```
 
-Pagefind is generated after a production build. Use `npm run build` and `npm run preview` to test search; the dev server alone does not create its index. Reading, topic links, support links, and configured newsletter submission work without JavaScript. Search provides an article-index fallback when scripts are unavailable.
+   The build writes `dist/`, including search, `sitemap.xml`, `rss.xml`, `robots.txt`, and favicons. Optional verification commands are `npm run check`, `npm run check:site`, and `npm run test:guards`.
 
-## Review build and public launch
+5. **Upload.** Copy **all contents of `dist/`** to your server's public document root, preserving folders such as `_astro/` and `pagefind/`. Configure your static host to serve `404.html` for unknown paths. Uploading source, `node_modules`, environment files, or a Node server is unnecessary. See [docs/DEPLOY.md](docs/DEPLOY.md) for hosting examples.
 
-The repository deliberately includes labelled sample content and pending human work. `npm run build` can produce a complete review copy. `npm run check:launch` must fail while samples, unverified crisis records, legal-review placeholders, required configuration, missing alt text, or broken internal links remain. Do not remove labels or assert review to make it pass.
+No analytics or advertising script runs. A clearly marked comment in `src/layouts/Base.astro` provides one place for scripts you may choose to add later. The optional media feature keeps its existing behavior and configuration.
 
-The launch gate requires `SITE_URL`, `PUBLIC_NEWSLETTER_ACTION_URL`, and confirmed provider field names in `PUBLIC_NEWSLETTER_EMAIL_FIELD` and `PUBLIC_NEWSLETTER_HONEYPOT_FIELD`. Set `PUBLIC_NEWSLETTER_DOUBLE_OPT_IN_CONFIRMED=true` only after a human verifies a real provider signup and double opt-in. Set `LEGAL_REVIEW_CONFIRMED=true` and `EDITORIAL_PROCESS_CONFIRMED=true` only after the corresponding human work is complete and the website accurately describes it. These values are attestations, not automatic reviews.
-
-Complete `HUMAN_TODO.md` and `docs/LAUNCH.md` before public deployment. A private review site is separate from a public launch. Use `docs/QA.md` for measurements on the current full-brief implementation. `docs/VALIDATION.md` records the earlier build and does not establish results for changed code. Neither engineering checks nor a launch-gate result establish editorial accuracy, clinical review, legal approval, or accessibility certification.
-
-## Layout
-
-- `src/site.config.ts`: working name, domain, tagline, language, feature flags, and author settings.
-- `src/content.config.ts`, `src/content/`: validated educational post and media records, including language, review status, draft, sensitive, and sample fields.
-- `src/data/`: crisis-resource records and commercial-link registry; content helpers provide topics and beginner reading paths.
-- `src/components/`, `src/layouts/`: shared reading, support, disclosure, media, and newsletter UI.
-- `src/pages/`: articles, topics, reading paths, search, trust pages, feeds, and support.
-- `src/styles/`: supplied color tokens and responsive logical-property CSS.
-- `scripts/`: contrast, generated-site, launch, and build helpers.
-- `public/`: local assets and static hosting files.
-- `deploy/`, `docs/DEPLOY.md`: Cloudflare Pages and optional Nginx, rsync, and Certbot deployment.
-- `docs/LAUNCH.md`: the full public launch checklist.
-- `docs/QA.md`: current verification status and fresh measurement record.
-- `AGENTS.md`, `DECISIONS.md`, `HUMAN_TODO.md`: working rules, chosen defaults, and facts requiring a real human answer.
-- `work/`: ignored staging and intermediate files; never a place to commit secrets.
-
-## Content, support, and privacy
-
-Articles offer general education, not diagnosis, treatment, or personal care. Do not invent qualifications, statistics, studies, reviews, or contact details. Keep pending author information, verified crisis details, editorial process, legal review, newsletter setup, and real media links in `HUMAN_TODO.md`.
-
-Four crisis-resource seed records come from the user brief and remain unverified. The support page publishes actionable phone details only for records verified by a human and dated accordingly; otherwise it offers the two global directories and general urgent-support guidance. Get Help and sensitive articles must have no ads or affiliate recommendations.
-
-Newsletter forms post directly to a real provider endpoint with a honeypot. Provider-side double opt-in, exact field mapping, success/error handling, and unsubscribe need real testing. Never display simulated subscription success. Optional cookieless analytics load only when their environment values are configured; fonts and basic reading do not require third-party requests.
-
-`features.media`, `features.affiliates`, and `adsEnabled` are false by default. The author fallback is “Editorial team,” with no claimed qualifications. Disabled or empty media creates no reader-facing route or dead navigation. Real media needs a description, usable fallback link, and transcripts where available. YouTube loads only after a reader chooses the facade. Ads and affiliate features remain off at launch.
-
-## Implementation phases
-
-The complete replacement brief supersedes the earlier incomplete attachment and defines phases 0–8: scaffold, design system, content model, pages, trust pages, SEO, features, QA, and deployment setup. Existing history is retained. Build, fix errors, and commit each completed phase; record defaults in `DECISIONS.md` without inventing human-owned facts.
+Existing sample articles, legal drafts, unverified support resources, and real provider settings still require the human work in [HUMAN_TODO.md](HUMAN_TODO.md) before public launch. The separate `npm run check:launch` gate records those requirements; normal static builds work for review.

@@ -1,5 +1,9 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { relative } from 'node:path';
+import { site } from './site.config';
+import { filenameSlug, taxonomySlug } from './lib/post-metadata.mjs';
+import { validateContent } from '../scripts/check-content.mjs';
 
 const nonempty = z.string().trim().min(1, 'This value must not be empty');
 const topic = z.enum([
@@ -15,8 +19,8 @@ const topic = z.enum([
 const slug = z
   .string()
   .regex(
-    /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-    'Use a short lowercase slug with single hyphens',
+    /^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u,
+    'Use letters, digits, and single hyphens',
   );
 const isoDate = z
   .preprocess(
@@ -55,54 +59,86 @@ const cover = z
   })
   .strict();
 const reference = z.object({ title: nonempty, url: externalUrl }).strict();
+// Exclude draft source files before rendering or registering their image assets.
+const draftPatterns = validateContent()
+  .posts.filter(({ data }) => data.draft === true)
+  .map(
+    ({ file }) =>
+      `!${relative('src/content/posts', file).replaceAll('\\', '/')}`,
+  );
 const posts = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
-  schema: z
-    .object({
-      title: nonempty,
-      description: nonempty,
-      date: isoDate,
-      updated: isoDate,
-      slug,
-      topic,
-      tags: z.array(nonempty).min(1),
-      author: nonempty.default('Editorial team'),
-      reviewedOn: isoDate.nullable(),
-      keyTakeaways: z.array(nonempty).min(1),
-      references: z.array(reference).min(1),
-      sensitive: z.boolean(),
-      draft: z.boolean(),
-      sample: z.boolean(),
-      cover: cover.optional(),
-      lang: nonempty,
-      dir: z.enum(['ltr', 'rtl', 'auto']).default('ltr'),
-      visual: z
-        .enum(['waves', 'plant', 'moon', 'stones', 'window', 'paths'])
-        .default('plant'),
-      featured: z.boolean().default(false),
-    })
-    .strict()
-    .superRefine((data, context) => {
-      if (data.updated < data.date)
-        context.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ['updated'],
-          message: 'Updated date must not precede publication date',
-        });
-      if (data.reviewedOn && data.reviewedOn < data.date)
-        context.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ['reviewedOn'],
-          message: 'Review date must not precede publication date',
-        });
-      if (!data.sample && !data.draft && !data.reviewedOn)
-        context.addIssue({
-          code: z.ZodIssueCode.custom,
-          path: ['reviewedOn'],
-          message:
-            'A published non-sample post needs a genuine human review date; samples and drafts may use null',
-        });
-    }),
+  loader: glob({
+    pattern: ['**/*.md', ...draftPatterns],
+    base: './src/content/posts',
+    generateId: ({ entry, data }) =>
+      typeof data.slug === 'string' ? data.slug : filenameSlug(entry),
+  }),
+  schema: ({ image }) =>
+    z
+      .object({
+        title: nonempty,
+        description: nonempty.max(160),
+        date: isoDate,
+        updated: isoDate.optional(),
+        slug: slug.optional(),
+        category: nonempty.refine(
+          (value) => Boolean(taxonomySlug(value)),
+          'Category needs a letter or digit',
+        ),
+        tags: z
+          .array(
+            nonempty.refine(
+              (value) => Boolean(taxonomySlug(value)),
+              'Tag needs a letter or digit',
+            ),
+          )
+          .default([]),
+        author: nonempty.default(site.author.name),
+        reviewedOn: isoDate.nullable().default(null),
+        keyTakeaways: z.array(nonempty).default([]),
+        references: z.array(reference).default([]),
+        sensitive: z.boolean().default(false),
+        draft: z.boolean().default(false),
+        sample: z.boolean().default(false),
+        image: image().optional(),
+        imageAlt: nonempty.optional(),
+        cover: cover.optional(),
+        lang: nonempty.default('en'),
+        dir: z.enum(['ltr', 'rtl', 'auto']).optional(),
+        visual: z
+          .enum(['waves', 'plant', 'moon', 'stones', 'window', 'paths'])
+          .default('plant'),
+        featured: z.boolean().default(false),
+      })
+      .strict()
+      .superRefine((data, context) => {
+        if (data.updated && data.updated < data.date)
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['updated'],
+            message: 'Updated date must not precede publication date',
+          });
+        if (data.reviewedOn && data.reviewedOn < data.date)
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['reviewedOn'],
+            message: 'Review date must not precede publication date',
+          });
+        if (data.image && !data.imageAlt)
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['imageAlt'],
+            message: 'An image requires meaningful imageAlt text',
+          });
+      })
+      .transform((data) => ({
+        ...data,
+        updated: data.updated || data.date,
+        topic: taxonomySlug(data.category),
+        dir: /^(ar|fa|he|ur)(-|$)/i.test(data.lang)
+          ? ('rtl' as const)
+          : data.dir || ('ltr' as const),
+      })),
 });
 const media = defineCollection({
   loader: glob({

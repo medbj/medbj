@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import { site } from './src/site.config.ts';
 import mediaRoute from './scripts/media-route.mjs';
 import { validateContent } from './scripts/check-content.mjs';
+import { taxonomySlug } from './src/lib/post-metadata.mjs';
 
 const env = loadEnv(
   process.env.NODE_ENV || 'production',
@@ -38,9 +39,21 @@ const topicModified = new Map(
     ),
   ]),
 );
+const taxonomyModified = new Map();
+for (const { data } of publicPosts) {
+  for (const path of [
+    `/categories/${data.topic}/`,
+    ...data.tags.map((tag) => `/tags/${taxonomySlug(tag)}/`),
+  ]) {
+    taxonomyModified.set(
+      path,
+      newest([taxonomyModified.get(path), modified({ data })]),
+    );
+  }
+}
 const mediaModified = newest(media.map(({ data }) => data.date));
 const normalPath = (url) => {
-  const pathname = new URL(url, origin).pathname;
+  const pathname = decodeURIComponent(new URL(url, origin).pathname);
   return pathname.endsWith('/') || /\.[^/]+$/.test(pathname)
     ? pathname
     : `${pathname}/`;
@@ -72,9 +85,19 @@ export default defineConfig({
       },
       serialize: (item) => {
         const path = normalPath(item.url);
-        let lastmod = postModified.get(path) || topicModified.get(path);
+        let lastmod =
+          postModified.get(path) ||
+          topicModified.get(path) ||
+          taxonomyModified.get(path);
         if (
-          ['/', '/blog/', '/topics/', '/start-here/'].includes(path) ||
+          [
+            '/',
+            '/blog/',
+            '/topics/',
+            '/categories/',
+            '/tags/',
+            '/start-here/',
+          ].includes(path) ||
           /^\/blog\/\d+\/$/.test(path)
         )
           lastmod = allPostsModified;
