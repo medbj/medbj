@@ -1,18 +1,122 @@
 ---
+import Icon from '../components/Icon.astro';
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import { topicBySlug } from '../lib/topics';
-const media = (await getCollection('media')).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const media = (await getCollection('media')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
 ---
-<Base title="Listen & Watch"><section class="container page-head"><p class="eyebrow">Another way to take it in</p><h1>Listen &amp; Watch</h1><p>Thoughtful conversations and short videos about everyday wellbeing. Choose a platform, or follow a transcript when one is available.</p></section><section class="container section media-grid">{media.map(({ data: item }) => <article class="media-card"><p class="eyebrow">{item.type} · {item.duration} · {topicBySlug(item.topic).name}</p>{item.sample && <p class="sample-note">Sample item · A format preview, not a published episode.</p>}<h2>{item.title}</h2><p>{item.description}</p><p class="fine-print">{item.date.toLocaleDateString('en', { dateStyle: 'long', timeZone: 'UTC' })}</p>{item.youtubeId && <div><button class="media-facade" data-youtube={item.youtubeId} data-title={item.title}><span aria-hidden="true">▶</span><span>Load video: {item.title}</span><small>Connects to YouTube only when you choose to play.</small></button></div>}<div class="media-links">{Object.entries(item.links).map(([platform, url]) => <a href={url} rel="external">{{ spotify: 'Spotify', apple: 'Apple Podcasts', youtubeMusic: 'YouTube Music', rss: 'RSS', website: 'Website' }[platform]} ↗</a>)}{item.transcriptUrl && <a href={item.transcriptUrl}>Read transcript ↗</a>}</div>{!Object.keys(item.links).length && !item.youtubeId && <p class="fine-print">Platform links will appear when the episode is ready.</p>}</article>)}</section></Base>
+
+<Base title="Listen & Watch"
+  ><section class="container page-head">
+    <p class="eyebrow">Another way to take it in</p><h1>
+      Listen &amp; Watch
+    </h1><p>
+      Thoughtful conversations and short videos about everyday wellbeing. Choose
+      a platform, or follow a transcript when one is available.
+    </p>
+  </section><section class="container section media-grid">
+    {
+      media.map(({ data: item }) => (
+        <article class="media-card">
+          <p class="eyebrow">
+            {item.type} · {item.duration} · {topicBySlug(item.topic).name}
+          </p>
+          {item.sample && (
+            <p class="sample-note">
+              Sample item · A format preview, not a published episode.
+            </p>
+          )}
+          <h2>{item.title}</h2>
+          <p class="media-description">{item.description}</p>
+          <p class="fine-print">
+            {item.date.toLocaleDateString('en', {
+              dateStyle: 'long',
+              timeZone: 'UTC',
+            })}
+          </p>
+          {item.youtubeId && (
+            <div>
+              <button
+                class="media-facade"
+                data-youtube={item.youtubeId}
+                data-title={item.title}
+              >
+                <span class="video-thumbnail" aria-hidden="true">
+                  <span />
+                  <span />
+                </span>
+                <Icon name="play" />
+                <span>Load video: {item.title}</span>
+                <small>Connects to YouTube only when you choose to play.</small>
+              </button>
+            </div>
+          )}
+          <noscript>
+            {item.youtubeId && (
+              <p>
+                <a
+                  href={`https://www.youtube.com/watch?v=${item.youtubeId}`}
+                  rel="external"
+                >
+                  Watch this video on YouTube
+                </a>
+              </p>
+            )}
+          </noscript>
+          <div class="media-links">
+            {Object.entries(item.links).map(([platform, url]) => (
+              <a href={url} rel="external">
+                {
+                  {
+                    spotify: 'Spotify',
+                    apple: 'Apple Podcasts',
+                    youtubeMusic: 'YouTube Music',
+                    rss: 'RSS',
+                    website: 'Website',
+                  }[platform]
+                }{' '}
+                <Icon name="external" />
+              </a>
+            ))}
+            {item.transcriptUrl && (
+              <a href={item.transcriptUrl}>
+                Read transcript <Icon name="external" />
+              </a>
+            )}
+          </div>
+          {!Object.keys(item.links).length && !item.youtubeId && (
+            <p class="fine-print">
+              Platform links will appear when the episode is ready.
+            </p>
+          )}
+        </article>
+      ))
+    }
+  </section></Base
+>
 <script>
-  document.querySelectorAll<HTMLButtonElement>('[data-youtube]').forEach((button) => {
-    button.addEventListener('click', () => {
-      const id = button.dataset.youtube;
-      if (!id || !/^[\w-]{11}$/.test(id)) return;
-      const frame = document.createElement('iframe');
-      frame.className = 'media-frame'; frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`; frame.title = button.dataset.title || 'Video player'; frame.allow = 'autoplay; encrypted-media; picture-in-picture'; frame.allowFullscreen = true; frame.referrerPolicy = 'strict-origin-when-cross-origin'; frame.tabIndex = 0;
-      button.replaceWith(frame); frame.focus();
-    }, { once: true });
-  });
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-youtube]')
+    .forEach((button) => {
+      button.addEventListener(
+        'click',
+        () => {
+          const id = button.dataset.youtube;
+          if (!id || !/^[\w-]{11}$/.test(id)) return;
+          const frame = document.createElement('iframe');
+          frame.className = 'media-frame';
+          frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+          frame.title = button.dataset.title || 'Video player';
+          frame.allow = 'autoplay; encrypted-media; picture-in-picture';
+          frame.allowFullscreen = true;
+          frame.referrerPolicy = 'strict-origin-when-cross-origin';
+          frame.tabIndex = 0;
+          button.replaceWith(frame);
+          frame.focus();
+        },
+        { once: true },
+      );
+    });
 </script>

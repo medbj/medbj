@@ -1,28 +1,108 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
+
 <Base title="Search" noindex>
-  <section class="container narrow page-head"><p class="eyebrow">Find a little clarity</p><h1>What’s on your mind?</h1><p>Search our articles by a word, a feeling, or a topic. Try “worry”, “sleep”, or “boundaries”.</p></section>
-  <div class="container narrow search-shell"><div id="search"></div><p id="search-loading" class="search-hint" role="status">Loading local article search…</p><noscript><p>Search needs JavaScript to run on your device. You can still <a href="/topics/">browse every topic</a> or <a href="/blog/">read all articles</a>.</p></noscript><p class="search-hint">Search runs on your device. Your words aren’t sent to a search provider.</p></div>
+  <section class="container narrow page-head">
+    <p class="eyebrow">Find a little clarity</p><h1>What’s on your mind?</h1><p>
+      Search our articles by a word, a feeling, or a topic. Try “worry”,
+      “sleep”, or “boundaries”.
+    </p>
+  </section>
+  <div class="container narrow search-shell">
+    <noscript
+      ><style>
+        #search-loading {
+          display: none;
+        }
+      </style></noscript
+    >
+    <div id="search"></div><p
+      id="search-loading"
+      class="search-hint"
+      role="status"
+    >
+      Loading local article search…
+    </p><noscript
+      ><p>
+        Search needs JavaScript to run on your device. You can still <a
+          href="/topics/">browse every topic</a
+        > or <a href="/blog/">read all articles</a>.
+      </p></noscript
+    ><p class="search-hint">
+      Search runs on your device. Your words aren’t sent to a search provider.
+    </p>
+  </div>
 </Base>
 <script>
   const status = document.querySelector<HTMLElement>('#search-loading');
   if (status) {
-    const style = document.createElement('link'); style.rel = 'stylesheet'; style.href = '/pagefind/pagefind-ui.css'; document.head.append(style);
-    const script = document.createElement('script'); script.src = '/pagefind/pagefind-ui.js';
+    const style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.href = '/pagefind/pagefind-ui.css';
+    document.head.append(style);
+    const script = document.createElement('script');
+    script.src = '/pagefind/pagefind-ui.js';
     script.addEventListener('load', () => {
-      const w = window as Window & { PagefindUI?: new (options: Record<string, unknown>) => { triggerSearch: (query: string) => void } };
-      if (!w.PagefindUI) { status.textContent = 'Search could not start. Please browse Topics or try again.'; return; }
-      const search = new w.PagefindUI({ element: '#search', showSubResults: true, showImages: false, resetStyles: false, translations: { placeholder: 'Search articles…', zero_results: 'No articles found for [SEARCH_TERM]. Try a broader word or browse Topics.' } });
+      const w = window as Window & {
+        PagefindUI?: new (options: Record<string, unknown>) => {
+          triggerSearch: (query: string) => void;
+        };
+      };
+      if (!w.PagefindUI) {
+        status.textContent =
+          'Search could not start. Please browse Topics or try again.';
+        return;
+      }
+      const search = new w.PagefindUI({
+        element: '#search',
+        showSubResults: true,
+        showImages: false,
+        resetStyles: false,
+        translations: {
+          placeholder: 'Search articles…',
+          zero_results:
+            'No articles found for [SEARCH_TERM]. Try a broader word or browse Topics.',
+        },
+      });
       status.hidden = true;
-      const initial = (new URLSearchParams(window.location.hash.slice(1)).get('q') || new URLSearchParams(window.location.search).get('q') || '').slice(0, 200);
-      if (window.location.search) { const clean = new URL(window.location.href); clean.search = ''; clean.hash = initial ? new URLSearchParams({ q: initial }).toString() : ''; window.history.replaceState(null, '', clean); }
+      const initial = (
+        new URLSearchParams(window.location.hash.slice(1)).get('q') ||
+        new URLSearchParams(window.location.search).get('q') ||
+        ''
+      ).slice(0, 200);
+      if (window.location.search) {
+        const clean = new URL(window.location.href);
+        clean.search = '';
+        clean.hash = initial
+          ? new URLSearchParams({ q: initial }).toString()
+          : '';
+        window.history.replaceState(null, '', clean);
+      }
       if (initial) search.triggerSearch(initial);
-      const input = document.querySelector<HTMLInputElement>('.pagefind-ui__search-input');
+      const input = document.querySelector<HTMLInputElement>(
+        '.pagefind-ui__search-input',
+      );
+      window.addEventListener('hashchange', () => {
+        const query = (
+          new URLSearchParams(window.location.hash.slice(1)).get('q') || ''
+        ).slice(0, 200);
+        search.triggerSearch(query);
+      });
       input?.setAttribute('aria-label', 'Search articles');
-      input?.addEventListener('input', () => { const url = new URL(window.location.href); url.search = ''; url.hash = input.value ? new URLSearchParams({ q: input.value }).toString() : ''; window.history.replaceState(null, '', url); });
+      input?.addEventListener('input', () => {
+        const url = new URL(window.location.href);
+        url.search = '';
+        url.hash = input.value
+          ? new URLSearchParams({ q: input.value }).toString()
+          : '';
+        window.history.replaceState(null, '', url);
+      });
     });
-    script.addEventListener('error', () => { status.innerHTML = 'Search is available in the built site. Please <a href="/topics/">browse topics</a> or try again later.'; });
+    script.addEventListener('error', () => {
+      status.innerHTML =
+        'Search is available in the built site. Please <a href="/topics/">browse topics</a> or try again later.';
+    });
     document.head.append(script);
   }
 </script>

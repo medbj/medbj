@@ -1,31 +1,199 @@
 ---
+import Icon from '../../components/Icon.astro';
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import { articles, dateLabel, articleUrl, readTime } from '../../lib/content';
 import { topicBySlug } from '../../lib/topics';
 import { site } from '../../site.config';
-export async function getStaticPaths() { return (await articles()).map((article) => ({ params: { slug: article.id }, props: { article } })); }
+export async function getStaticPaths() {
+  return (await articles()).map((article) => ({
+    params: { slug: article.id },
+    props: { article },
+  }));
+}
 const { article } = Astro.props;
 const { Content, headings } = await render(article);
 const topic = topicBySlug(article.data.topic);
 const all = await articles();
-const related = all.filter((a) => a.id !== article.id).sort((a, b) => Number(b.data.topic === article.data.topic) - Number(a.data.topic === article.data.topic)).slice(0, 3);
-const jsonLd = { '@context': 'https://schema.org', '@type': 'Article', headline: article.data.title, description: article.data.description, datePublished: article.data.published.toISOString(), dateModified: article.data.updated.toISOString(), inLanguage: article.data.lang, author: { '@type': 'Organization', name: article.data.author }, publisher: { '@type': 'Organization', name: site.name }, mainEntityOfPage: new URL(articleUrl(article), site.url).href };
+const related = all
+  .filter((a) => a.id !== article.id)
+  .sort(
+    (a, b) =>
+      Number(b.data.topic === article.data.topic) -
+      Number(a.data.topic === article.data.topic),
+  )
+  .slice(0, 3);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.data.title,
+  description: article.data.description,
+  datePublished: article.data.published.toISOString(),
+  dateModified: article.data.updated.toISOString(),
+  inLanguage: article.data.lang,
+  author: { '@type': 'Organization', name: article.data.author },
+  publisher: { '@type': 'Organization', name: site.name },
+  mainEntityOfPage: new URL(articleUrl(article), site.url).href,
+};
 ---
-<Base title={article.data.title} description={article.data.description} lang={article.data.lang}>
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
+
+<Base
+  title={article.data.title}
+  description={article.data.description}
+  lang={article.data.lang}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')}
+  />
   <div class="container article-main">
-    <div class="page-head"><nav class="breadcrumbs" aria-label="Breadcrumb"><a href="/blog/">Articles</a><span aria-hidden="true">/</span><a href={`/topics/${topic.slug}/`}>{topic.name}</a></nav></div>
+    <div class="page-head">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/blog/">Articles</a><span aria-hidden="true">/</span><a
+          href={`/topics/${topic.slug}/`}>{topic.name}</a
+        >
+      </nav>
+    </div>
     <div class="article-layout">
       <article data-pagefind-body>
-        <div class="eyebrow"><a href={`/topics/${topic.slug}/`} data-pagefind-filter="topic">{topic.name}</a><span>·</span><span>{readTime(article)} min read</span></div>
-        <header class="page-head"><h1 data-pagefind-meta="title">{article.data.title}</h1><p class="article-intro" data-pagefind-meta="description">{article.data.description}</p><div class="article-meta"><span>By <a href="/about/">{article.data.author}</a></span><span>Published <time datetime={article.data.published.toISOString()}>{dateLabel(article.data.published)}</time></span><span>Updated <time datetime={article.data.updated.toISOString()}>{dateLabel(article.data.updated)}</time></span></div>{article.data.sample && <p class="sample-note">Sample article · Awaiting human editorial review. This is general educational reading.</p>}</header>
-        <section class="takeaways" aria-labelledby="takeaways-heading"><h2 id="takeaways-heading">Key takeaways</h2><ul>{article.data.takeaways.map((takeaway) => <li>{takeaway}</li>)}</ul></section>
-        <div class="prose"><Content /><section aria-labelledby="references"><h2 id="references">References and further reading</h2><p class="fine-print">These sources offer background and further reading. Their inclusion does not mean they reviewed or endorsed this sample article.</p><ul class="article-reference-list">{article.data.references.map((reference) => <li><a href={reference.url} rel="external">{reference.title}</a></li>)}</ul></section><aside class="article-disclaimer"><strong>A note on this article</strong><p>This is general information, not a diagnosis or personal treatment advice. Your needs and circumstances may differ. A qualified health professional can help you work out what support fits. <a href="/disclaimer/">Read our disclaimer</a> or <a href="/get-help/">find support</a>.</p></aside><p><a href={`/topics/${topic.slug}/`}>More on {topic.name.toLowerCase()} →</a></p></div>
+        <div class="eyebrow">
+          <a href={`/topics/${topic.slug}/`} data-pagefind-filter="topic"
+            >{topic.name}</a
+          ><span>·</span><span>{readTime(article)} min read</span>
+        </div>
+        <header class="page-head">
+          <h1 data-pagefind-meta="title">{article.data.title}</h1><p
+            class="article-intro"
+            data-pagefind-meta="description"
+          >
+            {article.data.description}
+          </p><div class="article-meta">
+            <span>By <a href="/about/">{article.data.author}</a></span><span
+              >Published <time datetime={article.data.published.toISOString()}
+                >{dateLabel(article.data.published)}</time
+              ></span
+            ><span
+              >Updated <time datetime={article.data.updated.toISOString()}
+                >{dateLabel(article.data.updated)}</time
+              ></span
+            >
+          </div>{
+            article.data.sample && (
+              <p class="sample-note">
+                Sample article · Awaiting human editorial review. This is
+                general educational reading.
+              </p>
+            )
+          }
+        </header>
+        <section class="takeaways" aria-labelledby="takeaways-heading">
+          <h2 id="takeaways-heading">Key takeaways</h2><ul>
+            {article.data.takeaways.map((takeaway) => <li>{takeaway}</li>)}
+          </ul>
+        </section>
+        {
+          headings.filter((h) => h.depth === 2).length >= 4 && (
+            <details class="mobile-toc" data-pagefind-ignore>
+              <summary>On this page</summary>
+              <nav aria-label="On this page">
+                <ol>
+                  {headings
+                    .filter((h) => h.depth === 2)
+                    .map((heading) => (
+                      <li>
+                        <a href={`#${heading.slug}`}>{heading.text}</a>
+                      </li>
+                    ))}
+                  <li>
+                    <a href="#references">References</a>
+                  </li>
+                </ol>
+              </nav>
+            </details>
+          )
+        }
+        <div class="prose">
+          <Content /><section aria-labelledby="references">
+            <h2 id="references">References and further reading</h2><p
+              class="fine-print"
+            >
+              These sources offer background and further reading. Their
+              inclusion does not mean they reviewed or endorsed this sample
+              article.
+            </p><ul class="article-reference-list">
+              {
+                article.data.references.map((reference) => (
+                  <li>
+                    <a href={reference.url} rel="external">
+                      {reference.title}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </section><aside class="article-disclaimer">
+            <strong>A note on this article</strong><p>
+              This is general information, not a diagnosis or personal treatment
+              advice. Your needs and circumstances may differ. A qualified
+              health professional can help you work out what support fits. <a
+                href="/disclaimer/">Read our disclaimer</a
+              > or <a href="/get-help/">find support</a>.
+            </p>
+          </aside><p>
+            <a href={`/topics/${topic.slug}/`}
+              >More on {topic.name.toLowerCase()} <Icon name="arrow" /></a
+            >
+          </p>
+        </div>
       </article>
-      <aside class="article-sidebar" data-pagefind-ignore>{headings.filter((h) => h.depth === 2).length >= 4 && <nav class="toc" aria-label="On this page"><p>On this page</p><ol>{headings.filter((h) => h.depth === 2).map((heading) => <li><a href={`#${heading.slug}`}>{heading.text}</a></li>)}<li><a href="#references">References</a></li></ol></nav>}<div class="callout"><p class="eyebrow">You don’t have to do this alone</p><p class="fine-print">There’s room to ask for support, whatever you’re feeling.</p><a class="text-link" href="/get-help/">Find support <span aria-hidden="true">↗</span></a></div></aside>
+      <aside class="article-sidebar" data-pagefind-ignore>
+        {
+          headings.filter((h) => h.depth === 2).length >= 4 && (
+            <nav class="toc" aria-label="On this page">
+              <>
+                <p>On this page</p>
+                <ol>
+                  {headings
+                    .filter((h) => h.depth === 2)
+                    .map((heading) => (
+                      <li>
+                        <a href={`#${heading.slug}`}>{heading.text}</a>
+                      </li>
+                    ))}
+                  <li>
+                    <a href="#references">References</a>
+                  </li>
+                </ol>
+              </>
+            </nav>
+          )
+        }<div class="callout">
+          <p class="eyebrow">You don’t have to do this alone</p><p
+            class="fine-print"
+          >
+            There’s room to ask for support, whatever you’re feeling.
+          </p><a class="text-link" href="/get-help/"
+            >Find support <Icon name="external" /></a
+          >
+        </div>
+      </aside>
     </div>
   </div>
-  <section class="container section related" aria-labelledby="related-heading" data-pagefind-ignore><div class="section-head"><h2 id="related-heading">Related reads</h2><a class="text-link" href={`/topics/${topic.slug}/`}>Explore {topic.name.toLowerCase()} <span aria-hidden="true">→</span></a></div><div class="article-grid">{related.map((a) => <ArticleCard article={a} />)}</div></section>
+  <section
+    class="container section related"
+    aria-labelledby="related-heading"
+    data-pagefind-ignore
+  >
+    <div class="section-head">
+      <h2 id="related-heading">Related reads</h2><a
+        class="text-link"
+        href={`/topics/${topic.slug}/`}
+        >Explore {topic.name.toLowerCase()} <Icon name="arrow" /></a
+      >
+    </div><div class="article-grid">
+      {related.map((a) => <ArticleCard article={a} />)}
+    </div>
+  </section>
 </Base>

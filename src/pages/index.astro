@@ -7,43 +7,185 @@ import { articles } from '../lib/content';
 import { topics } from '../lib/topics';
 import { site } from '../site.config';
 const all = await articles();
-const latest = ['when-your-mind-wont-slow-down', 'rest-is-part-of-the-work', 'a-gentler-way-to-end-your-day'].map((id) => all.find((a) => a.id === id)).filter((a): a is NonNullable<typeof a> => !!a);
+const latest = all.slice(0, 3);
 ---
+
 <Base title={site.name}>
   <section class="hero container">
     <div class="hero-grid">
       <div>
         <p class="eyebrow">Psychology, for everyday life</p>
-        <h1><span>A little understanding.</span><span>A little more ease.</span></h1>
-        <p class="hero-description">Clear, thoughtful reads on mental health and everyday wellbeing. A space to get curious, feel understood, and find your next small step.</p>
+        <h1>
+          {
+            site.tagline
+              .split(/(?<=[.!?])\s+/)
+              .map((line) => <span>{line}</span>)
+          }
+        </h1>
+        <p class="hero-description">
+          Clear, thoughtful reads on mental health and everyday wellbeing. A
+          space to get curious, feel understood, and find your next small step.
+        </p>
         <form class="hero-search" action="/search/" role="search">
-          <Icon name="search" /><label class="sr-only" for="home-search">What’s on your mind?</label><input id="home-search" name="q" type="search" placeholder="What’s on your mind?" maxlength="200" /><button type="submit" aria-label="Search articles"><Icon name="arrow" /></button>
+          <Icon name="search" /><label class="sr-only" for="home-search"
+            >What’s on your mind?</label
+          ><input
+            id="home-search"
+            name="q"
+            type="search"
+            placeholder="What’s on your mind?"
+            maxlength="200"
+          /><button type="submit" aria-label="Search articles"
+            ><Icon name="arrow" /></button
+          >
         </form>
-        <div class="hero-cta"><a class="button" href="/start-here/">Find your starting point <Icon name="arrow" /></a><p class="fine-print">No right place to begin.</p></div>
+        <div class="hero-cta">
+          <a class="button" href="/start-here/"
+            >Find your starting point <Icon name="arrow" /></a
+          ><p class="fine-print">No right place to begin.</p>
+        </div>
       </div>
-      <div class="hero-room" role="img" aria-label="A quiet reading corner with an arched window, a plant, and a small stack of books.">
-        <div class="room-window"><div class="room-sun"></div><div class="room-hill"></div></div><div class="room-table"></div><div class="room-books"></div><div class="room-plant"><div class="room-leaf"></div><div class="room-leaf"></div><div class="room-leaf"></div></div><p class="hero-room-caption">A quiet corner of the internet</p>
+      <div
+        class="hero-room"
+        role="img"
+        aria-label="A quiet reading corner with an arched window, a plant, and a small stack of books."
+      >
+        <div class="room-window">
+          <div class="room-sun"></div><div class="room-hill"></div>
+        </div><div class="room-table"></div><div class="room-books"></div><div
+          class="room-plant"
+        >
+          <div class="room-leaf"></div><div class="room-leaf"></div><div
+            class="room-leaf"
+          >
+          </div>
+        </div><p class="hero-room-caption">A quiet corner of the internet</p>
       </div>
     </div>
   </section>
-  <div class="container promise-bar"><span><Icon name="book" /> Plain language, thoughtful reading</span><span><Icon name="leaf" /> Room for your own experience</span><span><Icon name="heart" /> At your pace, always</span></div>
+  <div class="container promise-bar">
+    <span><Icon name="book" /> Plain language, thoughtful reading</span><span
+      ><Icon name="leaf" /> Room for your own experience</span
+    ><span><Icon name="heart" /> At your pace, always</span>
+  </div>
   <section class="container section" aria-labelledby="latest-heading">
-    <div class="section-head"><div><p class="eyebrow">Something to sit with</p><h2 id="latest-heading">The latest reads</h2></div><a class="text-link" href="/blog/">Explore all articles <Icon name="arrow" /></a></div>
-    <div class="article-grid">{latest.map((article) => <ArticleCard article={article} />)}</div>
-    <p class="home-sample-note">These are sample articles, awaiting human editorial review. <a href="/editorial-policy/">How we approach our content</a></p>
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Something to sit with</p><h2 id="latest-heading">
+          The latest reads
+        </h2>
+      </div><a class="text-link" href="/blog/"
+        >Explore all articles <Icon name="arrow" /></a
+      >
+    </div>
+    <div class="article-grid">
+      {latest.map((article) => <ArticleCard article={article} />)}
+    </div>
+    <p class="home-sample-note">
+      These are sample articles, awaiting human editorial review. <a
+        href="/editorial-policy/">How we approach our content</a
+      >
+    </p>
   </section>
-  <section class="container" aria-labelledby="start-heading"><div class="start-band"><div><p class="eyebrow">Not sure where to begin?</p><h2 id="start-heading">Start with how<br class="desktop-break" /> you’re feeling.</h2><p>You don’t need the right words. A small starting point is enough.</p><a class="text-link" href="/start-here/">Explore the reading paths <Icon name="arrow" /></a></div><div class="path-links"><a href="/start-here/#anxiety">“My mind won’t switch off” <Icon name="arrow" /></a><a href="/start-here/#sleep">“I could use a better night’s rest” <Icon name="arrow" /></a><a href="/start-here/#low-mood">“I haven’t been feeling like myself” <Icon name="arrow" /></a><a href="/start-here/#stress">“It all feels a little too much” <Icon name="arrow" /></a></div></div></section>
-  <section class="container section" aria-labelledby="topics-heading"><div class="section-head"><div><p class="eyebrow">Follow your curiosity</p><h2 id="topics-heading">A place for what’s on your mind.</h2></div><a class="text-link" href="/topics/">All topics <Icon name="arrow" /></a></div><div class="topic-grid">{topics.map((topic, i) => <a class="topic-tile" href={`/topics/${topic.slug}/`}><span><span class="topic-number">0{i + 1}</span>{topic.name}</span><Icon name="external" /></a>)}</div></section>
-  <div class="container editorial-note"><Icon name="book" /><p>Understanding starts with care. We aim for clear words, useful context, and respect for different experiences. <a href="/about/">Get to know our approach.</a></p></div>
+  <section class="container" aria-labelledby="start-heading">
+    <div class="start-band">
+      <div>
+        <p class="eyebrow">Not sure where to begin?</p><h2 id="start-heading">
+          Start with how<br class="desktop-break" /> you’re feeling.
+        </h2><p>
+          You don’t need the right words. A small starting point is enough.
+        </p><a class="text-link" href="/start-here/"
+          >Explore the reading paths <Icon name="arrow" /></a
+        >
+      </div><div class="path-links">
+        <a href="/start-here/#anxiety"
+          >“My mind won’t switch off” <Icon name="arrow" /></a
+        ><a href="/start-here/#sleep"
+          >“I could use a better night’s rest” <Icon name="arrow" /></a
+        ><a href="/start-here/#low-mood"
+          >“I haven’t been feeling like myself” <Icon name="arrow" /></a
+        ><a href="/start-here/#stress"
+          >“It all feels a little too much” <Icon name="arrow" /></a
+        >
+      </div>
+    </div>
+  </section>
+  <section class="container section" aria-labelledby="topics-heading">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">Follow your curiosity</p><h2 id="topics-heading">
+          A place for what’s on your mind.
+        </h2>
+      </div><a class="text-link" href="/topics/"
+        >All topics <Icon name="arrow" /></a
+      >
+    </div><div class="topic-grid">
+      {
+        topics.map((topic, i) => (
+          <a class="topic-tile" href={`/topics/${topic.slug}/`}>
+            <>
+              <span>
+                <span class="topic-number">0{i + 1}</span>
+                {topic.name}
+              </span>
+              <Icon name="external" />
+            </>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+  <div class="container editorial-note">
+    <Icon name="book" /><p>
+      Understanding starts with care. We aim for clear words, useful context,
+      and respect for different experiences. <a href="/about/"
+        >Get to know our approach.</a
+      >
+    </p>
+  </div>
   <div class="container"><Newsletter /></div>
-  {site.features.media && <section class="container section"><div class="start-band"><div><p class="eyebrow">Listen &amp; Watch</p><h2>A different way to take it in.</h2><p>Thoughtful conversations and short videos, with written descriptions so you can choose what works for you.</p></div><div><p class="sample-note">Sample collection. Real episodes and platform links are coming later.</p><a class="button secondary" href="/listen-and-watch/">Explore Listen &amp; Watch <Icon name="headphones" /></a></div></div></section>}
+  {
+    site.features.media && (
+      <section class="container section">
+        <div class="start-band">
+          <>
+            <div>
+              <>
+                <p class="eyebrow">Listen &amp; Watch</p>
+                <h2>A different way to take it in.</h2>
+                <p>
+                  Thoughtful conversations and short videos, with written
+                  descriptions so you can choose what works for you.
+                </p>
+              </>
+            </div>
+            <div>
+              <>
+                <p class="sample-note">
+                  Sample collection. Real episodes and platform links are coming
+                  later.
+                </p>
+                <a class="button secondary" href="/listen-and-watch/">
+                  Explore Listen &amp; Watch <Icon name="headphones" />
+                </a>
+              </>
+            </div>
+          </>
+        </div>
+      </section>
+    )
+  }
 </Base>
 
 <script>
-  document.querySelector<HTMLFormElement>('.hero-search')?.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const form = event.currentTarget as HTMLFormElement;
-    const query = String(new FormData(form).get('q') || '').slice(0, 200);
-    window.location.assign(`/search/${query ? `#${new URLSearchParams({ q: query })}` : ''}`);
-  });
+  document
+    .querySelector<HTMLFormElement>('.hero-search')
+    ?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = event.currentTarget as HTMLFormElement;
+      const query = String(new FormData(form).get('q') || '').slice(0, 200);
+      window.location.assign(
+        `/search/${query ? `#${new URLSearchParams({ q: query })}` : ''}`,
+      );
+    });
 </script>

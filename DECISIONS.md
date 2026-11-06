@@ -1,4 +1,5 @@
 # Decisions
+
 - The uploaded brief ends mid-sentence and has no implementation-plan section; use three phases: foundation, complete reading experience, verification and delivery.
 - Use the attached /workspace/medbj repository and retain its existing Git history.
 - Keep Psychology Blog as the working brand, Arial as the only font, and the exact requested eight color tokens.

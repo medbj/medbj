@@ -1,6 +1,7 @@
 # Psychology Blog contributor guide
 
 ## Commands
+
 - `npm ci`: install locked dependencies (Node 22 recommended).
 - `npm run dev`: local Astro server.
 - `npm run build`: token contrast gate, static Astro output, then Pagefind index.
@@ -11,6 +12,7 @@
 - `npm run preview`: serve the complete built site, including Pagefind.
 
 ## Layout
+
 - `src/site.config.ts`: brand, canonical origin, language, feature flags, and newsletter settings.
 - `src/content/`: MDX articles and YAML media, validated in `src/content.config.ts`.
 - `src/components/`, `src/layouts/`: reusable static Astro UI.
@@ -23,6 +25,7 @@
 - `work/`: ignored scratch files; never commit secrets.
 
 ## Working rules
+
 - Work in phases. At each phase run `npm run build`, fix failures, commit with a clear message, and give a short summary.
 - Do not ask the owner questions about ambiguities; choose sensible defaults and record one line each in DECISIONS.md.
 - Never invent author credentials, statistics, studies, or clinical claims. Put author biography, editorial and legal review, verified crisis numbers, newsletter endpoint, domain, and podcast/YouTube URLs in HUMAN_TODO.md.

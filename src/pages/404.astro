@@ -1,9 +1,35 @@
 ---
+import Icon from '../components/Icon.astro';
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Page not found" description="This page could not be found. Find your way back to articles and topics on Psychology Blog." noindex>
+
+<Base
+  title="Page not found"
+  description="This page could not be found. Find your way back to articles and topics on Psychology Blog."
+  noindex
+>
   <div class="container narrow section">
-    <header class="page-head"><p class="eyebrow">404 · A small detour</p><h1>Let's find another path.</h1><p>The page you are looking for may have moved, or the link may be incomplete.</p></header>
-    <div class="prose"><p>You can <a href="/search/">search for a topic</a>, explore <a href="/blog/">the latest articles</a>, or follow a guided reading path.</p><p><a class="button" href="/start-here/">Start here <span aria-hidden="true">↗</span></a></p><p>If you are looking for support, <a href="/get-help/">Get Help</a> is always available.</p></div>
+    <header class="page-head">
+      <p class="eyebrow">404 · A small detour</p><h1>
+        Let's find another path.
+      </h1><p>
+        The page you are looking for may have moved, or the link may be
+        incomplete.
+      </p>
+    </header>
+    <div class="prose">
+      <p>
+        You can <a href="/search/">search for a topic</a>, explore <a
+          href="/blog/">the latest articles</a
+        >, or follow a guided reading path.
+      </p><p>
+        <a class="button" href="/start-here/"
+          >Start here <Icon name="external" /></a
+        >
+      </p><p>
+        If you are looking for support, <a href="/get-help/">Get Help</a> is always
+        available.
+      </p>
+    </div>
   </div>
 </Base>

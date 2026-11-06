@@ -1,15 +1,72 @@
 ---
+import Icon from './Icon.astro';
 import { site } from '../site.config';
 const { full = false } = Astro.props;
 ---
-<section class:list={['newsletter', { 'newsletter-full': full }]} aria-labelledby="newsletter-heading">
-  <div><p class="eyebrow">A thoughtful note, now and then</p><h2 id="newsletter-heading">A little space in your inbox.</h2><p>New reads and gentle reminders. Something to pause with,<br class="desktop-break" /> whenever you have a moment.</p></div>
+
+<section
+  class:list={['newsletter', { 'newsletter-full': full }]}
+  aria-labelledby="newsletter-heading"
+>
+  <div>
+    <p class="eyebrow">A thoughtful note, now and then</p><h2
+      id="newsletter-heading"
+    >
+      A little space in your inbox.
+    </h2><p>
+      New reads and gentle reminders. Something to pause with,<br
+        class="desktop-break"
+      /> whenever you have a moment.
+    </p>
+  </div>
   <div class="newsletter-action">
-    {site.newsletter.action ? <form action={site.newsletter.action} method="post">
-      <label for="newsletter-email">Your email address</label>
-      <div class="input-row"><input id="newsletter-email" type="email" name={site.newsletter.emailField} autocomplete="email" placeholder="you@example.com" required /><button type="submit">Subscribe <span aria-hidden="true">↗</span></button></div>
-      <div class="honeypot" aria-hidden="true"><label for="newsletter-website">Leave this empty</label><input id="newsletter-website" name={site.newsletter.honeypotField} type="text" tabindex="-1" autocomplete="off" /></div>
-      <p class="fine-print">Confirm your subscription by email. Unsubscribe at any time. <a href="/privacy/">Privacy policy</a></p>
-    </form> : <div><p class="newsletter-status">Good things take a little time.</p><p class="fine-print">The newsletter is coming soon. In the meantime, follow along with <a href="/rss.xml">our RSS feed</a>.</p></div>}
+    {
+      site.newsletter.action ? (
+        <form action={site.newsletter.action} method="post">
+          <label for="newsletter-email">Your email address</label>
+          <div class="input-row">
+            <>
+              <input
+                id="newsletter-email"
+                type="email"
+                name={site.newsletter.emailField}
+                autocomplete="email"
+                placeholder="you@example.com"
+                required
+              />
+              <button type="submit">
+                Subscribe <Icon name="external" />
+              </button>
+            </>
+          </div>
+          <div class="honeypot" aria-hidden="true">
+            <>
+              <label for="newsletter-website">Leave this empty</label>
+              <input
+                id="newsletter-website"
+                name={site.newsletter.honeypotField}
+                type="text"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </>
+          </div>
+          <p class="fine-print">
+            Confirm your subscription by email. Unsubscribe at any time.{' '}
+            <a href="/privacy/">Privacy policy</a>
+          </p>
+        </form>
+      ) : (
+        <div>
+          <>
+            <p class="newsletter-status">Good things take a little time.</p>
+            <p class="fine-print">
+              The newsletter is coming soon. In the meantime, follow along with{' '}
+              <a href="/rss.xml">our RSS feed</a>.
+            </p>
+          </>
+        </div>
+      )
+    }
   </div>
 </section>

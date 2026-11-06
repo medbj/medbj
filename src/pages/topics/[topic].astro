@@ -5,24 +5,65 @@ import { articles } from '../../lib/content';
 import { topics } from '../../lib/topics';
 
 export function getStaticPaths() {
-  return topics.map((topic) => ({ params: { topic: topic.slug }, props: { topic } }));
+  return topics.map((topic) => ({
+    params: { topic: topic.slug },
+    props: { topic },
+  }));
 }
-interface Props { topic: (typeof topics)[number]; }
+interface Props {
+  topic: (typeof topics)[number];
+}
 const { topic } = Astro.props;
-const filteredArticles = (await articles()).filter((article) => article.data.topic === topic.slug);
+const filteredArticles = (await articles()).filter(
+  (article) => article.data.topic === topic.slug,
+);
 ---
+
 <Base title={topic.name} description={topic.description}>
   <div class="container">
-    <header class="page-head"><p class="eyebrow"><a href="/topics/">Explore topics</a><span aria-hidden="true">/</span><span>{topic.name}</span></p><h1>{topic.name}</h1><p>{topic.description} These reads are a place to learn and reflect, without pressure to have everything figured out.</p></header>
+    <header class="page-head">
+      <p class="eyebrow">
+        <a href="/topics/">Explore topics</a><span aria-hidden="true">/</span
+        ><span>{topic.name}</span>
+      </p><h1>{topic.name}</h1><p>
+        {topic.description} These reads are a place to learn and reflect, without
+        pressure to have everything figured out.
+      </p>
+    </header>
     <nav class="filters" aria-label="Filter articles by topic">
       <a href="/blog/">All articles</a>
-      {topics.map((item) => <a href={`/topics/${item.slug}/`} aria-current={item.slug === topic.slug ? 'page' : undefined}>{item.name}</a>)}
+      {
+        topics.map((item) => (
+          <a
+            href={`/topics/${item.slug}/`}
+            aria-current={item.slug === topic.slug ? 'page' : undefined}
+          >
+            {item.name}
+          </a>
+        ))
+      }
     </nav>
     <section aria-labelledby="topic-articles-heading">
-      <h2 id="topic-articles-heading">Reading about {topic.name.toLowerCase()}</h2>
-      <p class="fine-print">{filteredArticles.length} {filteredArticles.length === 1 ? 'article' : 'articles'} · Educational samples awaiting human editorial review.</p>
-      <div class="article-grid">{filteredArticles.map((article) => <ArticleCard article={article} />)}</div>
+      <h2 id="topic-articles-heading">
+        Reading about {topic.name.toLowerCase()}
+      </h2>
+      <p class="fine-print">
+        {filteredArticles.length}
+        {filteredArticles.length === 1 ? 'article' : 'articles'} · Educational samples
+        awaiting human editorial review.
+      </p>
+      <div class="article-grid">
+        {filteredArticles.map((article) => <ArticleCard article={article} />)}
+      </div>
     </section>
-    <div class="section"><p>Want a little structure? <a href="/start-here/">Follow a short reading path</a>. If you are looking for personal support, <a href="/get-help/">Get Help</a> can point you toward a next step.</p></div>
+    <div class="section">
+      <p>
+        Want a little structure? <a href="/start-here/"
+          >Follow a short reading path</a
+        >. If you are looking for personal support, <a href="/get-help/"
+          >Get Help</a
+        > can point you toward a next step.
+      </p>
+    </div>
   </div>
 </Base>

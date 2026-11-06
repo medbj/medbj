@@ -7,6 +7,16 @@ export default defineConfig(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...astro.configs.recommended,
-  { files: ['**/*.mjs', '**/*.js'], languageOptions: { globals: { process: 'readonly', console: 'readonly', URL: 'readonly', Buffer: 'readonly' } } },
+  {
+    files: ['**/*.mjs', '**/*.js'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+        URL: 'readonly',
+        Buffer: 'readonly',
+      },
+    },
+  },
   { files: ['**/*.astro/*.ts'], rules: { 'no-undef': 'off' } },
 );

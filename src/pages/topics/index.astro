@@ -1,24 +1,60 @@
 ---
+import Icon from '../../components/Icon.astro';
 import Base from '../../layouts/Base.astro';
 import Art from '../../components/Art.astro';
 import { articles } from '../../lib/content';
 import { topics } from '../../lib/topics';
 const allArticles = await articles();
 ---
-<Base title="Topics" description="Explore articles about anxiety, low mood, stress, relationships, sleep, self-esteem, grief, and everyday growth.">
+
+<Base
+  title="Topics"
+  description="Explore articles about anxiety, low mood, stress, relationships, sleep, self-esteem, grief, and everyday growth."
+>
   <div class="container">
-    <header class="page-head"><p class="eyebrow">Follow what feels relevant</p><h1>A place for what is on your mind.</h1><p>You do not need the right label for how you feel. Choose a topic that speaks to you, and take it one read at a time.</p></header>
+    <header class="page-head">
+      <p class="eyebrow">Follow what feels relevant</p><h1>
+        A place for what is on your mind.
+      </h1><p>
+        You do not need the right label for how you feel. Choose a topic that
+        speaks to you, and take it one read at a time.
+      </p>
+    </header>
     <div class="topic-hub-grid">
-      {topics.map((topic) => {
-        const count = allArticles.filter((article) => article.data.topic === topic.slug).length;
-        return <section class="topic-hub-card" aria-labelledby={`topic-${topic.slug}`}>
-          <Art kind={topic.icon} />
-          <h2 id={`topic-${topic.slug}`}><a href={`/topics/${topic.slug}/`}>{topic.name}</a></h2>
-          <p>{topic.description}</p>
-          <a class="text-link" href={`/topics/${topic.slug}/`} aria-label={`Explore ${topic.name}: ${count} ${count === 1 ? 'article' : 'articles'}`}>{count} {count === 1 ? 'article' : 'articles'} <span aria-hidden="true">↗</span></a>
-        </section>;
-      })}
+      {
+        topics.map((topic) => {
+          const count = allArticles.filter(
+            (article) => article.data.topic === topic.slug,
+          ).length;
+          return (
+            <section
+              class="topic-hub-card"
+              aria-labelledby={`topic-${topic.slug}`}
+            >
+              <Art kind={topic.icon} />
+              <h2 id={`topic-${topic.slug}`}>
+                <a href={`/topics/${topic.slug}/`}>{topic.name}</a>
+              </h2>
+              <p>{topic.description}</p>
+              <a
+                class="text-link"
+                href={`/topics/${topic.slug}/`}
+                aria-label={`Explore ${topic.name}: ${count} ${count === 1 ? 'article' : 'articles'}`}
+              >
+                {count} {count === 1 ? 'article' : 'articles'}{' '}
+                <Icon name="external" />
+              </a>
+            </section>
+          );
+        })
+      }
     </div>
-    <div class="section"><p>Looking for a little guidance? <a href="/start-here/">Try one of our short reading paths</a>.</p></div>
+    <div class="section">
+      <p>
+        Looking for a little guidance? <a href="/start-here/"
+          >Try one of our short reading paths</a
+        >.
+      </p>
+    </div>
   </div>
 </Base>

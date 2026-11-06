@@ -1,9 +1,19 @@
 ---
-interface Props { kind?: string; large?: boolean; }
+interface Props {
+  kind?: string;
+  large?: boolean;
+}
 const { kind = 'plant', large = false } = Astro.props;
 ---
-<div class:list={['art', `art-${kind}`, { 'art-large': large }]} aria-hidden="true">
+
+<div
+  class:list={['art', `art-${kind}`, { 'art-large': large }]}
+  aria-hidden="true"
+>
   <div class="art-orbit"></div>
-  <div class="art-shape one"></div><div class="art-shape two"></div><div class="art-shape three"></div><div class="art-shape four"></div>
+  <div class="art-shape one"></div><div class="art-shape two"></div><div
+    class="art-shape three"
+  >
+  </div><div class="art-shape four"></div>
   <div class="art-line"></div>
 </div>
