@@ -1,0 +1,155 @@
+---
+import { site } from '../site.config';
+import Base from '../layouts/Base.astro';
+import KeyTakeaways from '../components/KeyTakeaways.astro';
+import DisclaimerBox from '../components/DisclaimerBox.astro';
+import CrisisBanner from '../components/CrisisBanner.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import '../styles/styleguide.css';
+const colors = [
+  { name: 'white', purpose: 'Main page background' },
+  { name: 'sand', purpose: 'Callouts and warm surfaces' },
+  { name: 'sand-soft', purpose: 'Quiet section backgrounds' },
+  { name: 'ink', purpose: 'Reading text and headings' },
+  { name: 'muted', purpose: 'Supporting text' },
+  { name: 'link', purpose: 'Links, controls, and focus rings' },
+  { name: 'link-hover', purpose: 'Hovered links and controls' },
+  { name: 'border', purpose: 'Decorative dividers' },
+];
+const headings = [
+  { depth: 2, slug: 'colors', text: 'The color palette' },
+  { depth: 2, slug: 'type', text: 'Type and reading' },
+  { depth: 2, slug: 'controls', text: 'Links, buttons, and focus' },
+  {
+    depth: 2,
+    slug: 'reading-components',
+    text: 'Reading and support components',
+  },
+  { depth: 2, slug: 'references', text: 'References' },
+];
+---
+
+<Base
+  title="Styleguide"
+  description={`The internal design reference for ${site.name}: color tokens, readable typography, controls, and article components.`}
+  noindex
+>
+  <div class="container narrow styleguide-page">
+    <header class="page-head">
+      <p class="eyebrow">Internal design reference</p>
+      <h1>A quiet foundation for reading.</h1>
+      <p>
+        Typography, color, and useful components for a calm, accessible reading
+        experience. This reference page is excluded from search indexing.
+      </p>
+    </header>
+    <div class="styleguide-contents">
+      <TableOfContents headings={headings} mode="desktop" />
+      <TableOfContents headings={headings} mode="mobile" />
+    </div>
+    <section class="styleguide-section" aria-labelledby="colors">
+      <h2 id="colors">The color palette</h2>
+      <p>
+        Use the named tokens from the shared stylesheet. Light borders add
+        structure; teal marks interactive controls.
+      </p>
+      <dl class="swatch-grid">
+        {
+          colors.map((color) => (
+            <div class="swatch-item">
+              <>
+                <div
+                  class:list={['swatch', `swatch-${color.name}`]}
+                  aria-hidden="true"
+                />
+                <dt>
+                  <code>--{color.name}</code>
+                </dt>
+                <dd>{color.purpose}</dd>
+              </>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+    <section class="styleguide-section prose" aria-labelledby="type">
+      <h2 id="type">Type and reading</h2>
+      <p>
+        Arial is the reading font. The body uses 18px text and a line height of
+        1.7. Paragraphs stay near 70 characters wide.
+      </p>
+      <h3>A heading introduces one clear idea.</h3>
+      <p>
+        You do not need to have the right words for a feeling before you can
+        begin to explore it. A short read can offer a starting point, with room
+        to pause.
+      </p>
+      <h4>A smaller heading adds useful detail.</h4>
+      <p>
+        <strong>Bold text adds emphasis.</strong>
+        <em>Italics add a quieter emphasis.</em> Use both sparingly so the main thought
+        stays easy to follow.
+      </p>
+      <p class="fine-print">
+        Supporting information stays readable and uses the muted text token.
+      </p>
+    </section>
+    <section class="styleguide-section" aria-labelledby="controls">
+      <h2 id="controls">Links, buttons, and focus</h2>
+      <p>
+        Use a keyboard to move through these controls. Each has a visible teal
+        focus ring and enough space to select it.
+      </p>
+      <div class="styleguide-actions">
+        <a class="button" href="/start-here/">Start here</a><a
+          class="button secondary"
+          href="/topics/">Browse topics</a
+        ><a class="text-link" href="/blog/">Read all articles</a>
+      </div>
+      <p class="prose">
+        A link within a paragraph is always underlined, such as <a
+          href="/editorial-policy/">our editorial policy</a
+        >.
+      </p>
+      <form class="styleguide-form" action="/search/" method="get">
+        <label for="styleguide-search">Try a labelled search field</label>
+        <input
+          id="styleguide-search"
+          name="q"
+          type="search"
+          placeholder="For example, sleep"
+        />
+        <button type="submit">Search articles</button>
+      </form>
+    </section>
+    <section class="styleguide-section" aria-labelledby="reading-components">
+      <h2 id="reading-components">Reading and support components</h2>
+      <p>
+        Takeaways help a reader decide where to begin. Support information stays
+        clear and does not interrupt reading.
+      </p>
+      <KeyTakeaways
+        items={[
+          'A short summary gives readers a clear starting point.',
+          'General education cannot replace individual professional care.',
+          'Support resources remain one click away.',
+        ]}
+        id="styleguide-takeaways"
+      />
+      <DisclaimerBox />
+      <CrisisBanner />
+    </section>
+    <section class="styleguide-section prose" aria-labelledby="references">
+      <h2 id="references">References</h2>
+      <p>
+        The <a href="/accessibility/">accessibility statement</a> describes our WCAG
+        2.2 AA target and current verification limits. The automated token contrast
+        check is available with <code>npm run check:contrast</code>.
+      </p>
+      <p>
+        These components demonstrate presentation and do not establish clinical,
+        legal, or accessibility certification.
+      </p>
+    </section>
+  </div>
+</Base>

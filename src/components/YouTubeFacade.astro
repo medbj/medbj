@@ -1,0 +1,177 @@
+---
+import Icon from './Icon.astro';
+import type { MediaData } from '../lib/media';
+interface Props {
+  youtubeId: string;
+  title: string;
+  thumbnail?: MediaData['thumbnail'];
+  instanceId?: string;
+}
+const { youtubeId, title, thumbnail, instanceId } = Astro.props;
+const localThumbnail =
+  thumbnail && /^\/(?!\/)/.test(thumbnail.src) ? thumbnail : undefined;
+const key = (instanceId || youtubeId).replace(/[^a-z0-9-]/gi, '-');
+const playerId = `video-player-${key}`;
+const statusId = `video-status-${key}`;
+const privacyId = `video-privacy-${key}`;
+const fallbackUrl = `https://www.youtube.com/watch?v=${youtubeId}`;
+---
+
+<div class="youtube-facade" data-video-facade>
+  <div id={playerId} class="video-player-region" data-video-region>
+    <button
+      type="button"
+      class="media-facade youtube-facade-button"
+      data-youtube={youtubeId}
+      data-video-title={title}
+      aria-describedby={privacyId}
+      aria-controls={playerId}
+    >
+      {
+        localThumbnail ? (
+          <img
+            class="video-local-thumbnail"
+            src={localThumbnail.src}
+            alt={localThumbnail.alt}
+            width={localThumbnail.width}
+            height={localThumbnail.height}
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <span class="video-thumbnail" aria-hidden="true">
+            <>
+              <span />
+              <span />
+            </>
+          </span>
+        )
+      }
+      <Icon name="play" />
+      <span>Load video player <span class="sr-only">for {title}</span></span>
+      <small>The video will wait for you to press play.</small>
+    </button>
+  </div>
+  <p id={privacyId} class="fine-print video-privacy">
+    Loading this player connects your browser to YouTube. You can use the direct
+    link instead. No video or sound starts automatically.
+  </p>
+  <p
+    id={statusId}
+    class="fine-print video-status"
+    data-video-status
+    role="status"
+    aria-live="polite"
+  >
+    Video player is not loaded.
+  </p>
+  <p class="media-fallback">
+    <a href={fallbackUrl} rel="external noreferrer"
+      >Watch “{title}” on YouTube <Icon name="external" /></a
+    >
+  </p>
+  <noscript>
+    <style is:inline>
+      .youtube-facade-button {
+        display: none !important;
+      }
+    </style>
+    <p class="fine-print">
+      The embedded player needs JavaScript. The direct video link above still
+      works.
+    </p>
+  </noscript>
+</div>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>('[data-video-facade]')
+    .forEach((facade) => {
+      const button = facade.querySelector<HTMLButtonElement>('[data-youtube]');
+      const region = facade.querySelector<HTMLElement>('[data-video-region]');
+      const status = facade.querySelector<HTMLElement>('[data-video-status]');
+      if (!button || !region || !status) return;
+      button.addEventListener(
+        'click',
+        () => {
+          const id = button.dataset.youtube;
+          if (!id || !/^[\w-]{11}$/.test(id)) {
+            status.textContent =
+              'This player cannot be loaded. Use the direct video link or explore the related topic.';
+            return;
+          }
+          const frame = document.createElement('iframe');
+          frame.className = 'media-frame';
+          frame.width = '560';
+          frame.height = '315';
+          frame.title = button.dataset.videoTitle || 'Video player';
+          frame.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0`;
+          frame.allow = 'encrypted-media; picture-in-picture; fullscreen';
+          frame.allowFullscreen = true;
+          frame.referrerPolicy = 'strict-origin-when-cross-origin';
+          frame.tabIndex = 0;
+          frame.setAttribute('aria-describedby', status.id);
+          region.setAttribute('aria-busy', 'true');
+          status.textContent =
+            'Loading the player. Press play when it is ready, or use the direct video link below.';
+          const helpTimer = window.setTimeout(() => {
+            region.removeAttribute('aria-busy');
+            status.textContent =
+              'If the player stays blank or is unavailable where you are, use the direct video link or explore the related topic below.';
+          }, 12000);
+          frame.addEventListener(
+            'load',
+            () => {
+              window.clearTimeout(helpTimer);
+              region.removeAttribute('aria-busy');
+              // A cross-origin load event cannot confirm that the provider can play the video.
+              status.textContent =
+                'Choose play in the video player. If it does not work, use the direct video link or explore the related topic below.';
+            },
+            { once: true },
+          );
+          frame.addEventListener(
+            'error',
+            () => {
+              window.clearTimeout(helpTimer);
+              region.removeAttribute('aria-busy');
+              status.textContent =
+                'The player could not be loaded. Use the direct video link or explore the related topic below.';
+            },
+            { once: true },
+          );
+          button.replaceWith(frame);
+          frame.focus();
+        },
+        { once: true },
+      );
+    });
+</script>
+
+<style>
+  .video-player-region {
+    inline-size: 100%;
+  }
+  .video-local-thumbnail {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
+  }
+  .video-local-thumbnail ~ span,
+  .video-local-thumbnail ~ small,
+  .video-local-thumbnail ~ :global(.icon) {
+    position: relative;
+    background: var(--sand);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+  .video-privacy,
+  .video-status {
+    margin-block: 0.75rem;
+  }
+  .media-fallback {
+    margin-block: 0.75rem 1.25rem;
+  }
+</style>

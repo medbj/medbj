@@ -1,0 +1,19 @@
+.newsletter-form {
+  scroll-margin-block-start: 8rem;
+}
+.newsletter-form-message {
+  padding-block: 0.75rem;
+  padding-inline: 1rem;
+  margin-block: 1rem;
+  background: var(--sand-soft);
+  color: var(--ink);
+  border-inline-start: 3px solid var(--link);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.newsletter-form-message[hidden] {
+  display: none;
+}
+.newsletter-form button:disabled {
+  cursor: wait;
+}

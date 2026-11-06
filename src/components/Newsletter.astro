@@ -1,0 +1,40 @@
+---
+import NewsletterForm from './NewsletterForm.astro';
+import { site } from '../site.config';
+interface Props {
+  full?: boolean;
+}
+const { full = false } = Astro.props;
+---
+
+<section
+  class:list={['newsletter', { 'newsletter-full': full }]}
+  aria-labelledby="newsletter-heading"
+>
+  <div>
+    <p class="eyebrow">A thoughtful note, now and then</p>
+    <h2 id="newsletter-heading">A little space in your inbox.</h2>
+    <p>
+      New reads and gentle reminders. Something to pause with,<br
+        class="desktop-break"
+      /> whenever you have a moment.
+    </p>
+  </div>
+  <div class="newsletter-action">
+    {
+      site.newsletter.action ? (
+        <NewsletterForm />
+      ) : (
+        <div>
+          <>
+            <p class="newsletter-status">Good things take a little time.</p>
+            <p class="fine-print">
+              The newsletter is coming soon. In the meantime, follow along with{' '}
+              <a href="/rss.xml">our RSS feed</a>.
+            </p>
+          </>
+        </div>
+      )
+    }
+  </div>
+</section>

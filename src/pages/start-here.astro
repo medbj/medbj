@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import Icon from '../components/Icon.astro';
+import Base from '../layouts/Base.astro';
+import { articles, articleUrl, readTime } from '../lib/content';
+import { readingPaths } from '../data/reading-paths';
+const publicArticles = await articles();
+const sourceArticles = await getCollection('posts');
+const sourceSlugs = new Set(sourceArticles.map((article) => article.data.slug));
+const publicBySlug = new Map(
+  publicArticles.map((article) => [article.data.slug, article]),
+);
+const paths = readingPaths
+  .map((path) => ({
+    ...path,
+    articles: path.articles.flatMap((slug) => {
+      if (!sourceSlugs.has(slug))
+        throw new Error(
+          `Reading path "${path.id}" references missing article slug: ${slug}`,
+        );
+      const article = publicBySlug.get(slug);
+      return article ? [article] : [];
+    }),
+  }))
+  .filter((path) => path.articles.length > 0);
+---
+
+<Base
+  title="Start here"
+  description="Five gentle reading paths for anxious thoughts, difficult nights, low days, feeling overwhelmed, and being kinder to yourself."
+>
+  <div class="container narrow">
+    <header class="page-head">
+      <p class="eyebrow">There is no perfect place to begin</p><h1>
+        Start with where you are.
+      </h1><p>
+        You do not have to read everything. Pick a path that feels close to your
+        day. One article is enough.
+      </p>
+    </header>
+    {
+      paths.length > 0 ? (
+        <>
+          <nav class="filters" aria-label="Jump to a reading path">
+            {paths.map((path) => (
+              <a href={`#${path.id}`}>{path.title}</a>
+            ))}
+          </nav>
+          {paths.map((path) => (
+            <section
+              class="reading-path"
+              id={path.id}
+              aria-labelledby={`${path.id}-heading`}
+            >
+              <h2 id={`${path.id}-heading`}>{path.title}</h2>
+              <p>{path.description}</p>
+              <ol>
+                {path.articles.map((article) => (
+                  <li>
+                    <a href={articleUrl(article)}>{article.data.title}</a>
+                    <p>
+                      {article.data.description}{' '}
+                      <span>· {readTime(article)} min read</span>
+                    </p>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          ))}
+        </>
+      ) : (
+        <section class="callout" aria-labelledby="paths-empty-heading">
+          <>
+            <h2 id="paths-empty-heading">Reading paths are being prepared.</h2>
+            <p>
+              In the meantime, you can <a href="/topics/">explore our topics</a>{' '}
+              or <a href="/blog/">browse available articles</a>.
+            </p>
+          </>
+        </section>
+      )
+    }
+    <div class="callout">
+      <h2>A path is an invitation.</h2><p>
+        These are educational reads, not an assessment or a treatment plan. You
+        can skip a step, change direction, or stop. If you need personal
+        support, visit <a href="/get-help/">Get Help</a>.
+      </p>
+    </div>
+    <div class="section">
+      <a class="text-link" href="/topics/"
+        >Explore all topics <Icon name="external" /></a
+      >
+    </div>
+  </div>
+</Base>

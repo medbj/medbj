@@ -1,0 +1,35 @@
+---
+import type { Article } from '../lib/content';
+import ArticleCard from './ArticleCard.astro';
+import Icon from './Icon.astro';
+interface Props {
+  articles: Article[];
+  topic: { slug: string; name: string };
+  id?: string;
+}
+const { articles, topic, id = 'related-heading' } = Astro.props;
+---
+
+{
+  articles.length > 0 && (
+    <section
+      class="container section related"
+      aria-labelledby={id}
+      data-pagefind-ignore
+    >
+      <div class="section-head">
+        <>
+          <h2 id={id}>Related reads</h2>
+          <a class="text-link" href={`/topics/${topic.slug}/`}>
+            Explore {topic.name.toLowerCase()} <Icon name="arrow" />
+          </a>
+        </>
+      </div>
+      <div class="article-grid">
+        {articles.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    </section>
+  )
+}

@@ -1,0 +1,140 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../site.config';
+import '../styles/newsletter.css';
+interface Props {
+  id?: string;
+}
+const { id = 'newsletter-signup' } = Astro.props;
+---
+
+{
+  site.newsletter.action && (
+    <form
+      id={id}
+      class="newsletter-form"
+      action={site.newsletter.action}
+      method="post"
+      data-newsletter-form
+      aria-describedby={`${id}-privacy`}
+    >
+      <label for={`${id}-email`}>Your email address</label>
+      <div class="input-row">
+        <input
+          id={`${id}-email`}
+          type="email"
+          name={site.newsletter.emailField}
+          autocomplete="email"
+          placeholder="you@example.com"
+          required
+        />
+        <button type="submit" data-newsletter-submit>
+          <>
+            <span data-newsletter-submit-label>Subscribe</span>
+            <Icon name="external" />
+          </>
+        </button>
+      </div>
+      <div class="honeypot" aria-hidden="true">
+        <label for={`${id}-website`}>Leave this empty</label>
+        <input
+          id={`${id}-website`}
+          name={site.newsletter.honeypotField}
+          type="text"
+          tabindex="-1"
+          autocomplete="off"
+          data-newsletter-honeypot
+        />
+      </div>
+      <p class="fine-print" id={`${id}-privacy`}>
+        Your email goes directly to our email provider. Confirm by email before
+        your subscription begins. Unsubscribe at any time.{' '}
+        <a href="/privacy/">Privacy policy</a>
+      </p>
+      <p
+        class="newsletter-form-message"
+        data-newsletter-pending
+        role="status"
+        hidden
+      >
+        Opening the email provider. Complete any steps it shows, then look for a
+        confirmation email.
+      </p>
+      <p
+        class="newsletter-form-message"
+        data-newsletter-error
+        role="alert"
+        hidden
+      />
+      <p class="fine-print">
+        <a href="/newsletter/problem/">Need help signing up?</a> You can also{' '}
+        <a href="/rss.xml">follow the RSS feed</a>.
+      </p>
+    </form>
+  )
+}
+
+<script>
+  document
+    .querySelectorAll<HTMLFormElement>('[data-newsletter-form]')
+    .forEach((form) => {
+      const button = form.querySelector<HTMLButtonElement>(
+        '[data-newsletter-submit]',
+      );
+      const label = form.querySelector<HTMLElement>(
+        '[data-newsletter-submit-label]',
+      );
+      const honeypot = form.querySelector<HTMLInputElement>(
+        '[data-newsletter-honeypot]',
+      );
+      const pending = form.querySelector<HTMLElement>(
+        '[data-newsletter-pending]',
+      );
+      const error = form.querySelector<HTMLElement>('[data-newsletter-error]');
+      if (!button || !label || !honeypot || !pending || !error) return;
+      let submitting = false;
+      const reset = () => {
+        submitting = false;
+        button.disabled = false;
+        label.textContent = 'Subscribe';
+        form.removeAttribute('aria-busy');
+        pending.hidden = true;
+        error.hidden = true;
+        error.textContent = '';
+      };
+      const showError = (message: string) => {
+        reset();
+        error.textContent = message;
+        error.hidden = false;
+      };
+      form.addEventListener('submit', (event) => {
+        if (submitting) {
+          event.preventDefault();
+          return;
+        }
+        if (honeypot.value.trim()) {
+          event.preventDefault();
+          showError(
+            'This request could not be sent. Please reload the page and try again, or follow the RSS feed.',
+          );
+          return;
+        }
+        if (navigator.onLine === false) {
+          event.preventDefault();
+          showError(
+            'You appear to be offline. Reconnect, then try again. This request has not been sent.',
+          );
+          return;
+        }
+        error.hidden = true;
+        error.textContent = '';
+        submitting = true;
+        button.disabled = true;
+        label.textContent = 'Sending…';
+        form.setAttribute('aria-busy', 'true');
+        pending.hidden = false;
+      });
+      form.addEventListener('reset', reset);
+      window.addEventListener('pageshow', reset);
+    });
+</script>

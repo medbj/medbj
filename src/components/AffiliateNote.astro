@@ -1,0 +1,41 @@
+---
+import { site } from '../site.config';
+import { affiliates } from '../lib/affiliates';
+import { canMonetize } from '../lib/monetization';
+interface Props {
+  ids?: string[];
+  sensitive?: boolean;
+}
+const { ids = [], sensitive = false } = Astro.props;
+const entries = affiliates.filter((entry) => ids.includes(entry.id));
+const allowed =
+  site.features.affiliates &&
+  entries.length > 0 &&
+  (await canMonetize(Astro.url.pathname, sensitive));
+---
+
+{
+  allowed && (
+    <aside
+      data-affiliate-note
+      class="callout"
+      aria-label="Affiliate disclosure"
+    >
+      <>
+        <p>
+          If you buy through these affiliate links, this site may earn a
+          commission. You can choose whether to use them.
+        </p>
+        <ul>
+          {entries.map((entry) => (
+            <li>
+              <a href={entry.url} rel="sponsored nofollow noopener">
+                {entry.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    </aside>
+  )
+}

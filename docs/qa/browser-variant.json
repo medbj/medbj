@@ -1,0 +1,158 @@
+[
+  {
+    "flow": "media-axe-before-click",
+    "violations": [],
+    "incomplete": [
+      {
+        "id": "color-contrast",
+        "nodes": 2
+      }
+    ]
+  },
+  {
+    "flow": "media-before-click",
+    "descriptions": [
+      "Sample episode: a gentle conversation about everyday stress, making room for rest, and finding support. This is a content example; an episode has not been published.",
+      "Sample video: an introduction to noticing worry and choosing a manageable next step. This is a content example; a video has not been published."
+    ],
+    "fallbacks": ["Watch “Understanding busy thoughts” on YouTube   "],
+    "sampleLabels": [
+      "\nSample item · A format preview awaiting human review. This episode has\n        not been released.\n",
+      "\nSample item · A format preview awaiting human review. This episode has\n        not been released.\n"
+    ],
+    "youtubeRequests": []
+  },
+  {
+    "flow": "media-click",
+    "src": "https://www.youtube-nocookie.com/embed/abcdefghijk?rel=0",
+    "allow": "encrypted-media; picture-in-picture; fullscreen",
+    "status": "Choose play in the video player. If it does not work, use the direct video link or explore the related topic below."
+  },
+  {
+    "flow": "blocked-video",
+    "status": "Choose play in the video player. If it does not work, use the direct video link or explore the related topic below.",
+    "fallbackVisible": true
+  },
+  {
+    "flow": "sensitive-and-monetization",
+    "normalMonetization": {
+      "ads": 1,
+      "affiliates": 1,
+      "rel": "sponsored nofollow noopener"
+    },
+    "sensitive": {
+      "title": "Psychology and wellbeing | MENA Psychology",
+      "h1": "A sensitive sample for browser testing",
+      "banner": "Support is available.\n\nIf you're in danger or thinking about harming yourself, contact local emergency services or a crisis line.\n\nFind support resources."
+    },
+    "getHelpPromotions": 0
+  },
+  {
+    "flow": "newsletter-honeypot",
+    "error": "This request could not be sent. Please reload the page and try again, or follow the RSS feed."
+  },
+  {
+    "flow": "newsletter-offline",
+    "error": "You appear to be offline. Reconnect, then try again. This request has not been sent."
+  },
+  {
+    "flow": "newsletter-double-submit-observation",
+    "observed": [false, true],
+    "disabled": true,
+    "busy": "true",
+    "pending": true,
+    "note": "Fixture listener prevented navigation after recording product submit handlers; native POST tested separately."
+  },
+  {
+    "flow": "newsletter-native-post",
+    "post": {
+      "url": "https://newsletter.example.test/subscribe",
+      "data": "reader_email=reader%40example.test&extra_field="
+    }
+  },
+  {
+    "flow": "newsletter-provider-down",
+    "helpPath": "/newsletter/problem/",
+    "guidance": "Newsletter signup help\n\nTake a moment, then try again.\n\nA connection or provider problem can get in the way. This page does not establish whether a signup request succeeded.\n\nCheck your connection and email address\n\nIf you are offline, reconnect before trying again. Use a complete email address, such as name@example.com, and check it for typing mistakes.\n\nFollow the email provider's instructions\n\nThe signup form sends your request directly to the email provider. If its page shows an error or extra steps, follow those instructions. If the provider is unavailable, wait and try again later.\n\nWe cannot check a subscription from this page. Do not send private health information through a signup field.\n\nLook for a confirmation email\n\nCheck your inbox and spam or junk folder. A request is not an active subscription until you complete the provider's confirmation process. Read the confirmation guidance.\n\nTry signup again\n\nAnother way to follow along\n\nThe RSS feed works with your preferred feed reader and does not ask for an email address. Or explore the articles whenever you like."
+  },
+  {
+    "flow": "newsletter-no-js",
+    "post": {
+      "url": "https://newsletter.example.test/subscribe",
+      "data": "reader_email=reader%40example.test&extra_field="
+    }
+  },
+  {
+    "flow": "expected-network-errors",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 503 (Service Unavailable)"
+    ],
+    "requests": [
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://www.youtube-nocookie.com/embed/abcdefghijk?rel=0",
+        "method": "GET"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://www.youtube-nocookie.com/embed/abcdefghijk?rel=0",
+        "method": "GET"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://newsletter.example.test/subscribe",
+        "method": "POST"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://newsletter.example.test/subscribe",
+        "method": "POST"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://stats.example.test/js/script.js",
+        "method": "GET"
+      },
+      {
+        "url": "https://newsletter.example.test/subscribe",
+        "method": "POST"
+      }
+    ],
+    "note": "All external requests were intercepted; video failure and provider503 were deliberate mocks. Double opt-in delivery remains human/provider verification."
+  }
+]

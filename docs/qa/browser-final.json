@@ -1,0 +1,267 @@
+[
+  {
+    "flow": "layout",
+    "route": "/",
+    "width": 375,
+    "scroll": 375,
+    "client": 375,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/blog/when-your-mind-wont-slow-down/",
+    "width": 375,
+    "scroll": 375,
+    "client": 375,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/blog/",
+    "width": 375,
+    "scroll": 375,
+    "client": 375,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/topics/",
+    "width": 375,
+    "scroll": 375,
+    "client": 375,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/start-here/",
+    "width": 375,
+    "scroll": 375,
+    "client": 375,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/get-help/",
+    "width": 375,
+    "scroll": 375,
+    "client": 375,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/",
+    "width": 1280,
+    "scroll": 1280,
+    "client": 1280,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/blog/when-your-mind-wont-slow-down/",
+    "width": 1280,
+    "scroll": 1280,
+    "client": 1280,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/blog/",
+    "width": 1280,
+    "scroll": 1280,
+    "client": 1280,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/topics/",
+    "width": 1280,
+    "scroll": 1280,
+    "client": 1280,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/start-here/",
+    "width": 1280,
+    "scroll": 1280,
+    "client": 1280,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "layout",
+    "route": "/get-help/",
+    "width": 1280,
+    "scroll": 1280,
+    "client": 1280,
+    "h1s": 1,
+    "lang": "en",
+    "dir": "ltr"
+  },
+  {
+    "flow": "skip",
+    "text": "Skip to content",
+    "outline": "rgb(11, 92, 99) solid 3px"
+  },
+  {
+    "flow": "mobile-menu",
+    "links": ["Articles", "Topics", "About", "   Search"],
+    "focus": "rgb(11, 92, 99) solid 3px"
+  },
+  {
+    "flow": "help-directories",
+    "support": [
+      "https://findahelpline.com/",
+      "https://www.iasp.info/crisis-centres-helplines/"
+    ]
+  },
+  {
+    "flow": "search",
+    "url": "http://127.0.0.1:4321/search/#q=sleep",
+    "matches": [
+      "When sleep doesn\u2019t come easily",
+      "Key takeaways",
+      "Take blame out of the picture",
+      "Make a note for a conversation",
+      "A gentler way to end your day",
+      "Key takeaways",
+      "Leave room for support",
+      "References and further reading",
+      "Making room for worry without giving it the whole day",
+      "Leave room for help",
+      "When your mind won\u2019t slow down",
+      "Know when to ask for support"
+    ]
+  },
+  {
+    "flow": "accent-search",
+    "query": "sl\u00e9ep",
+    "matches": [
+      "When sleep doesn\u2019t come easily",
+      "Key takeaways",
+      "Take blame out of the picture",
+      "Make a note for a conversation",
+      "A gentler way to end your day",
+      "Key takeaways",
+      "Leave room for support",
+      "References and further reading",
+      "Making room for worry without giving it the whole day",
+      "Leave room for help",
+      "When your mind won\u2019t slow down",
+      "Know when to ask for support"
+    ]
+  },
+  {
+    "flow": "topic-filter",
+    "count": 2
+  },
+  {
+    "flow": "pagination",
+    "path": "/blog/2",
+    "count": 6
+  },
+  {
+    "flow": "reading-paths",
+    "count": 5
+  },
+  {
+    "flow": "article-trust-js",
+    "metadata": "By Editorial team\nPublished 6 November 2026\nUpdated 6 November 2026",
+    "networkScripts": [],
+    "inlineBytes": 0,
+    "totalBytes": 0
+  },
+  {
+    "flow": "200%-zoom-equivalent-reflow",
+    "route": "/",
+    "windowPhysicalWidth": 1280,
+    "client": 640,
+    "scroll": 640,
+    "deviceScaleFactor": 2
+  },
+  {
+    "flow": "200%-zoom-equivalent-reflow",
+    "route": "/blog/when-your-mind-wont-slow-down/",
+    "windowPhysicalWidth": 1280,
+    "client": 640,
+    "scroll": 640,
+    "deviceScaleFactor": 2
+  },
+  {
+    "flow": "200%-zoom-equivalent-reflow",
+    "route": "/get-help/",
+    "windowPhysicalWidth": 1280,
+    "client": 640,
+    "scroll": 640,
+    "deviceScaleFactor": 2
+  },
+  {
+    "flow": "no-js",
+    "route": "/",
+    "h1": " A little understanding.A little more ease. "
+  },
+  {
+    "flow": "no-js",
+    "route": "/blog/when-your-mind-wont-slow-down/",
+    "h1": "When your mind won\u2019t slow down"
+  },
+  {
+    "flow": "no-js",
+    "route": "/topics/sleep/",
+    "h1": "Sleep"
+  },
+  {
+    "flow": "no-js",
+    "route": "/get-help/",
+    "h1": "Support for right now."
+  },
+  {
+    "flow": "no-js",
+    "route": "/newsletter/",
+    "h1": "\nA note worth pausing for.\n"
+  },
+  {
+    "flow": "no-js",
+    "route": "/search/",
+    "h1": "What\u2019s on your mind?"
+  },
+  {
+    "flow": "no-js-mobile-nav",
+    "url": "http://127.0.0.1:4321/topics/"
+  },
+  {
+    "flow": "404",
+    "status": 404,
+    "robots": "noindex, follow"
+  },
+  {
+    "flow": "errors-and-network",
+    "errors": [],
+    "outside": [],
+    "expectedConsoleErrors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ],
+    "note": "The known404 console response came from the intentional /not-a-real-page test, which returned404 andnoindex; it is not an application script error."
+  }
+]

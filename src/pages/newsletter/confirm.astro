@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro';
+import { site } from '../../site.config';
+---
+
+<Base
+  title="Newsletter next steps"
+  description="How to confirm an email subscription and what to try if a confirmation email does not arrive."
+  noindex
+>
+  <div class="container narrow section">
+    <header class="page-head">
+      <p class="eyebrow">Newsletter next steps</p><h1>
+        Look for a note in your inbox.
+      </h1><p>There may be one more step before you receive the newsletter.</p>
+    </header>
+    <div class="prose">
+      {
+        site.newsletter.action ? (
+          <>
+            <h2>Confirm by email</h2>
+            <p>
+              If the email provider accepted your signup request, look for its
+              confirmation email and follow the steps it gives you. You are
+              subscribed only after you complete the provider's confirmation
+              process.
+            </p>
+            <p>
+              Reaching this page alone does not confirm that a request was
+              received or that your subscription is active.
+            </p>
+            <h2>If no email arrives</h2>
+            <p>
+              Check your spam or junk folder. Make sure you used the address
+              where you want to receive the newsletter. If a message still does
+              not arrive, you can try the signup form again or use the RSS feed.
+            </p>
+            <p>
+              <a class="button" href="/newsletter/#newsletter-signup">
+                Return to signup
+              </a>
+            </p>
+          </>
+        ) : (
+          <>
+            <h2>Signup is not open yet</h2>
+            <p>
+              No newsletter provider is connected in this version of the site.
+              This page does not collect an email address or confirm a
+              subscription.
+            </p>
+            <p>
+              <a class="button" href="/newsletter/">
+                Newsletter information
+              </a>
+            </p>
+          </>
+        )
+      }
+      <h2>Keep reading at your own pace</h2><p>
+        You can <a href="/rss.xml">follow the RSS feed</a> without sharing an email
+        address, or <a href="/blog/">browse all articles</a>.
+      </p>
+      <p>
+        <a href="/newsletter/problem/">Need more signup help?</a> Read our <a
+          href="/privacy/">privacy notice</a
+        > for information about email handling.
+      </p>
+    </div>
+  </div>
+</Base>

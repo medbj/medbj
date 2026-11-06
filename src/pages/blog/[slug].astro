@@ -1,0 +1,235 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import KeyTakeaways from '../../components/KeyTakeaways.astro';
+import DisclaimerBox from '../../components/DisclaimerBox.astro';
+import CrisisBanner from '../../components/CrisisBanner.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import AffiliateNote from '../../components/AffiliateNote.astro';
+import { articles, dateLabel, articleUrl, readTime } from '../../lib/content';
+import { topicBySlug } from '../../lib/topics';
+import { site } from '../../site.config';
+import '../../styles/articles.css';
+import { articleJsonLd, serializeJsonLd } from '../../lib/seo';
+
+export async function getStaticPaths() {
+  return (await articles()).map((article) => ({
+    params: { slug: article.data.slug },
+    props: { article },
+  }));
+}
+const { article } = Astro.props;
+const { Content, headings } = await render(article);
+const topic = topicBySlug(article.data.topic);
+const authorName = article.data.author.trim() || 'Editorial team';
+const all = await articles();
+const related = all
+  .filter((item) => item.data.slug !== article.data.slug)
+  .sort(
+    (a, b) =>
+      Number(b.data.topic === article.data.topic) -
+      Number(a.data.topic === article.data.topic),
+  )
+  .slice(0, 3);
+const articleCanonical = new URL(articleUrl(article), site.url).href;
+const jsonLd = articleJsonLd(article);
+const printLinks = [
+  ...article.data.references,
+  { title: 'Editorial policy', url: '/editorial-policy/' },
+  { title: 'Support resources', url: '/get-help/' },
+  { title: `${topic.name} topic hub`, url: `/topics/${topic.slug}/` },
+  { title: 'Medical disclaimer', url: '/disclaimer/' },
+]
+  .map((item) => ({ title: item.title, url: new URL(item.url, site.url).href }))
+  .filter(
+    (item, index, links) =>
+      links.findIndex((link) => link.url === item.url) === index,
+  );
+---
+
+<Base
+  type="article"
+  title={article.data.sensitive
+    ? 'Psychology and wellbeing'
+    : article.data.title}
+  description={article.data.description}
+  lang={article.data.lang}
+  dir={article.data.dir}
+>
+  <script
+    slot="head"
+    type="application/ld+json"
+    set:html={serializeJsonLd(jsonLd)}
+  />
+  <div class="container article-main">
+    <div class="page-head">
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="/blog/">Articles</a><span aria-hidden="true">/</span><a
+          href={`/topics/${topic.slug}/`}>{topic.name}</a
+        >
+      </nav>
+    </div>
+    <div class="article-layout">
+      <article
+        data-pagefind-body
+        lang={article.data.lang}
+        dir={article.data.dir}
+      >
+        <div class="eyebrow">
+          <a href={`/topics/${topic.slug}/`} data-pagefind-filter="topic"
+            >{topic.name}</a
+          ><span>·</span><span>{readTime(article)} min read</span>
+        </div>
+        <header class="page-head">
+          <h1 data-pagefind-meta="title">{article.data.title}</h1>
+          <p class="article-intro" data-pagefind-meta="description">
+            {article.data.description}
+          </p>
+          <div class="article-meta">
+            <span>By <a href="#article-author">{authorName}</a></span>
+            <span
+              >Published <time datetime={article.data.date.toISOString()}
+                >{dateLabel(article.data.date)}</time
+              ></span
+            >
+            <span
+              >Updated <time datetime={article.data.updated.toISOString()}
+                >{dateLabel(article.data.updated)}</time
+              ></span
+            >
+          </div>
+          <p class="article-review-status">
+            Last reviewed: {
+              article.data.reviewedOn ? (
+                <time datetime={article.data.reviewedOn.toISOString()}>
+                  {dateLabel(article.data.reviewedOn)}
+                </time>
+              ) : (
+                <span>Not yet reviewed</span>
+              )
+            }. <a href="/editorial-policy/">Our editorial policy</a>
+          </p>
+          {
+            article.data.sample && (
+              <p class="sample-note">
+                Sample article · Awaiting human editorial review. This is
+                general educational reading.
+              </p>
+            )
+          }
+        </header>
+        {
+          article.data.cover && (
+            <figure class="article-cover">
+              <img
+                src={article.data.cover.src}
+                alt={article.data.cover.alt}
+                width={article.data.cover.width}
+                height={article.data.cover.height}
+                loading="eager"
+                decoding="async"
+              />
+            </figure>
+          )
+        }
+        {article.data.sensitive && <CrisisBanner />}
+        <KeyTakeaways items={article.data.keyTakeaways} />
+        <TableOfContents headings={headings} mode="mobile" />
+        <div class="prose">
+          <Content />
+          <section aria-labelledby="references">
+            <h2 id="references">References and further reading</h2>
+            <p class="fine-print">
+              These sources offer background and further reading. Their
+              inclusion does not mean they reviewed or endorsed this article.
+            </p>
+            <ul class="article-reference-list">
+              {
+                article.data.references.map((reference) => (
+                  <li>
+                    <a href={reference.url} rel="external noreferrer">
+                      {reference.title}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+          <aside
+            class="article-author"
+            id="article-author"
+            aria-label="About the author"
+            data-pagefind-ignore
+          >
+            <p class="eyebrow">About the author</p><p
+              class="article-author-name"
+            >
+              {authorName}
+            </p>
+            {
+              site.author.bio && authorName === site.author.name ? (
+                <p>{site.author.bio}</p>
+              ) : (
+                <p>
+                  No professional qualifications or clinical review are claimed
+                  by this attribution. An author biography will be added when it
+                  has been confirmed.
+                </p>
+              )
+            }
+            <p>
+              <a href="/about/">About this blog</a> · <a
+                href="/editorial-policy/">How our articles are prepared</a
+              >
+            </p>
+          </aside>
+          <AffiliateNote sensitive={article.data.sensitive} />
+          <AdSlot sensitive={article.data.sensitive} />
+          <DisclaimerBox />
+          <p>
+            <a href={`/topics/${topic.slug}/`}
+              >More on {topic.name.toLowerCase()} <Icon name="arrow" /></a
+            >
+          </p>
+          <section
+            class="print-footnotes"
+            aria-labelledby="print-links-heading"
+            data-pagefind-ignore
+          >
+            <h2 id="print-links-heading">Links for this printout</h2>
+            <p>
+              Article: <span class="print-footnote-url">{articleCanonical}</span
+              >
+            </p>
+            <ol>
+              {
+                printLinks.map((link) => (
+                  <li>
+                    {link.title}:{' '}
+                    <span class="print-footnote-url">{link.url}</span>
+                  </li>
+                ))
+              }
+            </ol>
+          </section>
+        </div>
+      </article>
+      <aside class="article-sidebar" data-pagefind-ignore>
+        <TableOfContents headings={headings} mode="desktop" />
+        <div class="callout">
+          <p class="eyebrow">There’s room to ask for support</p><p
+            class="fine-print"
+          >
+            Whatever you are feeling, you can explore what support is available.
+          </p><a class="text-link" href="/get-help/"
+            >Find support <Icon name="external" /></a
+          >
+        </div>
+      </aside>
+    </div>
+  </div>
+  <RelatedPosts articles={related} topic={topic} />
+</Base>

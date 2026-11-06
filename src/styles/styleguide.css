@@ -1,0 +1,101 @@
+.styleguide-page {
+  padding-block-end: 3rem;
+}
+.styleguide-section {
+  padding-block: 2rem;
+  border-block-start: 1px solid var(--border);
+}
+.styleguide-section > p {
+  max-inline-size: 70ch;
+}
+.styleguide-section.prose {
+  padding-block-end: 2rem;
+}
+.styleguide-section.prose > h2 {
+  margin-block-start: 0;
+}
+.styleguide-contents {
+  margin-block-end: 2rem;
+}
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-block: 1.5rem 0;
+}
+.swatch-item {
+  min-inline-size: 0;
+}
+.swatch {
+  block-size: 5rem;
+  margin-block-end: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.swatch-white {
+  background: var(--white);
+}
+.swatch-sand {
+  background: var(--sand);
+}
+.swatch-sand-soft {
+  background: var(--sand-soft);
+}
+.swatch-ink {
+  background: var(--ink);
+}
+.swatch-muted {
+  background: var(--muted);
+}
+.swatch-link {
+  background: var(--link);
+}
+.swatch-link-hover {
+  background: var(--link-hover);
+}
+.swatch-border {
+  background: var(--border);
+}
+.swatch-item dt {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+.swatch-item dd {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-inline-start: 0;
+  margin-block-start: 0.25rem;
+}
+.styleguide-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block: 1.5rem;
+}
+.styleguide-form {
+  display: grid;
+  gap: 0.75rem;
+  max-inline-size: 30rem;
+  margin-block: 1.5rem;
+}
+.styleguide-form label {
+  margin-block-end: 0;
+}
+.styleguide-form button {
+  justify-self: start;
+}
+.styleguide-section .takeaways h2 {
+  font-size: 22px;
+  margin-block-start: 0;
+}
+.styleguide-section .article-disclaimer > :last-child {
+  margin-block-end: 0;
+}
+@media (min-width: 600px) {
+  .swatch-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
