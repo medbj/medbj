@@ -1,0 +1,8 @@
+---
+import { site } from '../site.config';
+import { canMonetize } from '../lib/monetization';
+interface Props { sensitive?: boolean; }
+const { sensitive = false } = Astro.props;
+const allowed = site.adsEnabled && await canMonetize(Astro.url.pathname, sensitive);
+---
+{allowed && <aside data-ad-slot aria-label="Advertisement" class="ad-slot"><p class="eyebrow">Advertisement</p><slot /></aside>}

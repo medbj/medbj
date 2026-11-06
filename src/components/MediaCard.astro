@@ -1,0 +1,34 @@
+---
+import Icon from './Icon.astro';
+import YouTubeFacade from './YouTubeFacade.astro';
+import { mediaLinks, type MediaItem } from '../lib/media';
+import { dateLabel } from '../lib/content';
+import { topicBySlug } from '../lib/topics';
+interface Props { item: MediaItem; }
+const { item } = Astro.props;
+const data = item.data;
+const topic = topicBySlug(data.topic);
+const links = mediaLinks(data);
+const headingId = `media-${item.id.replace(/[^a-z0-9-]/gi, '-')}`;
+---
+
+<article class="media-card" lang={data.lang} dir={data.dir} aria-labelledby={headingId}>
+  <p class="eyebrow">
+    {data.type === 'podcast' ? 'Podcast' : 'Video'} · {data.duration} · <a href={`/topics/${topic.slug}/`}>{topic.name}</a>
+  </p>
+  {data.sample && <p class="sample-note">Sample item · A format preview awaiting human review. This episode has not been released.</p>}
+  <h2 id={headingId}>{data.title}</h2>
+  <p class="media-description">{data.description}</p>
+  <p class="fine-print">
+    {data.sample ? 'Sample date' : 'Published'} <time datetime={data.date.toISOString()}>{dateLabel(data.date)}</time>
+  </p>
+  {data.type === 'video' && data.youtubeId && <YouTubeFacade instanceId={item.id} youtubeId={data.youtubeId} title={data.title} thumbnail={data.thumbnail} />}
+  {links.length > 0 && <nav class="media-links" aria-label={`Platforms for ${data.title}`}>
+    {links.map((link) => <a href={link.href} rel="external noreferrer">{link.label} <Icon name="external" /></a>)}
+  </nav>}
+  {data.transcriptUrl && <p><a href={data.transcriptUrl} rel={/^https?:/.test(data.transcriptUrl) ? 'external noreferrer' : undefined}>Read transcript for “{data.title}” <Icon name="external" /></a></p>}
+  {data.sample && !links.length && !data.youtubeId && <p class="fine-print">This sample has no recording or platform links yet.</p>}
+  <p class="media-reading-fallback">
+    Prefer reading, or having trouble with a platform? <a href={`/topics/${topic.slug}/`}>Explore articles about {topic.name.toLowerCase()}</a>.
+  </p>
+</article>

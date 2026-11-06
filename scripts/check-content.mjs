@@ -71,8 +71,9 @@ export function validateContent(root = projectRoot) {
     else if (slugs.has(data.slug))
       report(file, `duplicate slug "${data.slug}" also used by ${relative(root, slugs.get(data.slug)).split(sep).join('/')}; slugs must be globally unique until localized routes exist`);
     else slugs.set(data.slug, file);
-    for (const key of ['title', 'description', 'author', 'lang'])
+    for (const key of ['title', 'description', 'lang'])
       if (typeof data[key] !== 'string' || !data[key].trim()) report(file, `${key} is required`);
+    if (data.author !== undefined && (typeof data.author !== 'string' || !data.author.trim())) report(file, 'author must be nonempty when supplied');
     if (!topicSlugs.has(data.topic)) report(file, `topic must be one of the eight supported topic slugs`);
     if (!Array.isArray(data.tags) || !data.tags.length || data.tags.some((tag) => typeof tag !== 'string' || !tag.trim()))
       report(file, 'tags must be a nonempty array of strings');
@@ -102,6 +103,7 @@ export function validateContent(root = projectRoot) {
     }
     validateCover(file, data.cover, 'cover');
     const body = raw.slice(frontmatter[0].length);
+    if (data.sensitive && /(?:<AdSlot|<AffiliateNote|rel\s*=\s*[\"'][^\"']*sponsored)/i.test(body)) report(file, 'sensitive posts must not include ads or affiliate links');
     if (/!\[\s*\]\(/.test(body)) report(file, 'inline Markdown images require descriptive alt text');
     for (const match of body.matchAll(/<img\b([^>]*)>/gi))
       if (!/\balt\s*=\s*(?:"[^"\s][^"]*"|'[^'\s][^']*')/i.test(match[1]))

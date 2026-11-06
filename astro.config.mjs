@@ -23,11 +23,12 @@ const normalPath = (url) => {
   const pathname = new URL(url, origin).pathname;
   return pathname.endsWith('/') || /\.[^/]+$/.test(pathname) ? pathname : `${pathname}/`;
 };
-const excluded = new Set(['/404/', '/404.html', '/search/', '/styleguide/']);
+const excluded = new Set(['/404/', '/404.html', '/search/', '/styleguide/', '/newsletter/confirm/', '/newsletter/problem/']);
 
 export default defineConfig({
   site: origin,
   output: 'static',
+  vite: { build: { assetsInlineLimit: 0 } },
   integrations: [
     mdx(),
     mediaRoute(site.features.media),

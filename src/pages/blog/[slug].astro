@@ -7,6 +7,8 @@ import DisclaimerBox from '../../components/DisclaimerBox.astro';
 import CrisisBanner from '../../components/CrisisBanner.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
+import AdSlot from '../../components/AdSlot.astro';
+import AffiliateNote from '../../components/AffiliateNote.astro';
 import { articles, dateLabel, articleUrl, readTime } from '../../lib/content';
 import { topicBySlug } from '../../lib/topics';
 import { site } from '../../site.config';
@@ -166,16 +168,14 @@ const printLinks = [
             >
               {authorName}
             </p>
-            <p>
-              No professional qualifications or clinical review are claimed by
-              this attribution. An author biography will be added when it has
-              been confirmed.
-            </p>
+            {site.author.bio && authorName === site.author.name ? <p>{site.author.bio}</p> : <p>No professional qualifications or clinical review are claimed by this attribution. An author biography will be added when it has been confirmed.</p>}
             <p>
               <a href="/about/">About this blog</a> · <a
                 href="/editorial-policy/">How our articles are prepared</a>
             </p>
           </aside>
+          <AffiliateNote sensitive={article.data.sensitive} />
+          <AdSlot sensitive={article.data.sensitive} />
           <DisclaimerBox />
           <p>
             <a href={`/topics/${topic.slug}/`}

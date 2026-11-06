@@ -6,8 +6,10 @@ import Icon from '../components/Icon.astro';
 import { articles } from '../lib/content';
 import { topics } from '../lib/topics';
 import { site } from '../site.config';
+import { mediaAvailable } from '../lib/media';
 const all = await articles();
 const latest = all.slice(0, 3);
+const showMedia = await mediaAvailable();
 ---
 
 <Base title={site.name}>
@@ -145,7 +147,7 @@ const latest = all.slice(0, 3);
   </div>
   <div class="container"><Newsletter /></div>
   {
-    site.features.media && (
+    showMedia && (
       <section class="container section">
         <div class="start-band">
           <>

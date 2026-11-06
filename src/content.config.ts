@@ -61,7 +61,7 @@ const posts = defineCollection({
       slug,
       topic,
       tags: z.array(nonempty).min(1),
-      author: nonempty,
+      author: nonempty.default('Editorial team'),
       reviewedOn: isoDate.nullable(),
       keyTakeaways: z.array(nonempty).min(1),
       references: z.array(reference).min(1),
@@ -125,6 +125,12 @@ const media = defineCollection({
       thumbnail: cover.optional(),
       sample: z.boolean().default(true),
     })
-    .strict(),
+    .strict()
+    .superRefine((data, context) => {
+      const hasPlatform = Object.values(data.links).some(Boolean);
+      if (!data.sample && data.type === 'podcast' && !hasPlatform) context.addIssue({ code: z.ZodIssueCode.custom, path: ['links'], message: 'A released podcast requires a genuine platform or website link' });
+      if (!data.sample && data.type === 'video' && !hasPlatform && !data.youtubeId) context.addIssue({ code: z.ZodIssueCode.custom, path: ['links'], message: 'A released video requires a genuine platform link or YouTube ID' });
+      if (data.thumbnail && !/^\/(?!\/)/.test(data.thumbnail.src)) context.addIssue({ code: z.ZodIssueCode.custom, path: ['thumbnail','src'], message: 'Use a local thumbnail to avoid third-party requests before consent' });
+    }),
 });
 export const collections = { posts, media };
