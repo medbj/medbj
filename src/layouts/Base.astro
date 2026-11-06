@@ -1,6 +1,7 @@
 ---
 import '../styles/tokens.css';
 import '../styles/global.css';
+import '../styles/refined.css';
 import { site } from '../site.config';
 import { mediaAvailable } from '../lib/media';
 import Icon from '../components/Icon.astro';
@@ -131,9 +132,8 @@ const showMedia = await mediaAvailable();
     <footer class="site-footer" data-pagefind-ignore>
       <div class="container footer-top">
         <div>
-          <a class="footer-brand" href="/"
-            >{site.name}<span aria-hidden="true">.</span></a
-          ><p>Clear words. A calmer perspective.</p><p class="fine-print">
+          <a class="footer-brand" href="/"><Wordmark /></a>
+          <p>Clear words. A calmer perspective.</p><p class="fine-print">
             Educational reading for everyday life.<br />A starting point, at
             your own pace.
           </p>

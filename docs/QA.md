@@ -40,3 +40,11 @@ Reproduce the engineering checks with `npm run check`, `npm run lint`, `npm run 
 Human screen-reader and real-device checks, actual provider double opt-in/unsubscribe, verified support-resource information, legal approval, and deployment-domain checks remain in HUMAN_TODO.md and docs/LAUNCH.md.
 
 Icons use the official Hugeicons Stroke Rounded package at build time: Search, Arrow Right, Arrow Up Right, Leaf, Book Open, Moon, Heart, Headphones, and Play. The SVG Arial wordmark contains no icon. No font files or icon runtime framework load in the browser.
+
+## Reference-inspired layout refresh — 6 November 2026
+
+The homepage now uses a cream canvas, rounded sage and olive sections, guided-reading cards, editorial article rows, topic panels, and a circular reading invitation. The shared navy wordmark places Psychology below MENA. The restored ReadingGarden source is unchanged.
+
+Astro validation, ESLint, the production build, token contrast checks, and built-site validation passed. Browser checks covered the homepage, an article, and a topic page at 320, 375, 640, 768, 1280, and 1440 pixels. They verified no horizontal overflow, artwork and caption spacing, stacked navy branding, reading-path destinations, Pagefind search, keyboard focus, and navigation without JavaScript. Article executable JavaScript remained 0 B; no browser errors or external requests were observed.
+
+Axe reported zero violations on the homepage and article at 375 and 1280 pixels. Its incomplete contrast nodes still require human review; the expanded token contrast gate passed for the new surfaces. Local screenshots and machine-readable results are in ignored `work/layout-refresh/`. The Lighthouse scores above belong to the earlier full-brief build and were not remeasured for this layout update.

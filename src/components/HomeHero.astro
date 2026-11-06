@@ -1,0 +1,57 @@
+---
+import ReadingGarden from './ReadingGarden.astro';
+import Icon from './Icon.astro';
+import { site } from '../site.config';
+---
+
+<section class="home-hero" aria-labelledby="home-heading">
+  <div class="home-hero-copy">
+    <p class="eyebrow">Psychology, for everyday life</p>
+    <h1 id="home-heading">
+      {site.tagline.split(/(?<=[.!?])\s+/).map((line) => <span>{line}</span>)}
+    </h1>
+    <p class="hero-description">
+      A thoughtful space to understand your mind, make room for your feelings,
+      and find your next small step.
+    </p>
+    <form class="hero-search" action="/search/" role="search">
+      <Icon name="search" /><label class="sr-only" for="home-search"
+        >What’s on your mind?</label
+      >
+      <input
+        id="home-search"
+        name="q"
+        type="search"
+        placeholder="What’s on your mind?"
+        maxlength="200"
+      />
+      <button type="submit" aria-label="Search articles"
+        ><Icon name="arrow" /></button
+      >
+    </form>
+    <div class="hero-cta">
+      <a class="button" href="/start-here/"
+        >Find your starting point <Icon name="arrow" /></a
+      >
+    </div>
+    <p class="hero-reassurance">A little reading. At your own pace.</p>
+  </div>
+  <div class="home-hero-visual"><ReadingGarden /></div>
+  <div class="hero-footnote">
+    <span>Clear words. A calmer perspective.</span><a href="/about/"
+      >Get to know our approach <Icon name="external" /></a
+    >
+  </div>
+</section>
+<script>
+  document
+    .querySelector<HTMLFormElement>('.hero-search')
+    ?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const form = event.currentTarget as HTMLFormElement;
+      const query = String(new FormData(form).get('q') || '').slice(0, 200);
+      window.location.assign(
+        `/search/${query ? `#${new URLSearchParams({ q: query })}` : ''}`,
+      );
+    });
+</script>

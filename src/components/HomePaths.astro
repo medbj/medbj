@@ -1,0 +1,76 @@
+---
+import Art from './Art.astro';
+import Icon from './Icon.astro';
+const paths = [
+  {
+    title: 'A little room around worry.',
+    label: 'For a busy mind',
+    description:
+      'Understand anxious thoughts and find a gentler starting point.',
+    href: '/start-here/#anxiety',
+    visual: 'waves',
+    tone: 'deep',
+  },
+  {
+    title: 'A softer end to the day.',
+    label: 'For difficult nights',
+    description:
+      'Explore rest, evening routines, and a kinder relationship with sleep.',
+    href: '/start-here/#sleep',
+    visual: 'moon',
+    tone: 'sage',
+  },
+  {
+    title: 'One small step is enough.',
+    label: 'For heavier days',
+    description:
+      'Make space for how you feel, without pressure to have it all figured out.',
+    href: '/start-here/#low-mood',
+    visual: 'plant',
+    tone: 'light',
+  },
+];
+---
+
+<section class="home-section home-paths" aria-labelledby="start-heading">
+  <div class="centered-heading">
+    <p class="eyebrow">There’s no perfect place to begin</p><h2
+      id="start-heading"
+    >
+      A few places to start.
+    </h2><p>
+      Begin with what feels closest to your day. One article is enough.
+    </p>
+  </div>
+  <div class="path-card-grid">
+    {
+      paths.map((path) => (
+        <a
+          class:list={['path-card', `path-card-${path.tone}`]}
+          href={path.href}
+        >
+          <>
+            <div class="path-card-art">
+              <Art kind={path.visual} />
+            </div>
+            <div class="path-card-copy">
+              <>
+                <p class="eyebrow">{path.label}</p>
+                <h3>{path.title}</h3>
+                <p>{path.description}</p>
+              </>
+            </div>
+            <span class="round-arrow">
+              <Icon name="external" />
+            </span>
+          </>
+        </a>
+      ))
+    }
+  </div>
+  <div class="section-bottom">
+    <a class="text-link" href="/start-here/"
+      >Explore all five reading paths <Icon name="arrow" /></a
+    >
+  </div>
+</section>

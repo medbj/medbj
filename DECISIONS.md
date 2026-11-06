@@ -24,3 +24,4 @@
 - The full-brief build passed local browser, optional-integration, and Lighthouse targets; preserve private access while human editorial, crisis-resource, legal, and provider launch requirements remain incomplete.
 - Keep the existing Sites URL for this private review and use a review branch in the selected GitHub repository rather than changing its default branch.
 - Restore the homepage ReadingGarden artwork from the user-uploaded original MENA Psychology ZIP, preserving its SVG paths and colors, and remove the replacement illustration and caption.
+- Adapt the provided reference into a cream-and-sage editorial blog layout with rounded sections and a stacked navy MENA / Psychology wordmark; retain the original garden artwork and educational reading flows.
