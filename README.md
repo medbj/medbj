@@ -1,4 +1,4 @@
-# Psychology Blog
+# MENA Psychology
 
 A calm, accessible educational reading site built with Astro, strict TypeScript, MDX content collections, plain CSS, and Pagefind. It generates a static `dist/` directory. The working title and sample content need human editorial review before a public launch; see `HUMAN_TODO.md`.
 
@@ -49,3 +49,7 @@ The site has no accounts, comments, database, or application backend. Newsletter
 `features.media` defaults to false. When disabled, the Listen & Watch route, navigation entry, and home teaser are not generated. When enabled, media examples remain explicitly marked as samples until replaced with real material. YouTube embeds require a reader click before loading the third-party player.
 
 For a production release, complete the human review checklist, run the project checks, and follow [deployment instructions](docs/DEPLOY.md). The attached user brief ends mid-sentence and omits its referenced implementation plan; implementation defaults are recorded in `DECISIONS.md`.
+
+## Full brief continuation
+
+The complete replacement brief is being applied in nine phases (0–8). It supersedes the earlier truncated attachment. The working brand is MENA Psychology; the current launch language is English. The referenced multilingual archive is not available in this workspace. The `mena-psychology` branch preserves this continuation separately from the earlier build.

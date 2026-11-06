@@ -1,5 +1,5 @@
 export const site = {
-  name: 'Psychology Blog',
+  name: 'MENA Psychology',
   tagline: 'A little understanding. A little more ease.',
   description:
     'Clear, thoughtful reads on psychology and everyday wellbeing. Find a starting point, explore a feeling, and take things at your own pace.',

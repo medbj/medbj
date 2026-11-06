@@ -1,4 +1,4 @@
-# Psychology Blog contributor guide
+# MENA Psychology contributor guide
 
 ## Commands
 
@@ -39,3 +39,15 @@
 - Load optional cookieless analytics only when explicitly configured through env. Do not load third-party fonts or scripts by default.
 - Maintain RSS, sitemap, robots, noindex 404, all legal/support pages, and deployment documentation.
 - Test actual interactive flows and mobile widths. Do not claim clinical, legal, accessibility, or external-link verification that has not happened.
+
+## Complete brief requirements
+
+- Follow Phase 0–8: scaffold, design, content, pages, trust, SEO, features, QA, deployment. Build, fix, commit, and summarize each phase.
+- Posts collection: explicit unique slug, date/updated, topic/tags, author, reviewedOn (never fabricate), keyTakeaways, references, sensitive/draft/sample, cover with required alt, lang/dir. Exclude drafts from every production surface.
+- Add styleguide, content guidelines, default branded OG image, WebSite/Organization/BlogPosting/BreadcrumbList and eligible media JSON-LD, sitemap lastmod, article review status, author box, and editorial-policy link.
+- Use a compact sticky header, SVG Arial wordmark, collapsed mobile contents, desktop sticky contents, print URL footnotes, logical CSS, and zero animation on load.
+- Crisis data may contain only the four user-supplied unverified seeds until human-verified additions exist. Show both global directories. Never make unverified phone numbers actionable.
+- Sensitive articles show CrisisBanner; support pages and sensitive articles must never show ads or affiliate links. Monetization stays disabled by default.
+- check:launch must fail on remaining sample content, unverified crisis data, legal placeholders, missing required configuration, missing alt text, or broken internal links. Public launch differs from a private review build.
+- Test at 375px and 1280px, keyboard and 200% zoom, automated accessibility, and Lighthouse if available. Record measured results without inventing unavailable metrics.
+- Maintain docs/LAUNCH.md with the full launch checklist, docs/DEPLOY.md, HUMAN_TODO.md, and safe VPS/Certbot instructions.

@@ -11,3 +11,11 @@
 - Treat pale borders as decorative; use teal control outlines and focus rings for the 3:1 non-text contrast requirement.
 - Store enhanced search state in the URL fragment so terms are not sent in HTTP requests; accept and clear legacy query strings.
 - Automatic approval review blocked source export to Sites; keep the completed site local and the new Sites project private/unpublished until explicit upload approval is given.
+- The complete replacement brief supersedes the earlier truncated attachment; follow its Phase 0–8 plan from this point.
+- The referenced conversation's source ZIP is not present and no read_thread tool is available; extend the verified local source rather than claiming to have recovered that archive.
+- Use MENA Psychology as the working name from the referenced project; follow the current attachment's explicit English launch with lang and dir support ready for later translations.
+- Work on the isolated mena-psychology branch of the selected medbj/medbj repository; preserve the earlier branch and its source archives.
+- Reuse the existing owner-private unpublished Sites project from .openai/hosting.json; keep the audience private for engineering review.
+- The explicit Arial, exact palette, no animation on load, minimal JavaScript, and no invented endorsements requirements override conflicting MotionDesign defaults for fonts, GSAP, and partner marquees.
+- Retain the twelve existing clearly marked sample articles as a superset of the requested four so established guided reading paths remain complete.
+- Store the four supplied crisis numbers as unverified seed data, hide unverified numbers from actionable reader resources, and fail the public-launch gate until human verification is recorded.
